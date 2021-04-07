@@ -1,39 +1,100 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-float infinite 3s ease-in-out;
-  }
-}
-
-.App-header {
-  min-height: 100vh;
+.app {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  min-height: 100vh;
 }
 
-.App-link {
-  color: rgb(112, 76, 182);
+.wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-@keyframes App-logo-float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px)
-  }
-  100% {
-    transform: translateY(0px)
-  }
+nav.header.navbar {
+  height: 48px;
+  background-color: rgb(21, 21, 21) !important;
+  border-bottom: 1px solid rgb(36, 36, 36);
+}, 
+
+.header .navbar-brand {
+  padding: 0;
+}
+
+.body {
+  display: flex;
+  flex-grow: 1;
+}
+
+svg.logo {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+.sidebar {
+  display: flex;
+  min-width: 240px;
+  /*background-color: var(--light);*/
+  background-color: rgb(21, 21, 21);
+  color: rgb(153, 153, 153);
+  border-right: 1px solid rgb(36, 36, 36);
+}
+
+main.content {
+  display: flex;
+  flex-grow: 1;
+  /*background-color: var(--light);*/
+  background-color: rgb(21, 21, 21);
+  /*color: var(--white);*/
+  color: rgb(230, 230, 230);
+}
+
+.sidebar a, main.content a {
+  color: rgb(153, 153, 153);
+}
+
+.navbar-toggler-icon {
+  width: 1em;
+  height: 1em;
+}
+
+.navbar-brand {
+  align-self: baseline;
+  padding: unset;
+}
+
+hr {
+  border-color: rgb(36, 36, 36);
+}
+
+.bb-1 {
+  border-bottom: 1px solid rgb(36, 36, 36);
+}
+
+.d-grid {
+  display: grid;
+}
+
+.dropdown-toggle-transparent:focus {
+  box-shadow: none;
+}
+
+.dropdown-toggle-transparent::after {
+  content: unset;
+}
+
+.dropdown-menu {
+  background-color: rgb(21, 21, 21);
+  border: 1px solid rgb(36, 36, 36);
+  padding: unset;
+  color: var(--white);
+}
+
+.dropdown-item, .dropdown-item:hover, .dropdown-item:focus {
+  color: var(--white);
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+  background-color: rgb(36, 36, 36);
 }

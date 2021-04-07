@@ -1,13 +1,17 @@
-
 import Sidebar from './Sidebar';
 import Header from './Header';
+import Content from './Content';
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="wrapper">
       <Header />
-      <Sidebar />
-      <h1>Dashboard</h1>
+      <div className="body flex-row">
+        <Sidebar />
+        <main className="content">
+          <Content />
+        </main>
+      </div>
     </div>
   )
 };

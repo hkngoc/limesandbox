@@ -1,6 +1,6 @@
 import {
   Navbar,
-  Nav,
+  Nav
 } from 'react-bootstrap';
 
 import Logo from './Logo';
@@ -11,7 +11,7 @@ const Header = () => {
       <Navbar.Brand href="#dashboard">
         <Logo />
       </Navbar.Brand>
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" size="sm"/>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
         </Nav>

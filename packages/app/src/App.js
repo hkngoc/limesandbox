@@ -6,9 +6,10 @@ import {
 } from 'react-router-dom';
 
 import {
-  Home
+  Main
 } from './pages';
 
+import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
 const Loading = () => {
@@ -19,13 +20,15 @@ const Loading = () => {
 
 const App = () => {
   return (
-    <Router>
-      <React.Suspense fallback={<Loading />}>
-        <Switch>
-          <Route path="/" name="Home" component={Home} />
-        </Switch>
-      </React.Suspense> 
-    </Router>
+    <div className="app">
+      <Router>
+        <React.Suspense fallback={<Loading />}>
+          <Switch>
+            <Route path="/" name="Main" component={Main} />
+          </Switch>
+        </React.Suspense> 
+      </Router>
+    </div>
   )
 };
 
