@@ -4,6 +4,7 @@ import {
   Switch,
   Route
 } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 
 import {
   Main
@@ -20,15 +21,18 @@ const Loading = () => {
 
 const App = () => {
   return (
-    <div className="app">
-      <Router>
-        <React.Suspense fallback={<Loading />}>
-          <Switch>
-            <Route path="/" name="Main" component={Main} />
-          </Switch>
-        </React.Suspense> 
-      </Router>
-    </div>
+    <HelmetProvider>
+      <div className="app">
+        <Router>
+          <React.Suspense fallback={<Loading />}>
+            <Switch>
+              <Route path="/" name="Main" component={Main} />
+            </Switch>
+          </React.Suspense> 
+        </Router>
+      </div>
+
+    </HelmetProvider>
   )
 };
 
