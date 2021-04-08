@@ -45,7 +45,7 @@ const Item = ({ data, rowIndex, columnIndex, style }) => {
 
   return (
     <div
-      className="border border-sandbox rounded text-center"
+      className="border border-sandbox rounded"
       style={{
         ...style,
         width: eachItemWidth,
@@ -54,7 +54,9 @@ const Item = ({ data, rowIndex, columnIndex, style }) => {
         ...margins,
       }}
     >
-      <h1>{item.title}</h1>
+      <div className="d-flex w-100 h-100 align-items-center justify-content-center">
+          <h1>{item.title}</h1>
+      </div>
     </div>
   );
 };

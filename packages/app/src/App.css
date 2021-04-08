@@ -103,7 +103,7 @@ hr {
 }
 
 .dropdown-toggle-transparent:focus {
-  box-shadow: none;
+  box-shadow: 0 0 0 1px rgb(36, 36, 36);
 }
 
 .dropdown-toggle-transparent::after {
