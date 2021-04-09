@@ -1,0 +1,15 @@
+main.content {
+  display: flex;
+  flex-grow: 1;
+  /*background-color: var(--light);*/
+  background-color: rgb(21, 21, 21);
+  /*color: var(--white);*/
+  color: rgb(230, 230, 230);
+  height: calc(100vh - 48px);
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+main.content a {
+  color: rgb(153, 153, 153);
+}

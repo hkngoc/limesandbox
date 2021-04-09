@@ -30,60 +30,9 @@
   min-height: 100vh;
 }
 
-nav.header.navbar {
-  height: 48px;
-  background-color: rgb(21, 21, 21) !important;
-  border-bottom: 1px solid rgb(36, 36, 36);
-}
-
-.header .navbar-brand {
-  padding: 0;
-}
-
 .body {
   display: flex;
   flex-grow: 1;
-}
-
-svg.logo {
-  width: 24px;
-  height: 24px;
-  vertical-align: middle;
-}
-
-.sidebar {
-  display: flex;
-  min-width: 240px;
-  /*background-color: var(--light);*/
-  background-color: rgb(21, 21, 21);
-  color: rgb(153, 153, 153);
-  border-right: 1px solid rgb(36, 36, 36);
-}
-
-main.content {
-  display: flex;
-  flex-grow: 1;
-  /*background-color: var(--light);*/
-  background-color: rgb(21, 21, 21);
-  /*color: var(--white);*/
-  color: rgb(230, 230, 230);
-  height: calc(100vh - 48px);
-  overflow-y: auto;
-  overflow-x: auto;
-}
-
-.sidebar a, main.content a {
-  color: rgb(153, 153, 153);
-}
-
-.navbar-toggler-icon {
-  width: 1em;
-  height: 1em;
-}
-
-.navbar-brand {
-  align-self: baseline;
-  padding: unset;
 }
 
 hr {

@@ -43,7 +43,7 @@ title: "9"
 
 const Home = () => {
   return (
-    <div className="container-fluid px-4 overflow-auto">
+    <div className="container-fluid px-3 overflow-auto">
       <Helmet>
         <title>Dashboard - LimeSandbox</title>
       </Helmet>

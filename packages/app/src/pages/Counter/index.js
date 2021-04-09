@@ -1,11 +1,11 @@
-import React from 'react';
 import sandpack from '@limesandbox/sandpack';
 
 import { Counter } from './Counter';
 
 import logo from './logo.svg';
+import './styles.css';
 
-const Main = () {
+const Main = () => {
   return (
     <div className="App">
       <header className="App-header">
