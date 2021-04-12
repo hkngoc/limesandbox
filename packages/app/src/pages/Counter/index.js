@@ -1,4 +1,5 @@
-import sandpack from '@limesandbox/sandpack';
+import { DynamicModuleLoader } from "redux-dynamic-modules";
+import counterModule from './module';
 
 import { Counter } from './Counter';
 
@@ -11,9 +12,6 @@ const Main = () => {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />
-        <p>
-          {sandpack()}
-        </p>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -60,4 +58,10 @@ const Main = () => {
   );
 };
 
-export default Main;
+const DynamicModule = () => (
+  <DynamicModuleLoader modules={[counterModule]}>
+    <Main />
+  </DynamicModuleLoader>
+);
+
+export default DynamicModule;

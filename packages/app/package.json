@@ -21,8 +21,12 @@
     "react-scripts": "4.0.3",
     "react-virtualized-auto-sizer": "^1.0.5",
     "react-window": "^1.8.6",
+    "redux-dynamic-modules": "^5.2.3",
     "redux-dynamic-modules-core": "^5.2.3",
-    "redux-dynamic-modules-react": "^5.2.3"
+    "redux-dynamic-modules-react": "^5.2.3",
+    "redux-persist": "^6.0.0",
+    "redux-persist-webextension-storage": "^1.0.2",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

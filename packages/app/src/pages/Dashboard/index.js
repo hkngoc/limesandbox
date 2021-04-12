@@ -1,8 +1,12 @@
+import { DynamicModuleLoader } from "redux-dynamic-modules";
+
 import Sidebar from './Sidebar';
 import Header from './Header';
 import Content from './Content';
 
 import './styles.css';
+
+import dashboardModule from './module';
 
 const Dashboard = () => {
   return (
@@ -18,4 +22,10 @@ const Dashboard = () => {
   )
 };
 
-export default Dashboard;
+const DynamicModule = () => (
+  <DynamicModuleLoader modules={[dashboardModule]}>
+    <Dashboard />
+  </DynamicModuleLoader>
+);
+
+export default DynamicModule;

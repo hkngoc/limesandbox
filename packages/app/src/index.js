@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import { Provider } from 'react-redux';
+import { DynamicModuleLoader } from 'redux-dynamic-modules';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -13,10 +13,12 @@ import './index.css';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <DynamicModuleLoader>
+        <App />
+      </DynamicModuleLoader>
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

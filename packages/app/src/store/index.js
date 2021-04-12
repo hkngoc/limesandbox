@@ -1,9 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+import { createStore } from 'redux-dynamic-modules';
+// import { persistStore } from 'redux-persist';
 
-import counterReducer from './counterSlice';
-
-export default configureStore({
-  reducer: {
-    counter: counterReducer
-  }
+const store = createStore({
+  enhancers: [compose(applyMiddleware(thunk))],
 });
+
+export default store;
