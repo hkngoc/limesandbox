@@ -42,9 +42,16 @@ hr {
 .border-sandbox {
   border-color:rgb(36, 36, 36) !important;
 }
+.border-sandbox:focus, .border-sandbox:active {
+  box-shadow: 0 0 0 1px rgb(36, 36, 36) !important;
+}
 
 .bg-sandbox {
   background-color: rgb(21, 21, 21);
+}
+
+.btn-sandbox {
+  color: rgb(153, 153, 153);
 }
 
 .d-grid {

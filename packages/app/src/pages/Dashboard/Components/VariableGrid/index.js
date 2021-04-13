@@ -3,6 +3,8 @@ import React from 'react';
 import { VariableSizeGrid as Grid } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
+import NewSandbox from '../Sandbox/NewSandbox';
+
 export const GRID_MAX_WIDTH = 1900;
 export const MAX_COLUMN_COUNT = 6;
 export const GUTTER = 36;
@@ -12,6 +14,10 @@ const ITEM_HEIGHT_GRID = 240;
 // const HEADER_HEIGHT = 64;
 // const GRID_VERTICAL_OFFSET = 120;
 const ITEM_VERTICAL_OFFSET = 32;
+
+const ComponentForTypes = {
+  "new-sandbox": NewSandbox
+};
 
 const Item = ({ data, rowIndex, columnIndex, style }) => {
   const { items, columnCount, containerWidth } = data;
@@ -43,6 +49,9 @@ const Item = ({ data, rowIndex, columnIndex, style }) => {
     return null;
   }
 
+  const { type } = item;
+  const Component = ComponentForTypes[type];
+
   return (
     <div
       className="border border-sandbox rounded"
@@ -54,9 +63,10 @@ const Item = ({ data, rowIndex, columnIndex, style }) => {
         ...margins,
       }}
     >
-      <div className="d-flex w-100 h-100 align-items-center justify-content-center">
+      <Component item={item} />
+      {/* <div className="d-flex w-100 h-100 align-items-center justify-content-center">
           <h1>{item.title}</h1>
-      </div>
+      </div> */}
     </div>
   );
 };

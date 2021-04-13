@@ -2,22 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { DynamicModuleLoader } from 'redux-dynamic-modules';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 
 import * as serviceWorker from './serviceWorker';
 
-import store from './store';
+import store, { rrfProps } from './store';
 import App from './App';
 
 import './index.css';
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode> // disable because of bug of react-redux-firebase
     <Provider store={store}>
-      <DynamicModuleLoader>
-        <App />
-      </DynamicModuleLoader>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <DynamicModuleLoader>
+          <App />
+        </DynamicModuleLoader>
+      </ReactReduxFirebaseProvider>
     </Provider>
-  </React.StrictMode>,
+  // </React.StrictMode>
+  ,
   document.getElementById("root")
 );
 

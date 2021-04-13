@@ -5,10 +5,13 @@ import {
   Route
 } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { DynamicModuleLoader } from 'redux-dynamic-modules';
 
 import {
   Main
 } from './pages';
+
+import appModule from './module';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
@@ -36,4 +39,10 @@ const App = () => {
   )
 };
 
-export default App;
+const DynamicModule = () => (
+  <DynamicModuleLoader modules={[appModule]}>
+    <App />
+  </DynamicModuleLoader>
+);
+
+export default DynamicModule;

@@ -16,6 +16,8 @@ const Sidebar = () => {
         <hr />
         <Nav.Link href="#/counter">Counter</Nav.Link>
         <hr />
+        <Nav.Link href="#/signout">Sign Out</Nav.Link>
+        <hr />
       </div>
     </div>
   )
