@@ -6,12 +6,12 @@ const authenticatedSelector = ({ firebase: { auth }}) => {
   return auth.isLoaded && !auth.isEmpty;
 };
 
-const templateSelector = ({ firestore: { ordered: { templates = [] } } }) => {
+const orderedTemplateSelector = ({ firestore: { ordered: { templates = [] } } }) => {
   return templates;
 };
 
 export {
   authenticatingSelector,
   authenticatedSelector,
-  templateSelector
+  orderedTemplateSelector as templateSelector,
 };

@@ -19,6 +19,8 @@ const CreateNewSandbox = React.lazy(() => import(/* webpackChunkName: "CreateNew
 
 const Dashboard = () => {
   const { showCreateSandboxModal } = useSelector(selectDashboard);
+  // const state = useSelector(state => state);
+  // console.log(state);
 
   return (
     <div className="wrapper">
@@ -35,9 +37,16 @@ const Dashboard = () => {
 };
 
 const Composed = compose(
-  firestoreConnect(() => [
-    { collection: "templates" }
-  ])
+  firestoreConnect(({ firebase }) => {
+    const { currentUser: { uid } } = firebase.auth().toJSON();
+
+    return [{
+      collection: "templates"
+    }, {
+      collection: "sandboxs",
+      where: [["owner", "==", uid]] 
+    }];
+  })
 )(Dashboard);
 
 const DynamicModule = () => (

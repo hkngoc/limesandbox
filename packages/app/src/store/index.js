@@ -2,8 +2,7 @@ import { applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createStore } from 'redux-dynamic-modules';
 import { getFirebase } from 'react-redux-firebase';
-import { reduxFirestore, createFirestoreInstance } from 'redux-firestore';
-
+import { reduxFirestore, createFirestoreInstance, getFirestore } from 'redux-firestore';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
@@ -20,7 +19,7 @@ const rrfConfig = {
 
 const store = createStore({
   enhancers: [compose(
-    applyMiddleware(thunk.withExtraArgument(getFirebase)),
+    applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
     reduxFirestore(firebase, rrfConfig)
   )],
 });
