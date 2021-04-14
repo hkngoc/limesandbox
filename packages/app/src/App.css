@@ -90,6 +90,8 @@ hr {
 }
 .sandbox-stat {
   color: rgb(153, 153, 153);
+  overflow: hidden;
+  white-space: nowrap;
 }
 .sandbox-stat span .stat-item:not(:last-child)::after {
   content: "•";
