@@ -10,8 +10,13 @@ const orderedTemplateSelector = ({ firestore: { ordered: { templates = [] } } })
   return templates;
 };
 
+const selectOrderedSandbox = ({ firestore: { ordered: { sandboxs = [] } } }) => {
+  return sandboxs;
+};
+
 export {
   authenticatingSelector,
   authenticatedSelector,
   orderedTemplateSelector as templateSelector,
+  selectOrderedSandbox
 };

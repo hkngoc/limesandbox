@@ -22,13 +22,26 @@ export const createSandboxAsync = sandbox => async (dispatch, getState, { getFir
   const firestore = getFirestore();
 
   const { currentUser: { uid } } = firebase.auth().toJSON();
+  const { id: templateId, ...template } = sandbox;
+
+  const sourceRef = await firestore.get({
+    collection: "template_sources",
+    doc: templateId
+  });
 
   const { id } = await firestore.add({
     collection: "sandboxs"
   }, {
-    ...sandbox,
+    ...template,
     owner: uid,
     createdAt: firestore.FieldValue.serverTimestamp()
+  });
+
+  await firestore.set({
+    collection: "sandbox_sources",
+    doc: id
+  }, {
+    ...sourceRef.data()
   });
 };
 

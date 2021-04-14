@@ -39,3 +39,6 @@ const NewSandbox = (props) => {
 };
 
 export default NewSandbox;
+export {
+  NewSandbox
+}

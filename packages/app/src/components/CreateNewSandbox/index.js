@@ -25,7 +25,7 @@ const CreateNewSandboxModal = ({ show }) => {
   };
 
   const onSubmit = ({ index }) => {
-    const { id, category, ...template } = templates[index];
+    const { category, ...template } = templates[index];
 
     handleClose();
     dispatch(createSandboxAsync(template));

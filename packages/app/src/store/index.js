@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import { createStore } from 'redux-dynamic-modules';
 import { getFirebase } from 'react-redux-firebase';
 import { reduxFirestore, createFirestoreInstance, getFirestore } from 'redux-firestore';
+
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';

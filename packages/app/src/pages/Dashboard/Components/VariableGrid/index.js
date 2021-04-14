@@ -3,7 +3,7 @@ import React from 'react';
 import { VariableSizeGrid as Grid } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
-import NewSandbox from '../Sandbox/NewSandbox';
+import { Sandbox, NewSandbox } from '../Sandbox';
 
 export const GRID_MAX_WIDTH = 1900;
 export const MAX_COLUMN_COUNT = 6;
@@ -16,7 +16,8 @@ const ITEM_HEIGHT_GRID = 240;
 const ITEM_VERTICAL_OFFSET = 32;
 
 const ComponentForTypes = {
-  "new-sandbox": NewSandbox
+  "new-sandbox": NewSandbox,
+  "sandbox": Sandbox
 };
 
 const Item = ({ data, rowIndex, columnIndex, style }) => {
@@ -64,9 +65,6 @@ const Item = ({ data, rowIndex, columnIndex, style }) => {
       }}
     >
       <Component item={item} />
-      {/* <div className="d-flex w-100 h-100 align-items-center justify-content-center">
-          <h1>{item.title}</h1>
-      </div> */}
     </div>
   );
 };

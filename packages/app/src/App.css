@@ -80,3 +80,18 @@ hr {
 .dropdown-item:hover, .dropdown-item:focus {
   background-color: rgb(36, 36, 36);
 }
+
+.sandbox-thumbnail {
+  height: 140px;
+}
+.sandbox-title .btn {
+  width: 26px;
+  height: 26px;
+}
+.sandbox-stat {
+  color: rgb(153, 153, 153);
+}
+.sandbox-stat span .stat-item:not(:last-child)::after {
+  content: "•";
+  margin-left: 0.5rem;
+}

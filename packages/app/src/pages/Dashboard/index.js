@@ -19,8 +19,6 @@ const CreateNewSandbox = React.lazy(() => import(/* webpackChunkName: "CreateNew
 
 const Dashboard = () => {
   const { showCreateSandboxModal } = useSelector(selectDashboard);
-  // const state = useSelector(state => state);
-  // console.log(state);
 
   return (
     <div className="wrapper">
