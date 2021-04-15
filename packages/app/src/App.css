@@ -97,3 +97,17 @@ hr {
   content: "•";
   margin-left: 0.5rem;
 }
+.sandbox-template-icon {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background-color: rgb(53, 53, 53);
+  width: 16px;
+  height: 16px;
+  border: 3px solid rgb(52, 52, 52);
+  border-radius: 2px;
+  box-sizing: content-box;
+}
+.sandbox-template-icon svg {
+  vertical-align: top;
+}

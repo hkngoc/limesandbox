@@ -47,9 +47,9 @@ const Composed = compose(
   })
 )(Dashboard);
 
-const DynamicModule = () => (
+const DynamicModule = (props) => (
   <DynamicModuleLoader modules={[...dashboardModule]}>
-    <Composed />
+    <Composed { ...props } />
   </DynamicModuleLoader>
 );
 

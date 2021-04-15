@@ -4,11 +4,12 @@ import {
 } from 'react-bootstrap';
 
 import Logo from './Logo';
+import './styles.css';
 
 const Header = () => {
   return (
     <Navbar className="header" collapseOnSelect expand="sm" bg="dark" variant="dark" sticky="top">
-      <Navbar.Brand href="#dashboard">
+      <Navbar.Brand href="#">
         <Logo />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
