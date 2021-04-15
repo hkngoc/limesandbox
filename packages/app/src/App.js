@@ -2,7 +2,7 @@ import React from 'react';
 import {
   HashRouter as Router,
   Switch,
-  Route
+  Route,
 } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { DynamicModuleLoader } from 'redux-dynamic-modules';
@@ -34,7 +34,6 @@ const App = () => {
           </React.Suspense> 
         </Router>
       </div>
-
     </HelmetProvider>
   )
 };

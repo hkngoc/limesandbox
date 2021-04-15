@@ -39,16 +39,18 @@ const Composed = compose(
     const { currentUser: { uid } } = firebase.auth().toJSON();
 
     return [{
-      collection: "templates"
+      collection: "templates",
+      storeAs: "templates"
     }, {
       collection: "sandboxs",
+      storeAs: "sandboxs",
       where: [["owner", "==", uid]] 
     }];
   })
 )(Dashboard);
 
 const DynamicModule = (props) => (
-  <DynamicModuleLoader modules={[...dashboardModule]}>
+  <DynamicModuleLoader modules={[dashboardModule]}>
     <Composed { ...props } />
   </DynamicModuleLoader>
 );

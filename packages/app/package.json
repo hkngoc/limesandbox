@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@codesandbox/sandpack-react": "^0.0.3",
     "@limesandbox/sandpack": "0.0.0",
     "@reduxjs/toolkit": "^1.5.1",
     "bootstrap": "^4.6.0",

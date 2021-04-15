@@ -6,17 +6,30 @@ const authenticatedSelector = ({ firebase: { auth }}) => {
   return auth.isLoaded && !auth.isEmpty;
 };
 
-const orderedTemplateSelector = ({ firestore: { ordered: { templates = [] } } }) => {
+const orderedTemplateSelector = ({ firestoreDashboard: { ordered: { templates = [] } } }) => {
   return templates;
 };
 
-const selectOrderedSandbox = ({ firestore: { ordered: { sandboxs = [] } } }) => {
+const selectOrderedSandbox = ({ firestoreDashboard: { ordered: { sandboxs = [] } } }) => {
   return sandboxs;
+};
+
+const selectSandboxFull = ({ firestoreSandbox: { data: { sandbox, source } } }) => {
+  return {
+    ...sandbox,
+    customSetup: source
+  }
+};
+
+const selectSandbox = ({ firestoreSandbox: { data: { sandbox } } }) => {
+  return sandbox;
 };
 
 export {
   authenticatingSelector,
   authenticatedSelector,
   orderedTemplateSelector as templateSelector,
-  selectOrderedSandbox
+  selectOrderedSandbox,
+  selectSandbox,
+  selectSandboxFull
 };

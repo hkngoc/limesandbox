@@ -8,28 +8,31 @@ import {
 import Loading from './Loading';
 import { UserIsAuthenticated } from './RouteProtection';
 
-const SignIn = React.lazy(() => import(/* webpackChunkName: "SignIn" */'../SignIn'));
-const SignOut = React.lazy(() => import(/* webpackChunkName: "SignOut" */'../SignOut'));
-const Dashboard = React.lazy(() => import(/* webpackChunkName: "Dashboard" */'../Dashboard'));
-const Sandbox = React.lazy(() => import(/* webpackChunkName: "Sandbox" */'../Sandbox'));
-const Counter = React.lazy(() => import(/* webpackChunkName: "Counter" */'../Counter'));
+const Counter = React.lazy(() => import(/* webpackChunkName: "Counter" */'pages/Counter'));
+
+const SignIn = React.lazy(() => import(/* webpackChunkName: "SignIn" */'pages/SignIn'));
+const SignOut = React.lazy(() => import(/* webpackChunkName: "SignOut" */'pages/SignOut'));
+
+const Dashboard = React.lazy(() => import(/* webpackChunkName: "Dashboard" */'pages/Dashboard'));
+const Sandbox = React.lazy(() => import(/* webpackChunkName: "Sandbox" */'pages/Sandbox'));
 
 const Main = () => {
   return (
     <React.Suspense fallback={<Loading />}>
       <Switch>
-        <Route path="/auth" name="SignIn" component={SignIn} />
         <Route path="/counter" name="Counter" component={Counter} />
 
-        <Route path="/dashboard" name="Dashboard" component={UserIsAuthenticated(Dashboard)}/>
-        <Route path="/s/:id" name="Sandbox" component={UserIsAuthenticated(Sandbox)}/>
-        <Route path="/ls/:id" name="Sandbox" component={UserIsAuthenticated(Sandbox)}/>
+        <Route path="/auth" name="SignIn" component={SignIn} />
         <Route path="/signout" name="SignOut" component={SignOut} />
+
+        <Route path="/dashboard" name="Dashboard" component={UserIsAuthenticated(Dashboard)} />
+        <Route path="/s/:id" name="Sandbox" component={UserIsAuthenticated(Sandbox)} />
+        <Route path="/ls/:id" name="Sandbox" component={UserIsAuthenticated(Sandbox)} />
 
         <Redirect from="/" to="/dashboard" />
       </Switch>
     </React.Suspense>
-  )
+  );
 };
 
 export {

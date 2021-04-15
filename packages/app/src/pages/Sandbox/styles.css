@@ -1,0 +1,42 @@
+main.editor-content {
+  display: flex;
+  flex-grow: 1;
+  /*background-color: var(--light);*/
+  background-color: rgb(21, 21, 21);
+  /*color: var(--white);*/
+  /* color: rgb(36, 36, 36); */
+}
+
+.app {
+  background-color: #444344;
+  overflow: hidden;
+}
+
+.wrapper {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+.sp-wrapper {
+  width: 100%;
+  display: flex;
+}
+
+.sp-layout {
+  border: none;
+  border-radius: unset;
+  flex-grow: 1;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.sp-layout > .sp-stack {
+  height: 100%;
+}
+
+.sp-layout .sp-file-explorer div {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}

@@ -7,7 +7,7 @@ svg.logo {
 nav.header.navbar {
   height: 48px;
   background-color: rgb(21, 21, 21) !important;
-  border-bottom: 1px solid rgb(36, 36, 36);
+  border-bottom: 1px solid var(--sp-colors-fg-inactive);
 }
 
 .header .navbar-brand {
