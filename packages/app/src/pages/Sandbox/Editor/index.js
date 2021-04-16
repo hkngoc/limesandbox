@@ -1,19 +1,24 @@
-import { useSelector } from 'react-redux';
-import { selectSandbox, selectSandboxFull } from 'store/firebaseSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
   SandpackProvider,
   SandpackLayout,
-  SandpackCodeEditor,
+  // SandpackCodeEditor,
   SandpackPreview,
 } from '@codesandbox/sandpack-react';
 
-import {
-  FileExplorer,
-} from '@codesandbox/sandpack-react/dist/esm/components/FileExplorer';
+import { FileExplorer, CodeEditor } from 'components';
+
+import { selectSandboxLite, selectSandboxFull } from 'store/sandboxSlice';
+import { saveSandboxCodeAsync } from 'store/sandboxSlice';
 
 const Editor = () => {
-  const { template, customSetup } = useSelector(selectSandboxFull);
+  const { id, template, customSetup } = useSelector(selectSandboxFull);
+  const dispatch = useDispatch();
+
+  const onCodeSave = (path, code) => {
+    dispatch(saveSandboxCodeAsync(id, path, code));
+  };
 
   return (
     <SandpackProvider
@@ -24,7 +29,9 @@ const Editor = () => {
         theme="monokai-pro"
       >
         <FileExplorer className="sp-file-explorer"/>
-        <SandpackCodeEditor
+        <CodeEditor
+          showLineNumbers={true}
+          onCodeSave={onCodeSave}
         />
         <SandpackPreview
           showNavigator={true}
@@ -36,8 +43,8 @@ const Editor = () => {
   );
 };
 
-const Wrapper = () => {
-  const sandbox = useSelector(selectSandbox);
+const Wrapper = (props) => {
+  const sandbox = useSelector(selectSandboxLite);
 
   if (!sandbox) {
     return (
@@ -46,7 +53,7 @@ const Wrapper = () => {
   }
 
   return (
-    <Editor />
+    <Editor {...props}/>
   );
 };
 

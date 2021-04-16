@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import Header from 'pages/Dashboard/Components/Header';
 import VariableGrid from 'pages/Dashboard/Components/VariableGrid';
 
-import { selectOrderedSandbox } from 'store/firebaseSlice';
+import { selectOrderedSandbox } from 'store/dashboardSlice';
 
 const Home = () => {
   const sandboxs = useSelector(selectOrderedSandbox);

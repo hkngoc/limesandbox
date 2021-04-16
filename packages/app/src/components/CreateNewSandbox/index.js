@@ -8,8 +8,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { templateSelector } from 'store/firebaseSlice';
-import { closeCreateSandboxModal, createSandboxAsync } from 'store/dashboardSlice';
+import { closeCreateSandboxModal, createSandboxAsync, templateSelector } from 'store/dashboardSlice';
 
 const CreateNewSandboxModal = ({ show }) => {
   const templates = useSelector(templateSelector);

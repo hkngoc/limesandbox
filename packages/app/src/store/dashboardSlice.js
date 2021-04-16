@@ -47,5 +47,18 @@ export const createSandboxAsync = sandbox => async (dispatch, getState, { getFir
 
 export const selectDashboard = state => state.dashboard;
 
+const orderedTemplateSelector = ({ firestoreDashboard: { ordered: { templates = [] } } }) => {
+  return templates;
+};
+
+const selectOrderedSandbox = ({ firestoreDashboard: { ordered: { sandboxs = [] } } }) => {
+  return sandboxs;
+};
+
+export {
+  orderedTemplateSelector as templateSelector,
+  selectOrderedSandbox,
+};
+
 
 export default dashboardSlice.reducer;

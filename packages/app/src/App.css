@@ -17,6 +17,9 @@
     background-color: rgba(255,255,255,.15)
 }
 
+.firebase-emulator-warning {
+  display: none;
+}
 .app {
   display: flex;
   flex-direction: column;

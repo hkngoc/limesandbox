@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { Helmet } from 'react-helmet-async';
 
-import { selectSandbox } from 'store/firebaseSlice';
+import { selectSandboxLite } from 'store/sandboxSlice';
 import sandboxModule from './module';
 
 import Header from './Header';
@@ -15,7 +15,7 @@ import '@codesandbox/sandpack-react/dist/index.css';
 import './styles.css';
 
 const Main = (props) => {
-  const sandbox = useSelector(selectSandbox);
+  const sandbox = useSelector(selectSandboxLite);
 
   const getTitle = () => {
     return sandbox ? sandbox.name || "" : "";
@@ -45,7 +45,10 @@ const Composed = compose(
     }, {
       collection: "sandbox_sources",
       doc: id,
-      storeAs: "source"
+      subcollection: [{
+        collection: "customSetup",
+        doc: "files"
+      }]
     }];
   })
 )(Main);

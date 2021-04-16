@@ -31,6 +31,10 @@ main.editor-content {
   overflow: hidden;
 }
 
+.sp-stack-file-explorer .sp-button {
+  width: 100%;
+}
+
 .sp-layout > .sp-stack {
   height: 100%;
 }
@@ -39,4 +43,9 @@ main.editor-content {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+}
+
+.sp-layout > div {
+  height: calc(100vh - 48px) !important;
+  overflow: auto;
 }
