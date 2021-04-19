@@ -1,13 +1,16 @@
-import { useClasser } from "@code-hike/classer";
+import { useClasser } from '@code-hike/classer';
 
 import {
   useActiveCode,
   useSandpack,
   SandpackStack,
-  FileTabs,
-} from "@codesandbox/sandpack-react";
+  // FileTabs,
+} from '@codesandbox/sandpack-react';
+
 import { CodeMirror } from '@codesandbox/sandpack-react/dist/esm/components/CodeEditor/CodeMirror';
 import { RunButton } from '@codesandbox/sandpack-react/dist/esm/common/RunButton';
+
+import { FileTabs as FileTabsCustom } from 'components/FileTabs';
 
 const CodeEditor = ({ customStyle, showTabs = true, showLineNumbers = false, showRunButton = true, wrapContent = false }) => {
   const { sandpack } = useSandpack();
@@ -26,7 +29,7 @@ const CodeEditor = ({ customStyle, showTabs = true, showLineNumbers = false, sho
     <SandpackStack {...{ customStyle }}>
       {
         shouldShowTabs ? (
-          <FileTabs />
+          <FileTabsCustom />
         ) : null
       }
       <div className={c("code-editor")}>
