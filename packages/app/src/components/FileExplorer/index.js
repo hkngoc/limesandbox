@@ -2,6 +2,7 @@ import { useClasser } from "@code-hike/classer";
 
 import {
   useSandpack,
+  SandpackStack,
 } from "@codesandbox/sandpack-react";
 
 import { ModuleList } from "@codesandbox/sandpack-react/dist/esm/components/FileExplorer/ModuleList";
@@ -12,23 +13,25 @@ const FileExplorer = ({ customStyle }) => {
   const c = useClasser("sp");
 
   return (
-    <div
-      {...customStyle }
-      className={`${c("stack-file-explorer")}`}
-    >
+    <SandpackStack>
       <div
-        className={c("file-explorer")}
+        {...customStyle }
+        className={`${c("stack-file-explorer")}`}
       >
-        <ModuleList
-          {...{
-            activePath: sandpack.activePath,
-            files: sandpack.files,
-            prefixedPath: "/",
-            selectFile: sandpack.openFile
-          }}
-        />
+        <div
+          className={c("file-explorer")}
+        >
+          <ModuleList
+            {...{
+              activePath: sandpack.activePath,
+              files: sandpack.files,
+              prefixedPath: "/",
+              selectFile: sandpack.openFile
+            }}
+          />
+        </div>
       </div>
-    </div>
+    </SandpackStack>
   );
 };
 

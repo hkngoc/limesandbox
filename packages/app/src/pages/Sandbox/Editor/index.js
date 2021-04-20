@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import * as Space from 'react-spaces';
 
 import {
   SandpackProvider,
@@ -24,21 +25,29 @@ const Editor = () => {
     <SandpackProvider
       template={template}
       customSetup={customSetup}
+      autorun={false}
     >
-      <SandpackLayout
-        theme="monokai-pro"
-      >
-        <FileExplorer className="sp-file-explorer"/>
-        <CodeEditor
-          showLineNumbers={true}
-          onCodeSave={onCodeSave}
+      <Space.Fill>
+        <SandpackLayout
+          theme="monokai-pro"
         />
-        <SandpackPreview
-          showNavigator={true}
-          showOpenInCodeSandbox={true}
-          showRefreshButton={false}
-        />
-      </SandpackLayout>
+        <Space.LeftResizable size={200} order={1}>
+          <FileExplorer />
+        </Space.LeftResizable>
+        <Space.LeftResizable size={200} order={2}>
+          <CodeEditor
+            showLineNumbers={true}
+            onCodeSave={onCodeSave}
+          />
+        </Space.LeftResizable>
+        <Space.Fill>
+          <SandpackPreview
+            showNavigator={true}
+            showOpenInCodeSandbox={true}
+            showRefreshButton={false}
+          />
+        </Space.Fill>
+      </Space.Fill>
     </SandpackProvider>
   );
 };

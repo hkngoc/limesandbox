@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   useSandpack,
 } from "@codesandbox/sandpack-react";
@@ -20,9 +22,9 @@ const FileTab = ({ filePath, dragging }) => {
         role: "tab",
         type: "button",
       }}
-      className={"sp-tab-button d-flex justify-content-center align-items-center"}
-      onClick={setActiveFile ? setActiveFile.bind(this, filePath) : null}
+      className={`sp-tab-button d-flex justify-content-center align-items-center`}
       title={filePath}
+      onClick={setActiveFile ? setActiveFile.bind(this, filePath) : null}
     >
       {getFileName(filePath)}
     </div>

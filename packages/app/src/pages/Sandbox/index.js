@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { useSelector } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { Helmet } from 'react-helmet-async';
+import * as Space from 'react-spaces';
 
 import { selectSandboxLite } from 'store/sandboxSlice';
 import sandboxModule from './module';
@@ -14,7 +15,7 @@ import Editor from './Editor';
 import '@codesandbox/sandpack-react/dist/index.css';
 import './styles.css';
 
-const Main = (props) => {
+const Main = () => {
   const sandbox = useSelector(selectSandboxLite);
 
   const getTitle = () => {
@@ -22,16 +23,18 @@ const Main = (props) => {
   };
 
   return (
-    <div className="wrapper sp-wrapper sp-monokai-pro">
+    <div className="sp-wrapper sp-monokai-pro">
       <Helmet>
         <title>{`${getTitle()} - LimeSandbox`}</title>
       </Helmet>
-      <Header />
-      <div className="body flex-row">
-        <main className="editor-content">
+      <Space.ViewPort>
+        <Space.Top size={48}>
+          <Header />
+        </Space.Top>
+        <Space.Fill>
           <Editor />
-        </main>
-      </div>
+        </Space.Fill>
+      </Space.ViewPort>
     </div>
   )
 };
