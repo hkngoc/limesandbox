@@ -49,3 +49,21 @@ main.editor-content {
   height: calc(100vh - 48px) !important;
   overflow: auto;
 }
+
+.sp-tabs-scrollable-container {
+  overflow: hidden;
+}
+
+.sp-tab-button[data-dragging=true][data-active=false]:hover {
+  color: var(--sp-colors-fg-default);
+  background: transparent;
+}
+
+.sp-tab-button[data-dragging=true][data-active=true] {
+  color: var(--sp-colors-fg-active);
+  background: var(--sp-colors-bg-active);
+}
+
+.sp-tab-button {
+  transition: transform 120ms ease-in-out;
+}
