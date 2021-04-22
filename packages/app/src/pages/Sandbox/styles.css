@@ -51,10 +51,6 @@ main.editor-content {
   overflow: auto;
 }
 
-.sp-tabs-scrollable-container {
-  overflow: hidden;
-}
-
 .dragging .sp-tab-button {
   color: var(--sp-colors-fg-active);
   background: var(--sp-colors-bg-active);
@@ -86,4 +82,23 @@ main.editor-content {
   /* margin-left: -1px; */
   margin-top: -1px;
   /* position: relative; */
+}
+
+.sp-tabs-scrollable-container {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+.sp-tabs-scrollable-container:hover {
+  overflow-x: auto;
+}
+.sp-tabs-scrollable-container::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.sp-tab-button[data-active=false]:hover {
+  color: var(--sp-colors-fg-default);
+  background: unset;
+}
+.sp-tab-button[data-active=true] {
+  background: var(--sp-colors-bg-active);
 }
