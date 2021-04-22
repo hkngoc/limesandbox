@@ -60,12 +60,11 @@ const FileTabs = () => {
             <Droppable
               droppableId="droppable"
               direction="horizontal"
-              placeholder=""
             >
               {(provided, snapshot) => (
                 <div
                   ref={provided.innerRef}
-                  style={{ display: "flex" }}
+                  className="d-flex flex-grow-1"
                   {...provided.droppableProps}
                 >
                   {
