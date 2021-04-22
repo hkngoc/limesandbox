@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { useSelector } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { Helmet } from 'react-helmet-async';
-import * as Space from 'react-spaces';
 
 import { selectSandboxLite } from 'store/sandboxSlice';
 import sandboxModule from './module';
@@ -23,18 +22,16 @@ const Main = () => {
   };
 
   return (
-    <div className="sp-wrapper sp-monokai-pro">
+    <div className="wrapper sp-wrapper sp-monokai-pro">
       <Helmet>
         <title>{`${getTitle()} - LimeSandbox`}</title>
       </Helmet>
-      <Space.ViewPort>
-        <Space.Top size={48}>
-          <Header />
-        </Space.Top>
-        <Space.Fill>
+      <Header />
+      <div className="body flex-row">
+        <main className="editor-content">
           <Editor />
-        </Space.Fill>
-      </Space.ViewPort>
+        </main>
+      </div>
     </div>
   )
 };

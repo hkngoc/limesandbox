@@ -4,36 +4,44 @@ import {
   useSandpack,
 } from "@codesandbox/sandpack-react";
 
-import { ReactSortable } from "react-sortablejs";
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import FileTab from './FileTab';
 
-const FileTabs = () => {
-  const [drag, setDrag] = React.useState(false);
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
+  return result;
+};
+
+const FileTabs = () => {
   const { sandpack } = useSandpack();
   const {
     openPaths,
     setActiveFile,
-    // setOpenPaths // hack api, need PR
+    setOpenPaths // hack api, need PR
   } = sandpack;
 
   const c = useClasser("sp");
 
-  const onChoose = ({ oldIndex }) => {
-    setActiveFile(openPaths[oldIndex]);
+  const onDragStart = ({ draggableId }) => {
+    setActiveFile(draggableId);
   };
 
-  const onStart = ({ oldIndex }) => {
-    setDrag(true);
-  };
+  const onDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
 
-  const onEnd = () => {
-    setDrag(false);
-  };
+    const items = reorder(
+      openPaths,
+      result.source.index,
+      result.destination.index
+    );
 
-  const onOrderOpenPaths = (paths) => {
-    // setOpenPaths(paths.map(o => o.key));
+    setOpenPaths(items);
   };
 
   return (
@@ -45,29 +53,48 @@ const FileTabs = () => {
             role: "tablist"
           }}
         >
-          <ReactSortable
-            className="d-flex"
-            direction="horizontal"
-            swap={false}
-            ghostClass="sortable-ghost"
-            chosenClass="sortable-chosen"
-            dragClass="sortable-drag"
-            animation={120}
-            easing="ease-in-out"
-            list={openPaths.map(p => ({ key: p }))}
-            setList={onOrderOpenPaths}
-            onStart={onStart}
-            onEnd={onEnd}
-            onChoose={onChoose}
+          <DragDropContext
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
           >
-            {
-              openPaths.map((filePath) => {
-                return (
-                  <FileTab key={filePath} filePath={filePath} dragging={drag}/>
-                )
-              })
-            }
-          </ReactSortable>
+            <Droppable
+              droppableId="droppable"
+              direction="horizontal"
+              placeholder=""
+            >
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  style={{ display: "flex" }}
+                  {...provided.droppableProps}
+                >
+                  {
+                    openPaths.map((filePath, index) => (
+                        <Draggable
+                          key={filePath}
+                          draggableId={filePath}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className={snapshot.isDragging ? "dragging" : ""}
+                              style={{...provided.draggableProps.style }}
+                            >
+                              <FileTab key={filePath} filePath={filePath}/>
+                            </div>
+                          )}
+                        </Draggable>
+                      )
+                    )
+                  }
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import * as Space from 'react-spaces';
+import SplitPane from 'react-split';
 
 import {
   SandpackProvider,
@@ -25,29 +25,42 @@ const Editor = () => {
     <SandpackProvider
       template={template}
       customSetup={customSetup}
-      autorun={false}
+      autorun={true}
     >
-      <Space.Fill>
-        <SandpackLayout
-          theme="monokai-pro"
-        />
-        <Space.LeftResizable size={200} order={1}>
+      <SandpackLayout theme="monokai-pro">
+        <SplitPane
+          className="sp-pane"
+          gutterAlign="center"
+          gutterSize={0}
+          snapOffset={30}
+          dragInterval={1}
+          direction="horizontal"
+          minSize={50}
+          sizes={[50, 50]}
+        >
           <FileExplorer />
-        </Space.LeftResizable>
-        <Space.LeftResizable size={200} order={2}>
-          <CodeEditor
-            showLineNumbers={true}
-            onCodeSave={onCodeSave}
-          />
-        </Space.LeftResizable>
-        <Space.Fill>
-          <SandpackPreview
-            showNavigator={true}
-            showOpenInCodeSandbox={true}
-            showRefreshButton={false}
-          />
-        </Space.Fill>
-      </Space.Fill>
+          <SplitPane
+            className="sp-pane"
+            gutterAlign="center"
+            snapOffset={30}
+            dragInterval={1}
+            gutterSize={0}
+            minSize={0}
+            direction="horizontal"
+            sizes={[50, 50]}
+          >
+            <CodeEditor
+              showLineNumbers={true}
+              onCodeSave={onCodeSave}
+            />
+            <SandpackPreview
+              showNavigator={true}
+              showOpenInCodeSandbox={true}
+              showRefreshButton={false}
+            />
+          </SplitPane>
+        </SplitPane>
+      </SandpackLayout>
     </SandpackProvider>
   );
 };

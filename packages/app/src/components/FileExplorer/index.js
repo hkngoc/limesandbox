@@ -18,18 +18,14 @@ const FileExplorer = ({ customStyle }) => {
         {...customStyle }
         className={`${c("stack-file-explorer")}`}
       >
-        <div
-          className={c("file-explorer")}
-        >
-          <ModuleList
-            {...{
-              activePath: sandpack.activePath,
-              files: sandpack.files,
-              prefixedPath: "/",
-              selectFile: sandpack.openFile
-            }}
-          />
-        </div>
+        <ModuleList
+          {...{
+            activePath: sandpack.activePath,
+            files: sandpack.files,
+            prefixedPath: "/",
+            selectFile: sandpack.openFile
+          }}
+        />
       </div>
     </SandpackStack>
   );

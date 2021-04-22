@@ -1,20 +1,20 @@
 ::-webkit-scrollbar {
-    width: .5rem;
-    height: .5rem
+  width: .5rem;
+  height: .5rem
 }
 
 ::-webkit-scrollbar-thumb {
-    -webkit-transition: .3s ease all;
-    transition: .3s ease all;
-    border-color: transparent;
-    background-color: rgba(255,255,255,.1);
-    z-index: 40;
+  -webkit-transition: .3s ease all;
+  transition: .3s ease all;
+  border-color: transparent;
+  background-color: rgba(255,255,255,.1);
+  z-index: 40;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    -webkit-transition: .3s ease all;
-    transition: .3s ease all;
-    background-color: rgba(255,255,255,.15)
+  -webkit-transition: .3s ease all;
+  transition: .3s ease all;
+  background-color: rgba(255,255,255,.15)
 }
 
 .firebase-emulator-warning {
