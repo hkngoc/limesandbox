@@ -95,10 +95,29 @@ main.editor-content {
   width: 0px;
   height: 0px;
 }
+.sp-tab-button {
+  min-width: 130px;
+  position: relative;
+  margin-right: -1px;
+  padding: 0 var(--sp-space-3);
+}
 .sp-tab-button[data-active=false]:hover {
   color: var(--sp-colors-fg-default);
   background: unset;
 }
 .sp-tab-button[data-active=true] {
   background: var(--sp-colors-bg-active);
+}
+.sp-tab-close-button:hover > svg {
+  stroke: var(--sp-colors-fg-active);
+}
+.sp-tab-divider {
+  position: absolute;
+  height: 55%;
+  right: 0px;
+  width: 1px;
+  background: var(--sp-colors-bg-active);
+}
+.sp-tab-button[data-active=true] .sp-tab-divider , .sp-tab-draggable:last-child .sp-tab-divider {
+  display: none;
 }

@@ -20,6 +20,7 @@ const FileTabs = () => {
   const { sandpack } = useSandpack();
   const {
     openPaths,
+    activePath,
     setActiveFile,
     setOpenPaths // hack api, need PR
   } = sandpack;
@@ -44,6 +45,16 @@ const FileTabs = () => {
     setOpenPaths(items);
   };
 
+  const onCloseTab = (index, filePath) => {
+    const items = openPaths.filter(path => path !== filePath);
+    setOpenPaths(items);
+
+    if (items.length > 0 && filePath === activePath) {
+      const activeIndex = index > 0 ? (index >= items.length ? items.length - 1 : index - 1) : 0;
+      setActiveFile(items[activeIndex])
+    }
+  };
+
   return (
     <div className={c("tabs")}>
         <div
@@ -64,7 +75,7 @@ const FileTabs = () => {
               {(provided, snapshot) => (
                 <div
                   ref={provided.innerRef}
-                  className="d-flex flex-grow-1"
+                  className="sp-tabs-droppable d-flex flex-grow-1"
                   {...provided.droppableProps}
                 >
                   {
@@ -79,10 +90,15 @@ const FileTabs = () => {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              className={snapshot.isDragging ? "dragging" : ""}
+                              className={`sp-tab-draggable ${snapshot.isDragging ? "dragging" : ""}`}
                               style={{...provided.draggableProps.style }}
                             >
-                              <FileTab key={filePath} filePath={filePath}/>
+                              <FileTab
+                                key={filePath}
+                                index={index}
+                                filePath={filePath}
+                                onClose={onCloseTab}
+                              />
                             </div>
                           )}
                         </Draggable>
