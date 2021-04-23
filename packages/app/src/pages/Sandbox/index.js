@@ -9,7 +9,7 @@ import { selectSandboxLite } from 'store/sandboxSlice';
 import sandboxModule from './module';
 
 import Header from './Header';
-import Editor from './Editor';
+import SandpackLayout from './SandpackLayout';
 
 import '@codesandbox/sandpack-react/dist/index.css';
 import './styles.css';
@@ -29,7 +29,7 @@ const Main = () => {
       <Header />
       <div className="body flex-row">
         <main className="editor-content">
-          <Editor />
+          <SandpackLayout />
         </main>
       </div>
     </div>

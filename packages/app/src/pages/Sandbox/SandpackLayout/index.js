@@ -59,7 +59,7 @@ const Editor = () => {
             >
               <SandpackPreview
                 showNavigator={true}
-                showOpenInCodeSandbox={true}
+                showOpenInCodeSandbox={false}
                 showRefreshButton={false}
               />
             </SandpackProvider>
