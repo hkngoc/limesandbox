@@ -22,7 +22,7 @@ const FileTabs = () => {
     openPaths,
     activePath,
     setActiveFile,
-    setOpenPaths // hack api, need PR
+    updateOpenPaths // hack api by patch-package
   } = sandpack;
 
   const c = useClasser("sp");
@@ -31,6 +31,7 @@ const FileTabs = () => {
     setActiveFile(draggableId);
   };
 
+  // TODO: current implement include bug when save code to firestore, need patch to sandpack context about calculating openPaths
   const onDragEnd = (result) => {
     if (!result.destination) {
       return;
@@ -42,16 +43,18 @@ const FileTabs = () => {
       result.destination.index
     );
 
-    setOpenPaths(items);
+    updateOpenPaths(items);
   };
 
   const onCloseTab = (index, filePath) => {
     const items = openPaths.filter(path => path !== filePath);
-    setOpenPaths(items);
+    updateOpenPaths(items);
 
     if (items.length > 0 && filePath === activePath) {
       const activeIndex = index > 0 ? (index >= items.length ? items.length - 1 : index - 1) : 0;
       setActiveFile(items[activeIndex])
+    } else if (items.length <= 0) {
+      setActiveFile(null);
     }
   };
 

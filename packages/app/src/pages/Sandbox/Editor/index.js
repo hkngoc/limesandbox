@@ -4,7 +4,6 @@ import SplitPane from 'react-split';
 import {
   SandpackProvider,
   SandpackLayout,
-  // SandpackCodeEditor,
   SandpackPreview,
 } from '@codesandbox/sandpack-react';
 
@@ -25,7 +24,8 @@ const Editor = () => {
     <SandpackProvider
       template={template}
       customSetup={customSetup}
-      autorun={true}
+      openPaths={[]}
+      autorun={false}
     >
       <SandpackLayout theme="monokai-pro">
         <SplitPane
@@ -36,7 +36,7 @@ const Editor = () => {
           dragInterval={1}
           direction="horizontal"
           minSize={50}
-          sizes={[50, 50]}
+          sizes={[10, 90]}
         >
           <FileExplorer />
           <SplitPane
@@ -50,14 +50,19 @@ const Editor = () => {
             sizes={[50, 50]}
           >
             <CodeEditor
-              showLineNumbers={true}
-              onCodeSave={onCodeSave}
+              onSave={onCodeSave}
             />
-            <SandpackPreview
-              showNavigator={true}
-              showOpenInCodeSandbox={true}
-              showRefreshButton={false}
-            />
+            <SandpackProvider
+              template={template}
+              customSetup={customSetup}
+              autorun={true}
+            >
+              <SandpackPreview
+                showNavigator={true}
+                showOpenInCodeSandbox={true}
+                showRefreshButton={false}
+              />
+            </SandpackProvider>
           </SplitPane>
         </SplitPane>
       </SandpackLayout>

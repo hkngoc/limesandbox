@@ -42,6 +42,8 @@ export const createSandboxAsync = sandbox => async (dispatch, getState, { getFir
     doc: id
   }, {
     ...sourceRef.data()
+  }, {
+    merge: true
   });
 };
 

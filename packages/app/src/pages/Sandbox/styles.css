@@ -113,11 +113,16 @@ main.editor-content {
 }
 .sp-tab-divider {
   position: absolute;
-  height: 55%;
+  height: 60%;
   right: 0px;
   width: 1px;
   background: var(--sp-colors-bg-active);
 }
 .sp-tab-button[data-active=true] .sp-tab-divider , .sp-tab-draggable:last-child .sp-tab-divider {
   display: none;
+}
+
+.sp-code-editor > .ace_editor {
+  width: 100% !important;
+  height: 100% !important;
 }

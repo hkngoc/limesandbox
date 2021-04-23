@@ -1,8 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   useSandpack,
-} from "@codesandbox/sandpack-react";
+} from '@codesandbox/sandpack-react';
+import { SANDBOX_TEMPLATES } from '@codesandbox/sandpack-react/dist/esm/templates';
+import { createPackageJSON } from '@codesandbox/sandpack-client';
+
+import { selectSandboxFull } from 'store/sandboxSlice';
 
 import CloseButtonSVG from './CloseButton';
 
@@ -11,9 +16,20 @@ const getFileName = (filePath) => {
   return filePath.slice(lastIndexOfSlash + 1);
 };
 
-const FileTab = ({ index, filePath, dragging, onClose }) => {
+const FileTab = ({ index, filePath, onClose }) => {
   const { sandpack } = useSandpack();
-  const { activePath, setActiveFile } = sandpack;
+  const { activePath, setActiveFile, files } = sandpack;
+
+  const { template, customSetup } = useSelector(selectSandboxFull);
+
+  const getTitle = () => {
+    const currentSource = files[filePath].code
+    const source = customSetup.files[filePath] || (filePath in SANDBOX_TEMPLATES[template].files ? SANDBOX_TEMPLATES[template].files[filePath].code : (createPackageJSON(SANDBOX_TEMPLATES[template].dependencies)));
+
+    const diff = currentSource !== source;
+
+    return `${getFileName(filePath)} ${diff ? "*" : ""}`;
+  };
 
   const handleClose = (e) => {
     e.stopPropagation();
@@ -26,15 +42,14 @@ const FileTab = ({ index, filePath, dragging, onClose }) => {
       {...{
         "aria-selected": filePath === activePath,
         "data-active": filePath === activePath,
-        "data-dragging": dragging,
         role: "tab",
         type: "button",
       }}
-      className={`sp-tab-button d-flex justify-content-center align-items-center rounded-top `}
+      className={`sp-tab-button d-flex justify-content-center align-items-center`}
       title={filePath}
       onClick={setActiveFile ? setActiveFile.bind(this, filePath) : null}
     >
-      {getFileName(filePath)}
+      {getTitle()}
       <div className="sp-tab-close-button ml-auto pl-2 d-flex justify-content-center" onClick={handleClose}>
         <CloseButtonSVG />
       </div>

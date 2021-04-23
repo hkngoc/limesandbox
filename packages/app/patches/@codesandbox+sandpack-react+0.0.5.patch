@@ -1,0 +1,64 @@
+diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/components/CodeEditor/CodeMirror.js b/node_modules/@codesandbox/sandpack-react/dist/esm/components/CodeEditor/CodeMirror.js
+index 105702c..3356d3d 100644
+--- a/node_modules/@codesandbox/sandpack-react/dist/esm/components/CodeEditor/CodeMirror.js
++++ b/node_modules/@codesandbox/sandpack-react/dist/esm/components/CodeEditor/CodeMirror.js
+@@ -11,7 +11,7 @@ import * as React from "react";
+ import { useSandpackTheme } from "../../hooks/useSandpackTheme";
+ import { getFileName } from "../../utils/stringUtils";
+ import { getCodeMirrorLanguage, getEditorTheme, getSyntaxHighlight, } from "./utils";
+-export const CodeMirror = ({ code, filePath, fileType, onCodeUpdate, showLineNumbers = false, wrapContent = false, editorState = "pristine", }) => {
++export const CodeMirror = ({ code, filePath, fileType, onCodeUpdate, onCodeSave, showLineNumbers = false, wrapContent = false, editorState = "pristine", }) => {
+     const wrapper = React.useRef(null);
+     const cmView = React.useRef();
+     const { theme, themeId } = useSandpackTheme();
+@@ -34,14 +34,22 @@ export const CodeMirror = ({ code, filePath, fileType, onCodeUpdate, showLineNum
+                 run: indentLess,
+             },
+             {
+-                key: "Escape",
+-                run: () => {
+-                    if (wrapper.current) {
+-                        wrapper.current.focus();
++                key: "Ctrl-S",
++                run: (instance) => {
++                    if (instance && onCodeSave) {
++                        onCodeSave(instance.state.doc.sliceString(0, instance.state.doc.length));
+                     }
+-                    return true;
+-                },
++                }
+             },
++            // {
++            //     key: "Escape",
++            //     run: () => {
++            //         if (wrapper.current) {
++            //             wrapper.current.focus();
++            //         }
++            //         return true;
++            //     },
++            // },
+             {
+                 key: "mod-Backspace",
+                 run: deleteGroupBackward,
+diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
+index 9e80089..67ec9c1 100644
+--- a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
++++ b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
+@@ -118,6 +118,9 @@ class SandpackProvider extends React.PureComponent {
+                 };
+             });
+         };
++        this.updateOpenPaths = (paths) => {
++            this.setState({ openPaths: paths });
++        };
+         this.dispatchMessage = (message) => {
+             if (this.client === null) {
+                 console.warn("dispatch cannot be called while in idle mode");
+@@ -161,6 +164,7 @@ class SandpackProvider extends React.PureComponent {
+                 editorState,
+                 setActiveFile: this.setActiveFile,
+                 openFile: this.openFile,
++                updateOpenPaths: this.updateOpenPaths,
+                 updateCurrentFile: this.updateCurrentFile,
+                 updateFile: this.updateFile,
+                 runSandpack: this.runSandpack,

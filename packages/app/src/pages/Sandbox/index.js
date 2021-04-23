@@ -44,11 +44,7 @@ const Composed = compose(
       storeAs: "sandbox"
     }, {
       collection: "sandbox_sources",
-      doc: id,
-      subcollection: [{
-        collection: "customSetup",
-        doc: "files"
-      }]
+      doc: id
     }];
   })
 )(Main);
