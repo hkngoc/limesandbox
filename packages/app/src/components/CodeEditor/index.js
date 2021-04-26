@@ -5,6 +5,10 @@ import {
   SandpackStack,
 } from '@codesandbox/sandpack-react';
 
+import {
+  useSandpackLayout,
+} from 'contexts/sandpackLayoutContext';
+
 import { FileTabs as FileTabsCustom } from 'components/FileTabs';
 
 import Editor from './CodeMirrorEditor';
@@ -12,11 +16,15 @@ import Editor from './CodeMirrorEditor';
 const CodeEditor = ({ customStyle, showTabs = true, showLineNumbers = false, showRunButton = true, wrapContent = false, onSave }) => {
   const { sandpack } = useSandpack();
   const {
-    activePath,
     files,
     editorState,
     updateCurrentFile
   } = sandpack;
+
+  const { sandpackLayout } = useSandpackLayout();
+  const {
+    activePath,
+  } = sandpackLayout;
 
   const shouldShowTabs = showTabs !== null && showTabs !== void 0 ? showTabs : sandpack.openPaths.length > 1;
   const c = useClasser("sp");

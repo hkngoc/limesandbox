@@ -102,7 +102,6 @@ nav.navbar.header.sp-header {
 .sp-tab-button {
   min-width: 130px;
   position: relative;
-  margin-right: -1px;
   padding: 0 var(--sp-space-3);
 }
 .sp-tab-button[data-active=false]:hover {
@@ -118,11 +117,14 @@ nav.navbar.header.sp-header {
 .sp-tab-divider {
   position: absolute;
   height: 60%;
-  right: 0px;
+  left: 0px;
   width: 1px;
   background: var(--sp-colors-bg-active);
 }
-.sp-tab-button[data-active=true] .sp-tab-divider , .sp-tab-draggable:last-child .sp-tab-divider {
+.sp-tab-button[data-active=true] .sp-tab-divider
+, .sp-tab-draggable:first-child .sp-tab-divider
+, .sp-tab-draggable[data-active=true]:not(.dragging) + .sp-tab-draggable .sp-tab-divider
+{
   display: none;
 }
 

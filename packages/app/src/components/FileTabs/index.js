@@ -1,10 +1,14 @@
 import React from 'react';
-import { useClasser } from "@code-hike/classer";
+import { useClasser } from '@code-hike/classer';
 import {
   useSandpack,
-} from "@codesandbox/sandpack-react";
+} from '@codesandbox/sandpack-react';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+import {
+  useSandpackLayout,
+} from 'contexts/sandpackLayoutContext';
 
 import FileTab from './FileTab';
 
@@ -18,16 +22,19 @@ const reorder = (list, startIndex, endIndex) => {
 
 const FileTabs = () => {
   const { sandpack } = useSandpack();
+
+  const { sandpackLayout } = useSandpackLayout();
   const {
     openPaths,
     activePath,
     setActiveFile,
-    updateOpenPaths // hack api by patch-package
-  } = sandpack;
+    updateOpenPaths
+  } = sandpackLayout;
 
   const c = useClasser("sp");
 
   const onDragStart = ({ draggableId }) => {
+    sandpack.setActiveFile(draggableId);
     setActiveFile(draggableId);
   };
 
@@ -43,17 +50,21 @@ const FileTabs = () => {
       result.destination.index
     );
 
+    sandpack.updateOpenPaths(items);
     updateOpenPaths(items);
   };
 
   const onCloseTab = (index, filePath) => {
     const items = openPaths.filter(path => path !== filePath);
+    sandpack.updateOpenPaths(items);
     updateOpenPaths(items);
 
     if (items.length > 0 && filePath === activePath) {
       const activeIndex = index > 0 ? (index >= items.length ? items.length - 1 : index - 1) : 0;
-      setActiveFile(items[activeIndex])
+      sandpack.setActiveFile(items[activeIndex]);
+      setActiveFile(items[activeIndex]);
     } else if (items.length <= 0) {
+      sandpack.setActiveFile(null);
       setActiveFile(null);
     }
   };
@@ -88,22 +99,29 @@ const FileTabs = () => {
                           draggableId={filePath}
                           index={index}
                         >
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className={`sp-tab-draggable ${snapshot.isDragging ? "dragging" : ""}`}
-                              style={{...provided.draggableProps.style }}
-                            >
-                              <FileTab
-                                key={filePath}
-                                index={index}
-                                filePath={filePath}
-                                onClose={onCloseTab}
-                              />
-                            </div>
-                          )}
+                          {(provided, snapshot) => {
+                            return (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                {...{
+                                  "aria-selected": filePath === activePath,
+                                  "data-active": filePath === activePath,
+                                }}
+                                className={`sp-tab-draggable ${snapshot.isDragging ? "dragging" : ""}`}
+                                style={{...provided.draggableProps.style }}
+                              >
+                                <FileTab
+                                  key={filePath}
+                                  index={index}
+                                  filePath={filePath}
+                                  setActiveFile
+                                  onClose={onCloseTab}
+                                />
+                              </div>
+                            )
+                          }}
                         </Draggable>
                       )
                     )

@@ -7,6 +7,10 @@ import {
 import { SANDBOX_TEMPLATES } from '@codesandbox/sandpack-react/dist/esm/templates';
 import { createPackageJSON } from '@codesandbox/sandpack-client';
 
+import {
+  useSandpackLayout,
+} from 'contexts/sandpackLayoutContext';
+
 import { selectSandboxFull } from 'store/sandboxSlice';
 
 import CloseButtonSVG from './CloseButton';
@@ -18,7 +22,8 @@ const getFileName = (filePath) => {
 
 const FileTab = ({ index, filePath, onClose }) => {
   const { sandpack } = useSandpack();
-  const { activePath, setActiveFile, files } = sandpack;
+  const { activePath, files } = sandpack;
+  const { sandpackLayout } = useSandpackLayout();
 
   const { template, customSetup } = useSelector(selectSandboxFull);
 
@@ -37,6 +42,11 @@ const FileTab = ({ index, filePath, onClose }) => {
     return onClose ? onClose.apply(this, [index, filePath]) : null;
   };
 
+  const onClick = (filePath) => {
+    sandpack.setActiveFile(filePath);
+    sandpackLayout.setActiveFile(filePath);
+  };
+
   return (
     <div
       {...{
@@ -47,13 +57,13 @@ const FileTab = ({ index, filePath, onClose }) => {
       }}
       className={`sp-tab-button d-flex justify-content-center align-items-center`}
       title={filePath}
-      onClick={setActiveFile ? setActiveFile.bind(this, filePath) : null}
+      onClick={onClick.bind(this, filePath)}
     >
+      <div className="sp-tab-divider"/>
       {getTitle()}
       <div className="sp-tab-close-button ml-auto pl-2 d-flex justify-content-center" onClick={handleClose}>
         <CloseButtonSVG />
       </div>
-      <div className="sp-tab-divider"/>
     </div>
   );
 };

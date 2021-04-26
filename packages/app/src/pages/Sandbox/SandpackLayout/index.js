@@ -7,6 +7,10 @@ import {
   SandpackPreview,
 } from '@codesandbox/sandpack-react';
 
+import {
+  SandpackLayoutProvider
+} from 'contexts/sandpackLayoutContext';
+
 import { FileExplorer, CodeEditor } from 'components';
 
 import { selectSandboxLite, selectSandboxFull } from 'store/sandboxSlice';
@@ -24,48 +28,49 @@ const Editor = () => {
     <SandpackProvider
       template={template}
       customSetup={customSetup}
-      openPaths={[]}
       autorun={false}
     >
-      <SandpackLayout theme="monokai-pro">
-        <SplitPane
-          className="sp-pane"
-          gutterAlign="center"
-          gutterSize={0}
-          snapOffset={30}
-          dragInterval={1}
-          direction="horizontal"
-          minSize={50}
-          sizes={[10, 90]}
-        >
-          <FileExplorer />
+      <SandpackLayoutProvider>
+        <SandpackLayout theme="monokai-pro">
           <SplitPane
             className="sp-pane"
             gutterAlign="center"
+            gutterSize={0}
             snapOffset={30}
             dragInterval={1}
-            gutterSize={0}
-            minSize={0}
             direction="horizontal"
-            sizes={[50, 50]}
+            minSize={50}
+            sizes={[10, 90]}
           >
-            <CodeEditor
-              onSave={onCodeSave}
-            />
-            <SandpackProvider
-              template={template}
-              customSetup={customSetup}
-              autorun={true}
+            <FileExplorer />
+            <SplitPane
+              className="sp-pane"
+              gutterAlign="center"
+              snapOffset={30}
+              dragInterval={1}
+              gutterSize={0}
+              minSize={0}
+              direction="horizontal"
+              sizes={[50, 50]}
             >
-              <SandpackPreview
-                showNavigator={true}
-                showOpenInCodeSandbox={false}
-                showRefreshButton={false}
+              <CodeEditor
+                onSave={onCodeSave}
               />
-            </SandpackProvider>
+              <SandpackProvider
+                template={template}
+                customSetup={customSetup}
+                autorun={true}
+              >
+                <SandpackPreview
+                  showNavigator={true}
+                  showOpenInCodeSandbox={false}
+                  showRefreshButton={false}
+                />
+              </SandpackProvider>
+            </SplitPane>
           </SplitPane>
-        </SplitPane>
-      </SandpackLayout>
+        </SandpackLayout>
+      </SandpackLayoutProvider>
     </SandpackProvider>
   );
 };
