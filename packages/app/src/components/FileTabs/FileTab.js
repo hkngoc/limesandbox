@@ -22,8 +22,9 @@ const getFileName = (filePath) => {
 
 const FileTab = ({ index, filePath, onClose }) => {
   const { sandpack } = useSandpack();
-  const { activePath, files } = sandpack;
+  const { files } = sandpack;
   const { sandpackLayout } = useSandpackLayout();
+  const { activePath } = sandpackLayout;
 
   const { template, customSetup } = useSelector(selectSandboxFull);
 
