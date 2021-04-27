@@ -10,15 +10,10 @@ import { createPackageJSON } from '@codesandbox/sandpack-client';
 import {
   useSandpackLayout,
 } from 'contexts/sandpackLayoutContext';
-
 import { selectSandboxFull } from 'store/sandboxSlice';
 
 import CloseButtonSVG from './CloseButton';
-
-const getFileName = (filePath) => {
-  const lastIndexOfSlash = filePath.lastIndexOf("/");
-  return filePath.slice(lastIndexOfSlash + 1);
-};
+import { getFileName } from './utils';
 
 const FileTab = ({ index, filePath, onClose }) => {
   const { sandpack } = useSandpack();

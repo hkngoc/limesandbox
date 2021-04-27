@@ -5,12 +5,14 @@ import {
 } from '@codesandbox/sandpack-react';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import composeRefs from '@seznam/compose-react-refs';
 
 import {
   useSandpackLayout,
 } from 'contexts/sandpackLayoutContext';
 
 import FileTab from './FileTab';
+import TabChooser from './TabChooser';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -18,6 +20,56 @@ const reorder = (list, startIndex, endIndex) => {
   result.splice(endIndex, 0, removed);
 
   return result;
+};
+
+const DraggbleList = ({ openPaths, onCloseTab, activePath }) => {
+  return (
+    <>
+      {
+        openPaths.map((filePath, index) => (
+            <Draggable
+              key={filePath}
+              draggableId={filePath}
+              index={index}
+            >
+              {(provided, snapshot) => {
+                return (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    {...{
+                      "aria-selected": filePath === activePath,
+                      "data-active": filePath === activePath,
+                    }}
+                    className={`sp-tab-draggable ${snapshot.isDragging ? "dragging" : ""}`}
+                    style={{...provided.draggableProps.style }}
+                  >
+                    <FileTab
+                      key={filePath}
+                      index={index}
+                      filePath={filePath}
+                      setActiveFile
+                      onClose={onCloseTab}
+                    />
+                  </div>
+                )
+              }}
+            </Draggable>
+          )
+        )
+      }
+    </>
+  )
+};
+
+const ScrollHelper = () => {
+  return (
+    <div className="btn-group tab-scroller">
+      <button className="bg-transparent transparent border-0 caret caret-left"></button>
+      <button className="bg-transparent transparent border-0 caret caret-right"></button>
+    </div>
+  );
 };
 
 const FileTabs = () => {
@@ -31,6 +83,7 @@ const FileTabs = () => {
     updateOpenPaths
   } = sandpackLayout;
 
+  const scrollRef = React.useRef(null);
   const c = useClasser("sp");
 
   const onDragStart = ({ draggableId }) => {
@@ -38,7 +91,6 @@ const FileTabs = () => {
     setActiveFile(draggableId);
   };
 
-  // TODO: current implement include bug when save code to firestore, need patch to sandpack context about calculating openPaths
   const onDragEnd = (result) => {
     if (!result.destination) {
       return;
@@ -71,67 +123,40 @@ const FileTabs = () => {
 
   return (
     <div className={c("tabs")}>
-        <div
-          className={c("tabs-scrollable-container w-100")}
-          {...{
-            "aria-label": "Select active file",
-            role: "tablist"
-          }}
+      <ScrollHelper />
+      <div
+        className={c("tabs-scrollable-container flex-grow-1")}
+        {...{
+          "aria-label": "Select active file",
+          role: "tablist"
+        }}
+      >
+        <DragDropContext
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
         >
-          <DragDropContext
-            onDragStart={onDragStart}
-            onDragEnd={onDragEnd}
+          <Droppable
+            droppableId="droppable"
+            direction="horizontal"
           >
-            <Droppable
-              droppableId="droppable"
-              direction="horizontal"
-            >
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  className="sp-tabs-droppable d-flex flex-grow-1"
-                  {...provided.droppableProps}
-                >
-                  {
-                    openPaths.map((filePath, index) => (
-                        <Draggable
-                          key={filePath}
-                          draggableId={filePath}
-                          index={index}
-                        >
-                          {(provided, snapshot) => {
-                            return (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                {...{
-                                  "aria-selected": filePath === activePath,
-                                  "data-active": filePath === activePath,
-                                }}
-                                className={`sp-tab-draggable ${snapshot.isDragging ? "dragging" : ""}`}
-                                style={{...provided.draggableProps.style }}
-                              >
-                                <FileTab
-                                  key={filePath}
-                                  index={index}
-                                  filePath={filePath}
-                                  setActiveFile
-                                  onClose={onCloseTab}
-                                />
-                              </div>
-                            )
-                          }}
-                        </Draggable>
-                      )
-                    )
-                  }
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </div>
+            {(provided) => (
+              <div
+                ref={composeRefs(provided.innerRef, scrollRef)}
+                className="sp-tabs-droppable d-flex flex-grow-1"
+                {...provided.droppableProps}
+              >
+                <DraggbleList
+                  openPaths={openPaths}
+                  activePath={activePath}
+                  onCloseTab={onCloseTab}
+                />
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
+      <TabChooser />
     </div>
   );
 };

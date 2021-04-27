@@ -1,6 +1,10 @@
 import { useClasser } from '@code-hike/classer';
 
 import {
+  Tab,
+} from 'react-bootstrap';
+
+import {
   useSandpack,
   SandpackStack,
 } from '@codesandbox/sandpack-react';
@@ -9,49 +13,60 @@ import {
   useSandpackLayout,
 } from 'contexts/sandpackLayoutContext';
 
-import { FileTabs as FileTabsCustom } from 'components/FileTabs';
-
+import { FileTabs } from 'components/FileTabs';
 import Editor from './CodeMirrorEditor';
 
-const CodeEditor = ({ customStyle, showTabs = true, showLineNumbers = false, showRunButton = true, wrapContent = false, onSave }) => {
+const CodeEditor = ({ customStyle, onSave }) => {
   const { sandpack } = useSandpack();
   const {
     files,
-    editorState,
-    updateCurrentFile
+    updateFile,
   } = sandpack;
 
   const { sandpackLayout } = useSandpackLayout();
   const {
     activePath,
+    openPaths,
   } = sandpackLayout;
 
-  const shouldShowTabs = showTabs !== null && showTabs !== void 0 ? showTabs : sandpack.openPaths.length > 1;
   const c = useClasser("sp");
+
+  const onSelect = (filePath) => {
+    sandpack.setActiveFile(filePath);
+    sandpackLayout.setActiveFile(filePath);
+  };
 
   return (
     <SandpackStack {...{ customStyle }}>
-      {
-        shouldShowTabs ? (
-          <FileTabsCustom />
-        ) : null
-      }
-      <div className={c("code-editor")}>
-        {
-          activePath ? (
-            <Editor
-              {...{
-                key: activePath,
-                code: files[activePath].code,
-                editorState: editorState,
-                filePath: activePath,
-                onCodeUpdate: updateCurrentFile,
-                onCodeSave: onSave ? onSave.bind(this, activePath) : null
-              }}
-            />
-          ) : null
-        }
-      </div>
+      <FileTabs />
+      <Tab.Container
+        activeKey={activePath}
+        onSelect={onSelect}
+      >
+        <Tab.Content className={c("code-editor")}>
+          {
+            openPaths.map((filePath) => {
+              return (
+                <Tab.Pane
+                  className={c("code-editor-content")}
+                  key={filePath}
+                  eventKey={filePath}
+                >
+                  <Editor
+                    {...{
+                      key: filePath,
+                      code: files[filePath].code,
+                      filePath: filePath,
+                      onCodeUpdate: updateFile.bind(this, filePath),
+                      onCodeSave: onSave ? onSave.bind(this, filePath) : null
+                    }}
+                  />
+                </Tab.Pane>
+              );
+            })
+          }
+        </Tab.Content>
+      </Tab.Container>
     </SandpackStack>
   );
 };
