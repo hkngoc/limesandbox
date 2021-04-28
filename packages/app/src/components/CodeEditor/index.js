@@ -32,7 +32,6 @@ const CodeEditor = ({ customStyle, onSave }) => {
   const c = useClasser("sp");
 
   const onSelect = (filePath) => {
-    sandpack.setActiveFile(filePath);
     sandpackLayout.setActiveFile(filePath);
   };
 

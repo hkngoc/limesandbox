@@ -1,9 +1,5 @@
 import React from 'react';
 import { useClasser } from '@code-hike/classer';
-import {
-  useSandpack,
-} from '@codesandbox/sandpack-react';
-
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import composeRefs from '@seznam/compose-react-refs';
 
@@ -22,7 +18,14 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const DraggbleList = ({ openPaths, onCloseTab, activePath }) => {
+const DraggbleList = ({ onCloseTab }) => {
+  const { sandpackLayout } = useSandpackLayout();
+  const {
+    openPaths,
+    activePath,
+    setActiveFile,
+  } = sandpackLayout;
+
   return (
     <>
       {
@@ -49,7 +52,7 @@ const DraggbleList = ({ openPaths, onCloseTab, activePath }) => {
                       key={filePath}
                       index={index}
                       filePath={filePath}
-                      setActiveFile
+                      setActiveFile={setActiveFile}
                       onClose={onCloseTab}
                     />
                   </div>
@@ -73,8 +76,6 @@ const ScrollHelper = () => {
 };
 
 const FileTabs = () => {
-  const { sandpack } = useSandpack();
-
   const { sandpackLayout } = useSandpackLayout();
   const {
     openPaths,
@@ -87,7 +88,6 @@ const FileTabs = () => {
   const c = useClasser("sp");
 
   const onDragStart = ({ draggableId }) => {
-    sandpack.setActiveFile(draggableId);
     setActiveFile(draggableId);
   };
 
@@ -102,21 +102,17 @@ const FileTabs = () => {
       result.destination.index
     );
 
-    sandpack.updateOpenPaths(items);
     updateOpenPaths(items);
   };
 
   const onCloseTab = (index, filePath) => {
     const items = openPaths.filter(path => path !== filePath);
-    sandpack.updateOpenPaths(items);
     updateOpenPaths(items);
 
     if (items.length > 0 && filePath === activePath) {
       const activeIndex = index > 0 ? (index >= items.length ? items.length - 1 : index - 1) : 0;
-      sandpack.setActiveFile(items[activeIndex]);
       setActiveFile(items[activeIndex]);
     } else if (items.length <= 0) {
-      sandpack.setActiveFile(null);
       setActiveFile(null);
     }
   };
@@ -146,8 +142,6 @@ const FileTabs = () => {
                 {...provided.droppableProps}
               >
                 <DraggbleList
-                  openPaths={openPaths}
-                  activePath={activePath}
                   onCloseTab={onCloseTab}
                 />
                 {provided.placeholder}
