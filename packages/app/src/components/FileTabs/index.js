@@ -119,7 +119,7 @@ const FileTabs = () => {
 
   return (
     <div className={c("tabs")}>
-      <ScrollHelper />
+      {/* <ScrollHelper /> */}
       <div
         className={c("tabs-scrollable-container flex-grow-1")}
         {...{

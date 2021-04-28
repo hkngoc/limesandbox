@@ -5,6 +5,7 @@ import {
   SandpackStack,
 } from '@codesandbox/sandpack-react';
 
+// import { ModuleList } from "@codesandbox/sandpack-react/dist/esm/components/FileExplorer/ModuleList";
 import ModuleList from './ModuleList';
 
 import {
@@ -18,6 +19,8 @@ const FileExplorer = ({ customStyle }) => {
   const c = useClasser("sp");
 
   const selectFile = (path, double) => {
+    console.log(path, double);
+
     sandpackLayout.openFile(path);
   };
 
