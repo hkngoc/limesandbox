@@ -33,6 +33,7 @@ const FileTab = ({ index, filePath, onClose, setActiveFile }) => {
   };
 
   const handleClose = (e) => {
+    e.preventDefault();
     e.stopPropagation();
 
     return onClose ? onClose.apply(this, [index, filePath]) : null;

@@ -14,7 +14,9 @@ import {
 } from 'contexts/sandpackLayoutContext';
 
 import { FileTabs } from 'components/FileTabs';
-import Editor from './CodeMirrorEditor';
+
+// import Editor from './CodeMirrorEditor';
+import Editor from './MonacoEditor';
 
 const CodeEditor = ({ customStyle, onSave }) => {
   const { sandpack } = useSandpack();

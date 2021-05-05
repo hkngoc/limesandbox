@@ -8,6 +8,7 @@ main.editor-content {
 }
 
 .react-contexify {
+  display: none;
   min-width: 100px;
   box-shadow: none;
   border: 1px solid var(--sp-colors-fg-inactive);
@@ -44,16 +45,17 @@ nav.navbar.header.sp-header {
   flex-grow: 1;
   flex-wrap: nowrap;
   overflow: hidden;
-  max-height: calc(100vh - 48px);
+  /* max-height: calc(100vh - 48px); */
 }
 
 .sp-stack-file-explorer {
-  height: 100%;
-  overflow: auto;
+  width: fit-content;
+  min-width: 100%;
 }
 
 .sp-stack-file-explorer .sp-button {
-  width: 100%;
+  width: auto;
+  min-width: 100%;
 }
 
 .sp-button:hover:not(:disabled) {
@@ -94,11 +96,22 @@ nav.navbar.header.sp-header {
 }
 
 .gutter.gutter-horizontal {
-  cursor: ew-resize;
+  cursor: col-resize;
   padding: 0px 6px 0px 5px;
   margin: 0px -6px 0px -5px;
 }
+.gutter.gutter-vertical {
+  cursor: row-resize;
+  padding: 5px 0px 5px 0px;
+  margin: -5px 0px -5px 0px ;
+}
 
+.sp-pane.sp-pane-vertical {
+  flex-direction: column;
+}
+.sp-stack.sp-stack-vertical {
+  margin-top: unset !important;
+}
 .sp-pane:not(:first-child) > .sp-stack, .sp-pane:first-child > .sp-stack:not(:first-child) {
   border-left: 1px solid var(--sp-colors-fg-inactive);
   border-top: 1px solid var(--sp-colors-fg-inactive);
@@ -219,4 +232,36 @@ nav.navbar.header.sp-header {
   border-right: 0;
   border-bottom: 0.3em solid transparent;
   border-left: 0.5em solid;
+}
+
+.sp-stack-file-explorer .sp-button {
+  font-size: 15px;
+}
+.sp-stack-file-explorer svg {
+  width: 15px;
+  height: 15px;
+}
+.sp-button svg {
+  fill: var(--sp-colors-fg-default);
+  overflow: visible;
+}
+
+.sp-button .sp-actions {
+  margin-left: auto;
+  opacity: 0;
+}
+
+.sp-button:hover .sp-actions {
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.2s;
+}
+.sp-button .sp-actions svg {
+  cursor: pointer;
+}
+.sp-button .sp-actions svg:hover {
+  fill: var(--sp-colors-fg-active);
+}
+.sp-button .sp-actions svg:not(:first-child) {
+  margin-left: 0.25rem;
 }

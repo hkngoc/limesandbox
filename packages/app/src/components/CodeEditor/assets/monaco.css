@@ -1,0 +1,12 @@
+.monaco-editor-wrapper {
+  flex-grow: 1;
+  overflow: hidden;
+  /* padding-top: var(--sp-space-4); */
+}
+/* .monaco-editor, .monaco-editor-background, .monaco-editor .inputarea.ime-input {
+  background-color: var(--sp-colors-bg-default);
+}
+.monaco-editor .margin {
+  background-color: var(--sp-colors-bg-default);
+} */
+

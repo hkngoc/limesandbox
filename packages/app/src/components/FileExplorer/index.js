@@ -19,9 +19,12 @@ const FileExplorer = ({ customStyle }) => {
   const c = useClasser("sp");
 
   const selectFile = (path, double) => {
-    console.log(path, double);
-
     sandpackLayout.openFile(path);
+  };
+
+  const onContextMenu = (path, e) => {
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   return (
@@ -35,7 +38,8 @@ const FileExplorer = ({ customStyle }) => {
             activePath: sandpackLayout.activePath,
             files: sandpack.files,
             prefixedPath: "/",
-            selectFile: selectFile
+            selectFile: selectFile,
+            onContextMenu,
           }}
         />
       </div>

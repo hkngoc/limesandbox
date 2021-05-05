@@ -66,14 +66,14 @@ const DraggbleList = ({ onCloseTab }) => {
   )
 };
 
-const ScrollHelper = () => {
+/* const ScrollHelper = () => {
   return (
     <div className="btn-group tab-scroller">
       <button className="bg-transparent transparent border-0 caret caret-left"></button>
       <button className="bg-transparent transparent border-0 caret caret-right"></button>
     </div>
   );
-};
+}; */
 
 const FileTabs = () => {
   const { sandpackLayout } = useSandpackLayout();

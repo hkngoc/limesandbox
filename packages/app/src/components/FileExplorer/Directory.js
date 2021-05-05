@@ -1,9 +1,9 @@
 import React from 'react';
 
 import ModuleList from './ModuleList';
-import File from './File';
+import File from './Files';
 
-const Directory = ({ prefixedPath, files, selectFile, activePath, depth }) => {
+const Directory = ({ prefixedPath, files, selectFile, onContextMenu, activePath, depth }) => {
   const [open, setOpen] = React.useState(true);
 
   const toggleOpen = () => {
@@ -11,13 +11,16 @@ const Directory = ({ prefixedPath, files, selectFile, activePath, depth }) => {
   };
 
   return (
-    <div
+    <React.Fragment
       key={prefixedPath}
     >
       <File
         depth={depth}
         onClick={toggleOpen}
         path={prefixedPath + "/"}
+        directory={true}
+        open={open}
+        onContextMenu={onContextMenu}
       />
       {
         open ? (
@@ -27,10 +30,11 @@ const Directory = ({ prefixedPath, files, selectFile, activePath, depth }) => {
             files={files}
             prefixedPath={prefixedPath}
             selectFile={selectFile}
+            onContextMenu={onContextMenu}
           />
         ) : null
       }
-    </div>
+    </React.Fragment>
   );
 };
 

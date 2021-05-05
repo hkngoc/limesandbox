@@ -11,7 +11,7 @@ import {
   SandpackLayoutProvider
 } from 'contexts/sandpackLayoutContext';
 
-import { FileExplorer, CodeEditor } from 'components';
+import { FileExplorer, CodeEditor, MonacoWrapper } from 'components';
 
 import { selectSandboxLite, selectSandboxFull } from 'store/sandboxSlice';
 import { saveSandboxCodeAsync } from 'store/sandboxSlice';
@@ -33,41 +33,55 @@ const Editor = () => {
       <SandpackLayoutProvider>
         <SandpackLayout theme="monokai-pro">
           <SplitPane
-            className="sp-pane"
+            className="sp-pane sp-pane-horizontal"
             gutterAlign="center"
             gutterSize={0}
             snapOffset={30}
             dragInterval={1}
             direction="horizontal"
             minSize={50}
-            sizes={[10, 90]}
+            sizes={[60, 40]}
           >
-            <FileExplorer />
             <SplitPane
-              className="sp-pane"
+              className="sp-pane sp-pane-vertical"
               gutterAlign="center"
+              gutterSize={0}
               snapOffset={30}
               dragInterval={1}
-              gutterSize={0}
-              minSize={0}
-              direction="horizontal"
-              sizes={[50, 50]}
+              direction="vertical"
+              minSize={48}
+              sizes={[100, 0]}
             >
-              <CodeEditor
-                onSave={onCodeSave}
-              />
-              <SandpackProvider
-                template={template}
-                customSetup={customSetup}
-                autorun={true}
-              >
-                <SandpackPreview
-                  showNavigator={true}
-                  showOpenInCodeSandbox={false}
-                  showRefreshButton={false}
-                />
-              </SandpackProvider>
+              <MonacoWrapper>
+                <SplitPane
+                  className="sp-pane sp-pane-horizontal"
+                  gutterAlign="center"
+                  gutterSize={0}
+                  snapOffset={30}
+                  dragInterval={1}
+                  direction="horizontal"
+                  minSize={50}
+                  sizes={[40, 60]}
+                >
+                  <FileExplorer />
+                  <CodeEditor
+                    onSave={onCodeSave}
+                  />
+                </SplitPane>
+              </MonacoWrapper>
+              <div className="sp-stack sp-stack-vertical"/>
             </SplitPane>
+            <SandpackProvider
+              template={template}
+              customSetup={customSetup}
+              autorun={true}
+            >
+              <SandpackPreview
+                showNavigator={true}
+                showOpenInCodeSandbox={false}
+                showRefreshButton={false}
+              />
+            </SandpackProvider>
           </SplitPane>
         </SandpackLayout>
       </SandpackLayoutProvider>

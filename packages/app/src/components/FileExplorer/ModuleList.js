@@ -1,11 +1,11 @@
 import React from 'react';
 
 import Directory from './Directory';
-import File from './File';
+import File from './Files';
 
 class ModuleList extends React.PureComponent {
   render() {
-    const { depth = 0, activePath, selectFile, prefixedPath, files, } = this.props;
+    const { depth = 0, activePath, selectFile, onContextMenu, prefixedPath, files, } = this.props;
 
     const fileListWithoutPrefix = Object.keys(files)
       .filter((file) => file.startsWith(prefixedPath))
@@ -20,7 +20,7 @@ class ModuleList extends React.PureComponent {
       .map((file) => ({ path: `${prefixedPath}${file}` }));
 
     return (
-      <div>
+      <React.Fragment>
         {
           Array.from(directoriesToShow).map((dir) => {
             return (
@@ -31,6 +31,7 @@ class ModuleList extends React.PureComponent {
                 files={files}
                 prefixedPath={dir}
                 selectFile={selectFile}
+                onContextMenu={onContextMenu}
               />
             );
           })
@@ -44,11 +45,12 @@ class ModuleList extends React.PureComponent {
                 depth={depth + 1}
                 path={file.path}
                 selectFile={selectFile}
+                onContextMenu={onContextMenu}
               />
             );
           })
         }
-      </div>
+      </React.Fragment>
     );
   }
 };
