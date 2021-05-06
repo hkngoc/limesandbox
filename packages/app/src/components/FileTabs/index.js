@@ -1,14 +1,15 @@
 import React from 'react';
 import { useClasser } from '@code-hike/classer';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import composeRefs from '@seznam/compose-react-refs';
 
-import {
-  useSandpackLayout,
-} from 'contexts/sandpackLayoutContext';
+import { useSandpackLayout, } from 'contexts/sandpackLayoutContext';
+import { useMonacoServices, } from 'contexts/monacoServiceContext';
 
-import FileTab from './FileTab';
+import { Action, Separator } from 'monaco-editor/esm/vs/base/common/actions';
+
 import TabChooser from './TabChooser';
+import DraggbleList from './DraggbleList';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -18,63 +19,6 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const DraggbleList = ({ onCloseTab }) => {
-  const { sandpackLayout } = useSandpackLayout();
-  const {
-    openPaths,
-    activePath,
-    setActiveFile,
-  } = sandpackLayout;
-
-  return (
-    <>
-      {
-        openPaths.map((filePath, index) => (
-            <Draggable
-              key={filePath}
-              draggableId={filePath}
-              index={index}
-            >
-              {(provided, snapshot) => {
-                return (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    {...{
-                      "aria-selected": filePath === activePath,
-                      "data-active": filePath === activePath,
-                    }}
-                    className={`sp-tab-draggable ${snapshot.isDragging ? "dragging" : ""}`}
-                    style={{...provided.draggableProps.style }}
-                  >
-                    <FileTab
-                      key={filePath}
-                      index={index}
-                      filePath={filePath}
-                      setActiveFile={setActiveFile}
-                      onClose={onCloseTab}
-                    />
-                  </div>
-                )
-              }}
-            </Draggable>
-          )
-        )
-      }
-    </>
-  )
-};
-
-/* const ScrollHelper = () => {
-  return (
-    <div className="btn-group tab-scroller">
-      <button className="bg-transparent transparent border-0 caret caret-left"></button>
-      <button className="bg-transparent transparent border-0 caret caret-right"></button>
-    </div>
-  );
-}; */
-
 const FileTabs = () => {
   const { sandpackLayout } = useSandpackLayout();
   const {
@@ -83,6 +27,8 @@ const FileTabs = () => {
     setActiveFile,
     updateOpenPaths
   } = sandpackLayout;
+
+  const { services: { contextMenuService } } = useMonacoServices();
 
   const scrollRef = React.useRef(null);
   const c = useClasser("sp");
@@ -117,9 +63,38 @@ const FileTabs = () => {
     }
   };
 
+  const onContextMenu = (path, event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const anchorOffset = { x: 0, y: 30 };
+    const anchor = { x: event.clientX + anchorOffset.x, y: event.clientY + anchorOffset.y };
+
+    const actions = [];
+
+    // Action(id, label, cssClass, enabled, actionCallback)
+    // Directory options
+    actions.push(new Action("1", "Close", "", true, () => {
+      console.log("action Close on " + path);
+    }));
+    actions.push(new Action("2", "Close Others", "", true, () => {
+      console.log("action Close Others on " + path);
+    }));
+    actions.push(new Action("2", "Close All", "", true, () => {
+      console.log("action Close All on " + path);
+    }));
+
+    if (contextMenuService) {
+      contextMenuService.showContextMenu({
+        getAnchor: () => anchor,
+        getActions: () => actions,
+        getActionItem: (action) => null,
+      });
+    }
+  };
+
   return (
     <div className={c("tabs")}>
-      {/* <ScrollHelper /> */}
       <div
         className={c("tabs-scrollable-container flex-grow-1")}
         {...{
@@ -143,6 +118,7 @@ const FileTabs = () => {
               >
                 <DraggbleList
                   onCloseTab={onCloseTab}
+                  onContextMenu={onContextMenu}
                 />
                 {provided.placeholder}
               </div>

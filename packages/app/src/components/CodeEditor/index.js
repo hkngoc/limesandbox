@@ -9,16 +9,14 @@ import {
   SandpackStack,
 } from '@codesandbox/sandpack-react';
 
-import {
-  useSandpackLayout,
-} from 'contexts/sandpackLayoutContext';
+import { useSandpackLayout, } from 'contexts/sandpackLayoutContext';
 
 import { FileTabs } from 'components/FileTabs';
 
 // import Editor from './CodeMirrorEditor';
 import Editor from './MonacoEditor';
 
-const CodeEditor = ({ customStyle, onSave }) => {
+const CodeEditor = ({ customStyle, onSave, onFileTabContextMenu }) => {
   const { sandpack } = useSandpack();
   const {
     files,
@@ -26,6 +24,7 @@ const CodeEditor = ({ customStyle, onSave }) => {
   } = sandpack;
 
   const { sandpackLayout } = useSandpackLayout();
+
   const {
     activePath,
     openPaths,
@@ -33,8 +32,8 @@ const CodeEditor = ({ customStyle, onSave }) => {
 
   const c = useClasser("sp");
 
-  const onSelect = (filePath) => {
-    sandpackLayout.setActiveFile(filePath);
+  const onSelect = (path) => {
+    sandpackLayout.setActiveFile(path);
   };
 
   return (
@@ -59,7 +58,7 @@ const CodeEditor = ({ customStyle, onSave }) => {
                       code: files[filePath].code,
                       filePath: filePath,
                       onCodeUpdate: updateFile.bind(this, filePath),
-                      onCodeSave: onSave ? onSave.bind(this, filePath) : null
+                      onCodeSave: onSave ? onSave.bind(this, filePath) : null,
                     }}
                   />
                 </Tab.Pane>

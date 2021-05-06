@@ -15,7 +15,7 @@ import { selectSandboxFull } from 'store/sandboxSlice';
 import CloseButtonSVG from './CloseButton';
 import { getFileName } from './utils';
 
-const FileTab = ({ index, filePath, onClose, setActiveFile }) => {
+const FileTab = ({ index, filePath, onClose, onContextMenu, setActiveFile }) => {
   const { sandpack } = useSandpack();
   const { files } = sandpack;
   const { sandpackLayout } = useSandpackLayout();
@@ -50,6 +50,7 @@ const FileTab = ({ index, filePath, onClose, setActiveFile }) => {
       className={`sp-tab-button d-flex justify-content-center align-items-center`}
       title={filePath}
       onClick={setActiveFile ? setActiveFile.bind(this, filePath) : null}
+      onContextMenu={onContextMenu ? onContextMenu.bind(this, filePath) : null}
     >
       <div className="sp-tab-divider"/>
       {getTitle()}

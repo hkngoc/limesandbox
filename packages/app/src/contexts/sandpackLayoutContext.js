@@ -91,9 +91,9 @@ const useSandpackLayout = () => {
 
   const { dispatch, listen, ...rest } = sandpackLayout;
   return {
-      sandpackLayout: { ...rest },
-      dispatch,
-      listen,
+    sandpackLayout: { ...rest },
+    dispatch,
+    listen,
   };
 };
 
