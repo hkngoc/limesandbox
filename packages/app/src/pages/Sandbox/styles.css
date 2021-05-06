@@ -7,18 +7,6 @@ main.editor-content {
   /* color: rgb(36, 36, 36); */
 }
 
-.react-contexify {
-  display: none;
-  min-width: 100px;
-  box-shadow: none;
-  border: 1px solid var(--sp-colors-fg-inactive);
-  /* background-color: var(--sp-colors-bg-input); */
-}
-.react-contexify__item:not(.react-contexify__item--disabled):hover
-> .react-contexify__item__content, .react-contexify__item:not(.react-contexify__item--disabled):focus
-> .react-contexify__item__content {
-  background-color: var(--sp-colors-bg-active);
-}
 .app {
   background-color: #444344;
   overflow: hidden;
@@ -133,14 +121,14 @@ nav.navbar.header.sp-header {
 .sp-tabs {
   display: flex;
 }
-.sp-tabs-scrollable-container {
-  overflow-y: hidden;
-  overflow-x: hidden;
+.sp-tabs-scrollable-container::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
 }
 .sp-tabs-scrollable-container:hover {
   overflow-x: overlay;
 }
-.sp-tabs-scrollable-container::-webkit-scrollbar {
+.sp-tabs-scrollable-container:hover::-webkit-scrollbar {
   width: 0px;
   height: 3px;
 }
@@ -236,6 +224,7 @@ nav.navbar.header.sp-header {
 
 .sp-stack-file-explorer .sp-button {
   font-size: 15px;
+  border-radius: unset;
 }
 .sp-stack-file-explorer svg {
   width: 15px;
