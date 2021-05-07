@@ -6,11 +6,15 @@ const getSandpackLayoutStateFromProps = (props) => {
   const {
     activePath,
     openPaths,
+    customSetup,
+    activeMenu,
   } = props;
 
   return {
     activePath,
     openPaths,
+    customSetup,
+    activeMenu,
   }
 };
 
@@ -35,34 +39,42 @@ class SandpackLayoutProvider extends React.PureComponent {
     this.updateOpenPaths = (paths) => {
       this.setState({ openPaths: paths });
     };
+    this.setActiveMenu = (menu) => {
+      this.setState({ activeMenu: menu });
+    };
     this._getSandpackLayoutState = () => {
       const {
         activePath,
         openPaths,
+        customSetup,
+        activeMenu,
       } = this.state;
 
       return {
         activePath,
         openPaths,
+        customSetup,
+        activeMenu,
         setActiveFile: this.setActiveFile,
         openFile: this.openFile,
         updateOpenPaths: this.updateOpenPaths,
+        setActiveMenu: this.setActiveMenu,
       };
     };
 
-    const { activePath, openPaths, } = getSandpackLayoutStateFromProps(props);
+    const nextState = getSandpackLayoutStateFromProps(props);
 
-    this.state = {
-      activePath,
-      openPaths,
-    };
+    this.state = nextState;
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.activePath !== this.props.activePath || JSON.stringify(prevProps.openPaths) !== JSON.stringify(this.props.openPaths)) {
-      const { activePath, openPaths, } = getSandpackLayoutStateFromProps(this.props);
+    if (prevProps.activePath !== this.props.activePath
+      || JSON.stringify(prevProps.openPaths) !== JSON.stringify(this.props.openPaths)
+      || JSON.stringify(prevProps.customSetup) !== JSON.stringify(this.props.customSetup)
+    ) {
+      const nextState = getSandpackLayoutStateFromProps(this.props);
 
-      this.setState({ activePath, openPaths });
+      this.setState(nextState);
     }
   }
 

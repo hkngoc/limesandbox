@@ -18,7 +18,7 @@ import {
   MonacoServicesProvider
 } from 'contexts/monacoServiceContext';
 
-import { FileExplorer, CodeEditor, MonacoWrapper } from 'components';
+import { FileExplorer, CodeEditor, FileMenu, MonacoWrapper } from 'components';
 
 import {
   selectSandbox,
@@ -33,8 +33,10 @@ import MonacoSplitPane from './MonacoSplitPane';
 
 const Editor = () => {
   const monacoPaneRef = React.useRef();
+  const fileMenuRef = React.useRef();
 
-  const { id, template, customSetup } = useSelector(selectSandboxFull);
+  const { id, template, customSetup: { files, ...customSetup } } = useSelector(selectSandboxFull);
+
   const {
     layout: {
       showFileMenu,
@@ -50,8 +52,13 @@ const Editor = () => {
     dispatch(saveSandboxCodeAsync(id, path, code));
   };
 
-  const onContextMenu = (menuId, path) => {
-    dispatch(showFileMenuPane());
+  const onContextMenu = (id, path) => {
+    if ([1, 2, 3].includes(id)) {
+      dispatch(showFileMenuPane());
+      if (fileMenuRef.current) {
+        fileMenuRef.current.focus();
+      }
+    }
   };
 
   const onDragEnd = (spliter, sizes) => {
@@ -60,6 +67,10 @@ const Editor = () => {
 
   const onEscape = () => {
     dispatch(hideFileMenuPane());
+    if (fileMenuRef.current) {
+      fileMenuRef.current.blur();
+      fileMenuRef.current.value = "";
+    }
   };
 
   useKeypress("Escape", onEscape);
@@ -67,10 +78,12 @@ const Editor = () => {
   return (
     <SandpackProvider
       template={template}
-      customSetup={customSetup}
+      customSetup={{ files }}
       autorun={false}
     >
-      <SandpackLayoutProvider>
+      <SandpackLayoutProvider
+        customSetup={customSetup}
+      >
         <SandpackLayout theme="monokai-pro">
           <SplitPane
             className="sp-pane sp-pane-horizontal"
@@ -85,7 +98,7 @@ const Editor = () => {
           >
             <MonacoWrapper>
               <MonacoServicesProvider container={monacoPaneRef.current}>
-                <MonacoSplitPane
+                <SplitPane
                   className="sp-pane sp-pane-vertical"
                   gutterAlign="center"
                   gutterSize={0}
@@ -110,18 +123,19 @@ const Editor = () => {
                   >
                     <FileExplorer
                       onContextMenu={onContextMenu}
+                      onEscape={onEscape}
                     />
                     <CodeEditor
                       onSave={onCodeSave}
                     />
                   </SplitPane>
-                  <div className="sp-stack sp-stack-vertical"/>
-                </MonacoSplitPane>
+                  <FileMenu ref={fileMenuRef}/>
+                </SplitPane>
               </MonacoServicesProvider>
             </MonacoWrapper>
             <SandpackProvider
               template={template}
-              customSetup={customSetup}
+              customSetup={{ files }}
               autorun={true}
             >
               <SandpackPreview

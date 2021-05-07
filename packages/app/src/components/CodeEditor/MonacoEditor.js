@@ -61,6 +61,10 @@ const MonacoEditor = ({ filePath, code, onCodeUpdate, onCodeSave, onInvokeComman
         minimap: {
           enabled: false
         },
+        scrollbar: {
+          vertical: "visible",
+          horizontal: "visible"
+        }
       }}
     />
   );

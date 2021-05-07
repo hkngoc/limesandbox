@@ -1,5 +1,5 @@
 import {
-  Dropdown
+  Dropdown,
 } from 'react-bootstrap';
 
 import {
@@ -16,10 +16,12 @@ const TabChooser = () => {
   } = sandpackLayout;
 
   return (
-    <Dropdown onSelect={setActiveFile} className="d-flex dropdown-tabs">
-      <Dropdown.Toggle variant="transparent" size="sm">
-      </Dropdown.Toggle>
-      <Dropdown.Menu>
+    <Dropdown
+      className="d-flex dropdown-tabs"
+      onSelect={setActiveFile}
+    >
+      <Dropdown.Toggle variant="transparent" size="sm"></Dropdown.Toggle>
+      <Dropdown.Menu align={{ sm: "right" }}>
         {
           openPaths.map((filePath) => {
             return (

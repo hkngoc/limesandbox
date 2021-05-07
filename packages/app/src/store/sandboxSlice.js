@@ -39,7 +39,9 @@ export const saveSandboxCodeAsync = (id, path, code) => async (dispatch, getStat
     collection: "sandbox_sources",
     doc: id
   }, {
-    [path]: code
+    files: {
+      [path]: code
+    }
   }, {
     merge: true
   });
@@ -47,12 +49,10 @@ export const saveSandboxCodeAsync = (id, path, code) => async (dispatch, getStat
 
 const selectSandbox = state => state.sandbox;
 
-const selectSandboxFull = ({ firestoreSandbox: { ordered: { sandbox: [sandbox] = [{}], sandbox_sources: [{ id, ...files }] = [{}] } } }) => {
+const selectSandboxFull = ({ firestoreSandbox: { ordered: { sandbox: [sandbox] = [{}], sandbox_sources: [{ id, ...customSetup }] = [{}] } } }) => {
   return {
     ...sandbox,
-    customSetup: {
-      files
-    }
+    customSetup
   }
 };
 

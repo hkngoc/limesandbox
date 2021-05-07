@@ -17,7 +17,7 @@ const Directory = ({ prefixedPath, files, selectFile, onContextMenu, activePath,
       <File
         depth={depth}
         onClick={toggleOpen}
-        path={prefixedPath + "/"}
+        path={prefixedPath}
         directory={true}
         open={open}
         onContextMenu={onContextMenu}

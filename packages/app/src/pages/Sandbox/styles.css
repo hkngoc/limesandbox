@@ -33,7 +33,7 @@ nav.navbar.header.sp-header {
   flex-grow: 1;
   flex-wrap: nowrap;
   overflow: hidden;
-  /* max-height: calc(100vh - 48px); */
+  height: calc(100vh - 48px);
 }
 
 .sp-stack-file-explorer {
@@ -97,7 +97,7 @@ nav.navbar.header.sp-header {
 .sp-pane.sp-pane-vertical {
   flex-direction: column;
 }
-.sp-stack.sp-stack-vertical {
+.sp-pane.sp-pane-vertical > .sp-stack:not(:first-child) {
   margin-top: unset !important;
 }
 .sp-pane:not(:first-child) > .sp-stack, .sp-pane:first-child > .sp-stack:not(:first-child) {
@@ -253,4 +253,31 @@ nav.navbar.header.sp-header {
 }
 .sp-button .sp-actions svg:not(:first-child) {
   margin-left: 0.25rem;
+}
+
+.sp-file-menu {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+}
+.sp-file-menu .input-group {
+  flex-wrap: nowrap;
+  height: 100%;
+}
+.sp-file-menu .input-group .input-group-prepend .input-group-text {
+  background-color: var(--sp-colors-bg-default);
+  color: var(--sp-colors-fg-default);
+  /* border: 1px solid var(--sp-colors-fg-inactive); */
+  border: none;
+}
+.sp-file-menu .form-control {
+  height: 100%;
+  margin-left: unset;
+  resize: none;
+  overflow: hidden;
+  transition: none;
+}
+.sp-file-menu .form-control:focus {
+  box-shadow: unset;
+  background-color: var(--sp-colors-bg-input);
 }

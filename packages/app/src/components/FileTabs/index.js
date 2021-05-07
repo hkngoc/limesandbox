@@ -6,7 +6,7 @@ import composeRefs from '@seznam/compose-react-refs';
 import { useSandpackLayout, } from 'contexts/sandpackLayoutContext';
 import { useMonacoServices, } from 'contexts/monacoServiceContext';
 
-import { Action, Separator } from 'monaco-editor/esm/vs/base/common/actions';
+import { Action } from 'monaco-editor/esm/vs/base/common/actions';
 
 import TabChooser from './TabChooser';
 import DraggbleList from './DraggbleList';
