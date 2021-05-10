@@ -9,6 +9,7 @@ class ModuleList extends React.PureComponent {
 
     const fileListWithoutPrefix = Object.keys(files)
       .filter((file) => file.startsWith(prefixedPath))
+      .filter((file) => file !== prefixedPath)
       .map((file) => file.substring(prefixedPath.length));
 
     const directoriesToShow = new Set(fileListWithoutPrefix
@@ -44,6 +45,7 @@ class ModuleList extends React.PureComponent {
                 active={activePath === file.path}
                 depth={depth + 1}
                 path={file.path}
+                prefixedPath={prefixedPath}
                 selectFile={selectFile}
                 onContextMenu={onContextMenu}
               />

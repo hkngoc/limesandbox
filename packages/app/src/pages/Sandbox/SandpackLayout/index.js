@@ -10,13 +10,8 @@ import {
 
 import useKeypress from 'react-use-keypress';
 
-import {
-  SandpackLayoutProvider
-} from 'contexts/sandpackLayoutContext';
-
-import {
-  MonacoServicesProvider
-} from 'contexts/monacoServiceContext';
+import { SandpackLayoutProvider } from 'contexts/sandpackLayoutContext';
+import { MonacoServicesProvider } from 'contexts/monacoServiceContext';
 
 import { FileExplorer, CodeEditor, FileMenu, MonacoWrapper } from 'components';
 
@@ -27,13 +22,15 @@ import {
   showFileMenuPane,
   resizePane,
   hideFileMenuPane,
+  renameSandboxFile,
+  newSandboxFile,
+  deleteSandboxFile,
+  newSandboxFolder,
 } from 'store/sandboxSlice';
 import { saveSandboxCodeAsync } from 'store/sandboxSlice';
-import MonacoSplitPane from './MonacoSplitPane';
 
 const Editor = () => {
   const monacoPaneRef = React.useRef();
-  const fileMenuRef = React.useRef();
 
   const { id, template, customSetup: { files, ...customSetup } } = useSelector(selectSandboxFull);
 
@@ -52,12 +49,12 @@ const Editor = () => {
     dispatch(saveSandboxCodeAsync(id, path, code));
   };
 
-  const onContextMenu = (id, path) => {
-    if ([1, 2, 3].includes(id)) {
+  const onContextMenu = (mid, path) => {
+    if ([1, 2, 3].includes(mid)) {
       dispatch(showFileMenuPane());
-      if (fileMenuRef.current) {
-        fileMenuRef.current.focus();
-      }
+    } else if (mid === 4) {
+      // Delete
+      dispatch(deleteSandboxFile(id, path));
     }
   };
 
@@ -67,13 +64,25 @@ const Editor = () => {
 
   const onEscape = () => {
     dispatch(hideFileMenuPane());
-    if (fileMenuRef.current) {
-      fileMenuRef.current.blur();
-      fileMenuRef.current.value = "";
-    }
   };
 
   useKeypress("Escape", onEscape);
+
+  const onMenuSubmit = ({ id: mid, path, prefixedPath, directory }, { value }) => {
+    onEscape();
+
+    switch(mid) {
+      case 1:
+        dispatch(newSandboxFile(id, `${prefixedPath}${value}`));
+        return;
+      case 2:
+        dispatch(newSandboxFolder(id, `${prefixedPath}${value}/`))
+        return;
+      case 3:
+        dispatch(renameSandboxFile(id, path, `${prefixedPath}${value}`));
+        return;
+    }
+  };
 
   return (
     <SandpackProvider
@@ -96,19 +105,19 @@ const Editor = () => {
             sizes={editorVsPreviewSizes}
             onDragEnd={onDragEnd.bind(this, "editorVsPreviewSizes")}
           >
-            <MonacoWrapper>
+            <SplitPane
+              className="sp-pane sp-pane-vertical"
+              gutterAlign="center"
+              gutterSize={0}
+              snapOffset={30}
+              dragInterval={1}
+              direction="vertical"
+              minSize={showFileMenu ? 48 : 0}
+              sizes={editorVsFileMenuSizes}
+              onDragEnd={onDragEnd.bind(this, "editorVsFileMenuSizes")}
+            >
               <MonacoServicesProvider container={monacoPaneRef.current}>
-                <SplitPane
-                  className="sp-pane sp-pane-vertical"
-                  gutterAlign="center"
-                  gutterSize={0}
-                  snapOffset={30}
-                  dragInterval={1}
-                  direction="vertical"
-                  minSize={showFileMenu ? 48 : 0}
-                  sizes={editorVsFileMenuSizes}
-                  onDragEnd={onDragEnd.bind(this, "editorVsFileMenuSizes")}
-                >
+                <MonacoWrapper>
                   <SplitPane
                     ref={monacoPaneRef}
                     className="sp-pane sp-pane-horizontal"
@@ -129,10 +138,12 @@ const Editor = () => {
                       onSave={onCodeSave}
                     />
                   </SplitPane>
-                  <FileMenu ref={fileMenuRef}/>
-                </SplitPane>
+                </MonacoWrapper>
               </MonacoServicesProvider>
-            </MonacoWrapper>
+              <FileMenu
+                onSubmit={onMenuSubmit}
+              />
+            </SplitPane>
             <SandpackProvider
               template={template}
               customSetup={{ files }}

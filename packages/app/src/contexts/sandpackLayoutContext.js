@@ -7,7 +7,7 @@ const getSandpackLayoutStateFromProps = (props) => {
     activePath,
     openPaths,
     customSetup,
-    activeMenu,
+    activeMenu = {},
   } = props;
 
   return {

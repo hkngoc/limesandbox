@@ -8,7 +8,6 @@ import {
 import useKeypress from 'react-use-keypress';
 
 import { Action, Separator } from 'monaco-editor/esm/vs/base/common/actions';
-// import { ModuleList } from "@codesandbox/sandpack-react/dist/esm/components/FileExplorer/ModuleList";
 import ModuleList from './ModuleList';
 
 import { useSandpackLayout, } from 'contexts/sandpackLayoutContext';
@@ -25,15 +24,16 @@ const FileExplorer = ({ customStyle, onContextMenu }) => {
     sandpackLayout.openFile(path);
   };
 
-  const handleContextMenuCallback = (id, path) => {
-    sandpackLayout.setActiveMenu({ id, path });
+  const handleContextMenuCallback = (id, path, prefixedPath, directory) => {
+    sandpackLayout.setActiveMenu({});
+    sandpackLayout.setActiveMenu({ id, path, prefixedPath, directory });
 
     if (onContextMenu) {
-      onContextMenu.call(this, id, path);
+      onContextMenu.call(this, id, path, prefixedPath, directory);
     }
   };
 
-  const handleContextMenu = (path, directory, event) => {
+  const handleContextMenu = (path, prefixedPath, directory, event) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -46,14 +46,14 @@ const FileExplorer = ({ customStyle, onContextMenu }) => {
       const actions = [];
   
       // Action(id, label, cssClass, enabled, actionCallback)
-      actions.push(new Action("1", "New File...", "", true, handleContextMenuCallback.bind(this, 1, path)));
-      actions.push(new Action("2", "New Folder...", "", true, handleContextMenuCallback.bind(this, 2, path)));
+      actions.push(new Action("1", "New File...", "", true, handleContextMenuCallback.bind(this, 1, path, prefixedPath, directory)));
+      actions.push(new Action("2", "New Folder...", "", true, handleContextMenuCallback.bind(this, 2, path, prefixedPath, directory)));
       actions.push(new Separator());
-      actions.push(new Action("3", "Rename", "", !locked.includes(path), handleContextMenuCallback.bind(this, 3, path)));
-      actions.push(new Action("4", "Delete", "", !locked.includes(path), handleContextMenuCallback.bind(this, 4, path)));
+      actions.push(new Action("3", "Rename", "", !locked.includes(path), handleContextMenuCallback.bind(this, 3, path, prefixedPath, directory)));
+      actions.push(new Action("4", "Delete", "", !locked.includes(path), handleContextMenuCallback.bind(this, 4, path, prefixedPath, directory)));
       actions.push(new Separator());
-      actions.push(new Action("5", "Upload Files", "", false, handleContextMenuCallback.bind(this, 5, path)));
-      actions.push(new Action("6", "Download", "", false, handleContextMenuCallback.bind(this, 6, path)));
+      actions.push(new Action("5", "Upload Files", "", false, handleContextMenuCallback.bind(this, 5, path, prefixedPath, directory)));
+      actions.push(new Action("6", "Download", "", false, handleContextMenuCallback.bind(this, 6, path, prefixedPath, directory)));
 
       contextMenuService.showContextMenu({
         getAnchor: () => anchor,
@@ -63,7 +63,7 @@ const FileExplorer = ({ customStyle, onContextMenu }) => {
   };
 
   const onEscape = () => {
-    sandpackLayout.setActiveMenu(null);
+    sandpackLayout.setActiveMenu({});
   };
 
   useKeypress("Escape", onEscape);

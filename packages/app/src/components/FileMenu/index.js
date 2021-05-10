@@ -5,7 +5,9 @@ import {
   InputGroup,
 } from 'react-bootstrap';
 
-import { useSandpackLayout, } from 'contexts/sandpackLayoutContext';
+import { useForm } from 'react-hook-form';
+
+import { useSandpackLayout } from 'contexts/sandpackLayoutContext';
 
 const MENU = {
   1: "File Name",
@@ -13,57 +15,72 @@ const MENU = {
   3: "New Name",
 };
 
-const FileMenu = ({ forwardedRef }) => {
-  const { sandpackLayout: { activeMenu } } = useSandpackLayout();
-
-  const [ menu, setMenu ] = React.useState(activeMenu);
-
+const FileMenu = ({ onSubmit }) => {
+  const { register, handleSubmit, setFocus, setValue, reset } = useForm();
+  const { sandpackLayout: { activeMenu: menu = {}, setActiveMenu } } = useSandpackLayout();
+  const formRef = React.useRef();
+  
   React.useEffect(() => {
-    setMenu(activeMenu);
-  }, [activeMenu])
+    if (menu && menu.id in MENU) {
+      setFocus("value");
 
-  if (!menu) {
-    return null;
-  }
+      if (menu.id === 3) {
+        const fileName = menu.path.split("/").filter(Boolean).pop();
+        setValue("value", fileName);
+      }
+    }
 
-  const { id, path } = menu;
+    return () => {
+      if (menu && menu.id in MENU) {
+        reset({ value: "" });
+      }
+    }
+  }, [menu, setFocus, setValue, reset]);
 
-  if (!(id in MENU)) {
-    return null;
+  const onEnterPress = (e) => {
+    if(e.keyCode === 13 && e.shiftKey === false) {
+      if (formRef.current) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        formRef.current.requestSubmit();
+
+        setActiveMenu({});
+      }
+    }
   }
 
   return (
     <div className="sp-stack">
       <div className="sp-file-menu">
-        <Form className="d-flex flex-grow-1 m-2">
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text>{MENU[id]}</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control
-              as="textarea"
-              className="sp-input"
-              ref={forwardedRef}
-              defaultValue={id === 3 ? path : ""}
-            />
-          </InputGroup>
-        </Form>
+        {
+          menu && menu.id in MENU ? (
+            <Form
+              className="d-flex flex-grow-1 m-2"
+              ref={formRef}
+              onSubmit={handleSubmit(onSubmit.bind(this, menu))}
+            >
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text>{MENU[menu.id]}</InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control
+                  as="textarea"
+                  className="sp-input"
+                  onKeyDown={onEnterPress}
+                  {...register("value")}
+                />
+              </InputGroup>
+            </Form>
+          ) : null
+        }
       </div>
     </div>
   );
 };
 
-const FileMenuWrapper = React.forwardRef((props, ref) => {
-  return (
-    <FileMenu
-      {...props}
-      forwardedRef={ref}
-    />
-  );
-});
-
-export default FileMenuWrapper;
+export default FileMenu;
 
 export {
-  FileMenuWrapper as FileMenu
+  FileMenu
 }

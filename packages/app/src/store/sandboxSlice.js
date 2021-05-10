@@ -47,6 +47,87 @@ export const saveSandboxCodeAsync = (id, path, code) => async (dispatch, getStat
   });
 };
 
+export const renameSandboxFile = (id, oldPath, newPath) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firestore = getFirestore();
+
+  const sourceRef = await firestore.get({
+    collection: "sandbox_sources",
+    doc: id
+  });
+
+  await firestore.set({
+    collection: "sandbox_sources",
+    doc: id
+  }, {
+    files: {
+      [oldPath]: firestore.FieldValue.delete(),
+      [newPath]: sourceRef.get("files")[oldPath]
+    }
+  }, {
+    merge: true
+  });
+};
+
+export const newSandboxFile = (id, path) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firestore = getFirestore();
+
+  await firestore.set({
+    collection: "sandbox_sources",
+    doc: id
+  }, {
+    files: {
+      [path]: "\n"
+    }
+  }, {
+    merge: true
+  });
+};
+
+export const newSandboxFolder = (id, path) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firestore = getFirestore();
+
+  await firestore.set({
+    collection: "sandbox_sources",
+    doc: id
+  }, {
+    files: {
+      [path]: "\n"
+    }
+  }, {
+    merge: true
+  });
+};
+
+export const deleteSandboxFile = (id, path) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firestore = getFirestore();
+
+  const sourceRef = await firestore.get({
+    collection: "sandbox_sources",
+    doc: id
+  });
+
+  const candidates = Object.keys(sourceRef.get("files"))
+    .filter(file => file.startsWith(path))
+    .reduce((obj, item) => {
+
+      return {
+        ...obj,
+        [item]: firestore.FieldValue.delete()
+      }
+    }, {});
+
+  await firestore.set({
+    collection: "sandbox_sources",
+    doc: id
+  }, {
+    files: {
+      ...candidates
+    }
+  }, {
+    merge: true
+  });
+};
+
 const selectSandbox = state => state.sandbox;
 
 const selectSandboxFull = ({ firestoreSandbox: { ordered: { sandbox: [sandbox] = [{}], sandbox_sources: [{ id, ...customSetup }] = [{}] } } }) => {
