@@ -17,7 +17,6 @@ import { FileExplorer, CodeEditor, FileMenu, MonacoWrapper } from 'components';
 
 import {
   selectSandbox,
-  selectSandboxLite,
   selectSandboxFull,
   showFileMenuPane,
   resizePane,
@@ -49,12 +48,12 @@ const Editor = () => {
     dispatch(saveSandboxCodeAsync(id, path, code));
   };
 
-  const onContextMenu = (mid, path) => {
+  const onContextMenu = (mid, path, prefixedPath, directory) => {
     if ([1, 2, 3].includes(mid)) {
       dispatch(showFileMenuPane());
     } else if (mid === 4) {
       // Delete
-      dispatch(deleteSandboxFile(id, path));
+      dispatch(deleteSandboxFile(id, path, prefixedPath, directory));
     }
   };
 
@@ -81,41 +80,43 @@ const Editor = () => {
       case 3:
         dispatch(renameSandboxFile(id, path, `${prefixedPath}${value}`));
         return;
+      default:
+        return;
     }
   };
 
   return (
-    <SandpackProvider
-      template={template}
-      customSetup={{ files }}
-      autorun={false}
+    <SplitPane
+      className="sp-pane sp-pane-horizontal"
+      gutterAlign="center"
+      gutterSize={0}
+      snapOffset={30}
+      dragInterval={1}
+      direction="horizontal"
+      minSize={50}
+      sizes={editorVsPreviewSizes}
+      onDragEnd={onDragEnd.bind(this, "editorVsPreviewSizes")}
     >
-      <SandpackLayoutProvider
-        customSetup={customSetup}
+      <SandpackProvider
+        template={template}
+        customSetup={{ files }}
+        autorun={false}
       >
-        <SandpackLayout theme="monokai-pro">
+        <SandpackLayoutProvider
+          customSetup={customSetup}
+        >
           <SplitPane
-            className="sp-pane sp-pane-horizontal"
+            className="sp-pane sp-pane-vertical"
             gutterAlign="center"
             gutterSize={0}
             snapOffset={30}
             dragInterval={1}
-            direction="horizontal"
-            minSize={50}
-            sizes={editorVsPreviewSizes}
-            onDragEnd={onDragEnd.bind(this, "editorVsPreviewSizes")}
+            direction="vertical"
+            minSize={showFileMenu ? 48 : 0}
+            sizes={editorVsFileMenuSizes}
+            onDragEnd={onDragEnd.bind(this, "editorVsFileMenuSizes")}
           >
-            <SplitPane
-              className="sp-pane sp-pane-vertical"
-              gutterAlign="center"
-              gutterSize={0}
-              snapOffset={30}
-              dragInterval={1}
-              direction="vertical"
-              minSize={showFileMenu ? 48 : 0}
-              sizes={editorVsFileMenuSizes}
-              onDragEnd={onDragEnd.bind(this, "editorVsFileMenuSizes")}
-            >
+            <SandpackLayout theme="monokai-pro">
               <MonacoServicesProvider container={monacoPaneRef.current}>
                 <MonacoWrapper>
                   <SplitPane
@@ -140,32 +141,32 @@ const Editor = () => {
                   </SplitPane>
                 </MonacoWrapper>
               </MonacoServicesProvider>
-              <FileMenu
-                onSubmit={onMenuSubmit}
-              />
-            </SplitPane>
-            <SandpackProvider
-              template={template}
-              customSetup={{ files }}
-              autorun={true}
-            >
-              <SandpackPreview
-                showNavigator={true}
-                showOpenInCodeSandbox={false}
-                showRefreshButton={false}
-              />
-            </SandpackProvider>
+            </SandpackLayout>
+            <FileMenu
+              onSubmit={onMenuSubmit}
+            />
           </SplitPane>
-        </SandpackLayout>
-      </SandpackLayoutProvider>
-    </SandpackProvider>
+        </SandpackLayoutProvider>
+      </SandpackProvider>
+      <SandpackProvider
+        template={template}
+        customSetup={{ files }}
+        autorun={true}
+      >
+        <SandpackPreview
+          showNavigator={true}
+          showOpenInCodeSandbox={false}
+          showRefreshButton={false}
+        />
+      </SandpackProvider>
+    </SplitPane>
   );
 };
 
 const Wrapper = (props) => {
-  const sandbox = useSelector(selectSandboxLite);
+  const { id, customSetup: { files } } = useSelector(selectSandboxFull);
 
-  if (!sandbox) {
+  if (!id || !files) {
     return (
       <h1>Loading</h1>
     );

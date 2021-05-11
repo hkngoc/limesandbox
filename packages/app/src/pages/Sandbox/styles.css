@@ -33,7 +33,7 @@ nav.navbar.header.sp-header {
   flex-grow: 1;
   flex-wrap: nowrap;
   overflow: hidden;
-  height: calc(100vh - 48px);
+  /* height: calc(100vh - 48px); */
 }
 
 .sp-stack-file-explorer {

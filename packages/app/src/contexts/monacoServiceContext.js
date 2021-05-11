@@ -11,13 +11,13 @@ import { ContextMenuService } from 'monaco-editor/esm/vs/platform/contextview/br
 const MonacoServices = React.createContext(null);
 
 const MonacoServicesProvider = ({ container, children }) => {
-  const servicesRef = React.useRef();
-  const contextMenuServiceRef = React.useRef();
+  const [services, setServices] = React.useState(null);
+  const [contextMenuService, setContextMenuService] = React.useState(null);
 
   React.useEffect(() => {
-    if (container) {
+    if (container && container.parent) {
       const services = new DynamicStandaloneServices(container.parent, {});
-      servicesRef.current = services;
+      setServices(services);
 
       const telemetryService = services.get(ITelemetryService);
       const notificationService = services.get(INotificationService);
@@ -28,22 +28,24 @@ const MonacoServicesProvider = ({ container, children }) => {
       themeService.setTheme("vs-dark");
 
       const contextMenuService = new ContextMenuService(telemetryService, notificationService, contextViewService, keybindingService, themeService);
-      contextMenuServiceRef.current = contextMenuService;
+      setContextMenuService(contextMenuService)
     }
-
+  }, [container]);
+  
+  React.useEffect(() => {
     return () => {
-      if (servicesRef.current) {
-        servicesRef.current.dispose();
+      if (services) {
+        services.dispose();
       }
-      if (contextMenuServiceRef.current) {
-        contextMenuServiceRef.current.dispose();
+      if (contextMenuService) {
+        contextMenuService.dispose();
       }
-    };
-  }, [container, servicesRef, contextMenuServiceRef]);
+    }
+  }, [services, contextMenuService]);
 
   const getMonacoServicesState = () => {
     return {
-      contextMenuService: contextMenuServiceRef.current
+      contextMenuService
     };
   };
 

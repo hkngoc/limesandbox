@@ -98,7 +98,7 @@ export const newSandboxFolder = (id, path) => async (dispatch, getState, { getFi
   });
 };
 
-export const deleteSandboxFile = (id, path) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+export const deleteSandboxFile = (id, path, prefixedPath, directory) => async (dispatch, getState, { getFirebase, getFirestore }) => {
   const firestore = getFirestore();
 
   const sourceRef = await firestore.get({
@@ -106,7 +106,8 @@ export const deleteSandboxFile = (id, path) => async (dispatch, getState, { getF
     doc: id
   });
 
-  const candidates = Object.keys(sourceRef.get("files"))
+  const candidates = directory ? (
+    Object.keys(sourceRef.get("files"))
     .filter(file => file.startsWith(path))
     .reduce((obj, item) => {
 
@@ -114,7 +115,12 @@ export const deleteSandboxFile = (id, path) => async (dispatch, getState, { getF
         ...obj,
         [item]: firestore.FieldValue.delete()
       }
-    }, {});
+    }, {})
+  ) : (
+    {
+      [path]: firestore.FieldValue.delete()
+    }
+  )
 
   await firestore.set({
     collection: "sandbox_sources",
