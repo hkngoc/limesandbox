@@ -198,7 +198,7 @@ module.exports = function (webpackEnv) {
           ]
         : {
           index: paths.appIndexJs,
-          background: paths.appBackgroundJs
+          background: paths.appBackgroundJs,
         },
     output: {
       // The build folder.
@@ -586,6 +586,7 @@ module.exports = function (webpackEnv) {
           {
             inject: true,
             template: paths.appHtml,
+            chunks: ['index'],
           },
           isEnvProduction
             ? {
@@ -763,12 +764,12 @@ module.exports = function (webpackEnv) {
         // Chrome extension hot reloading.
         isEnvDevelopment &&
           new ChromeExtensionReloader({
-            reloadPage: true // Force the reload of the page also
-            // entries: {
-            //   // The entries used for the content/background scripts
-            //   contentScript: 'content-script', // Use the entry names, not the file name or the path
-            //   background: 'app' // *REQUIRED
-            // }
+            reloadPage: true, // Force the reload of the page also
+            entries: {
+              // The entries used for the content/background scripts
+              // contentScript: 'content-script', // Use the entry names, not the file name or the path
+              background: 'background' // *REQUIRED
+            }
           }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.

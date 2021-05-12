@@ -45,6 +45,7 @@ nav.navbar.header.sp-header {
 .sp-stack-file-explorer .sp-button {
   width: auto;
   min-width: 100%;
+  user-select: none;
 }
 
 .sp-button:hover:not(:disabled) {
@@ -281,4 +282,8 @@ nav.navbar.header.sp-header {
 .sp-file-menu .form-control:focus {
   box-shadow: unset;
   background-color: var(--sp-colors-bg-input);
+}
+
+.sp-input {
+  margin-right: var(--sp-space-4);
 }

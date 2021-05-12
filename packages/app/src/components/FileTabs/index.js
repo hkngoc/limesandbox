@@ -19,7 +19,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const FileTabs = () => {
+const FileTabs = ({ onCloseTab }) => {
   const { sandpackLayout } = useSandpackLayout();
   const {
     openPaths,
@@ -51,19 +51,13 @@ const FileTabs = () => {
     updateOpenPaths(items);
   };
 
-  const onCloseTab = (index, filePath) => {
-    const items = openPaths.filter(path => path !== filePath);
-    updateOpenPaths(items);
-
-    if (items.length > 0 && filePath === activePath) {
-      const activeIndex = index > 0 ? (index >= items.length ? items.length - 1 : index - 1) : 0;
-      setActiveFile(items[activeIndex]);
-    } else if (items.length <= 0) {
-      setActiveFile(null);
+  const handleContextMenuCallback = (index, path, mid) => {
+    if (onCloseTab) {
+      onCloseTab.call(this, index, path, mid);
     }
   };
 
-  const onContextMenu = (path, event) => {
+  const onContextMenu = (index, path, event) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -73,22 +67,14 @@ const FileTabs = () => {
     const actions = [];
 
     // Action(id, label, cssClass, enabled, actionCallback)
-    // Directory options
-    actions.push(new Action("1", "Close", "", true, () => {
-      console.log("action Close on " + path);
-    }));
-    actions.push(new Action("2", "Close Others", "", true, () => {
-      console.log("action Close Others on " + path);
-    }));
-    actions.push(new Action("2", "Close All", "", true, () => {
-      console.log("action Close All on " + path);
-    }));
+    actions.push(new Action("1", "Close", "", true, handleContextMenuCallback.bind(this, index, path, 1)));
+    actions.push(new Action("2", "Close Others", "", true, handleContextMenuCallback.bind(this, index, path, 2)));
+    actions.push(new Action("2", "Close All", "", true, handleContextMenuCallback.bind(this, index, path, 3)));
 
     if (contextMenuService) {
       contextMenuService.showContextMenu({
         getAnchor: () => anchor,
         getActions: () => actions,
-        getActionItem: (action) => null,
       });
     }
   };

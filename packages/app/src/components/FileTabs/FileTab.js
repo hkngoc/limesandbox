@@ -36,7 +36,7 @@ const FileTab = ({ index, filePath, onClose, onContextMenu, setActiveFile }) => 
     e.preventDefault();
     e.stopPropagation();
 
-    return onClose ? onClose.apply(this, [index, filePath]) : null;
+    return onClose ? onClose.apply(this, [index, filePath, 1]) : null;
   };
 
   return (
@@ -50,7 +50,7 @@ const FileTab = ({ index, filePath, onClose, onContextMenu, setActiveFile }) => 
       className={`sp-tab-button d-flex justify-content-center align-items-center`}
       title={filePath}
       onClick={setActiveFile ? setActiveFile.bind(this, filePath) : null}
-      onContextMenu={onContextMenu ? onContextMenu.bind(this, filePath) : null}
+      onContextMenu={onContextMenu ? onContextMenu.bind(this, index, filePath) : null}
     >
       <div className="sp-tab-divider"/>
       {getTitle()}
