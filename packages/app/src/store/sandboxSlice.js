@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { mapValues, get } from 'lodash';
 
 export const sandboxSlice = createSlice({
   name: "sandbox",
@@ -32,11 +33,11 @@ export const sandboxSlice = createSlice({
   }
 });
 
-export const saveSandboxCodeAsync = (id, path, code) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+export const saveSandboxCodeAsync = (id, path, code, sensitive = false) => async (dispatch, getState, { getFirebase, getFirestore }) => {
   const firestore = getFirestore();
 
   await firestore.set({
-    collection: "sandbox_sources",
+    collection: sensitive ? "sandbox_sensitive" : "sandbox_sources",
     doc: id
   }, {
     files: {
@@ -132,14 +133,98 @@ export const deleteSandboxFile = (id, path, prefixedPath, directory) => async (d
   }, {
     merge: true
   });
+
+  await firestore.set({
+    collection: "sandbox_sensitive",
+    doc: id
+  }, {
+    files: {
+      ...candidates
+    }
+  }, {
+    merge: true
+  });
+};
+
+export const markSensitiveSandboxFile = (id, path) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firestore = getFirestore();
+
+  const sourceRef = await firestore.get({
+    collection: "sandbox_sources",
+    doc: id
+  });
+
+  await firestore.set({
+    collection: "sandbox_sensitive",
+    doc: id
+  }, {
+    files: {
+      [path]: sourceRef.get("files")[path]
+    }
+  }, {
+    merge: true
+  });
+
+  await firestore.set({
+    collection: "sandbox_sources",
+    doc: id
+  }, {
+    files: {
+      [path]: "\n"
+    }
+  }, {
+    merge: true
+  });
+
+};
+
+export const unmarkSensitiveSandboxFile = (id, path) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firestore = getFirestore();
+
+  const sourceRef = await firestore.get({
+    collection: "sandbox_sensitive",
+    doc: id
+  });
+
+  await firestore.set({
+    collection: "sandbox_sources",
+    doc: id
+  }, {
+    files: {
+      [path]: sourceRef.get("files")[path]
+    }
+  }, {
+    merge: true
+  });
+
+  await firestore.set({
+    collection: "sandbox_sensitive",
+    doc: id
+  }, {
+    files: {
+      [path]: firestore.FieldValue.delete()
+    }
+  }, {
+    merge: true
+  });
 };
 
 const selectSandbox = state => state.sandbox;
 
-const selectSandboxFull = ({ firestoreSandbox: { ordered: { sandbox: [sandbox] = [{}], sandbox_sources: [{ id, ...customSetup }] = [{}] } } }) => {
+const selectSandboxFull = ({
+  firestoreSandbox: {
+    ordered
+  },
+}) => {
+  const { id, ...customSetup } = get(ordered, "sandbox_sources[0]", { });
+  const { files } = get(ordered, "sandbox_sensitive[0]", { files: {} });
+
   return {
-    ...sandbox,
-    customSetup
+    ...get(ordered, "sandbox[0]", {}),
+    customSetup,
+    sensitive: {
+      files: mapValues(files, code => ({ code, sensitive: true }))
+    }
   }
 };
 

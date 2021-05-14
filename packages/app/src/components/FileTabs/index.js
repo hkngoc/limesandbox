@@ -23,7 +23,6 @@ const FileTabs = ({ onCloseTab }) => {
   const { sandpackLayout } = useSandpackLayout();
   const {
     openPaths,
-    activePath,
     setActiveFile,
     updateOpenPaths
   } = sandpackLayout;

@@ -52,8 +52,15 @@ const FileExplorer = ({ customStyle, onContextMenu }) => {
       actions.push(new Action("3", "Rename", "", !locked.includes(path), handleContextMenuCallback.bind(this, 3, path, prefixedPath, directory)));
       actions.push(new Action("4", "Delete", "", !locked.includes(path), handleContextMenuCallback.bind(this, 4, path, prefixedPath, directory)));
       actions.push(new Separator());
-      actions.push(new Action("5", "Upload Files", "", false, handleContextMenuCallback.bind(this, 5, path, prefixedPath, directory)));
-      actions.push(new Action("6", "Download", "", false, handleContextMenuCallback.bind(this, 6, path, prefixedPath, directory)));
+      if (!directory) {
+        const { files: { [path]: { sensitive = false } } } = sandpack;
+
+        actions.push(new Action("5", "Mark Sensitive", "", !locked.includes(path) && !sensitive, handleContextMenuCallback.bind(this, 5, path, prefixedPath, directory)));
+        actions.push(new Action("6", "UnMark Sensitive", "", !locked.includes(path) && sensitive, handleContextMenuCallback.bind(this, 6, path, prefixedPath, directory)));
+        actions.push(new Separator());
+      }
+      actions.push(new Action("7", "Upload Files", "", false, handleContextMenuCallback.bind(this, 7, path, prefixedPath, directory)));
+      actions.push(new Action("8", "Download", "", false, handleContextMenuCallback.bind(this, 8, path, prefixedPath, directory)));
 
       contextMenuService.showContextMenu({
         getAnchor: () => anchor,

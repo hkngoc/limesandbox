@@ -13,7 +13,13 @@ import useKeypress from 'react-use-keypress';
 import { SandpackLayoutProvider } from 'contexts/sandpackLayoutContext';
 import { MonacoServicesProvider } from 'contexts/monacoServiceContext';
 
-import { FileExplorer, CodeEditor, FileMenu, MonacoWrapper } from 'components';
+import {
+  FileExplorer,
+  CodeEditor,
+  FileMenu,
+  MonacoWrapper,
+  Navigator,
+} from 'components';
 
 import {
   selectSandbox,
@@ -25,13 +31,25 @@ import {
   newSandboxFile,
   deleteSandboxFile,
   newSandboxFolder,
+  markSensitiveSandboxFile,
+  unmarkSensitiveSandboxFile,
 } from 'store/sandboxSlice';
 import { saveSandboxCodeAsync } from 'store/sandboxSlice';
 
 const Editor = () => {
   const monacoPaneRef = React.useRef();
 
-  const { id, template, customSetup: { files, ...customSetup } } = useSelector(selectSandboxFull);
+  const {
+    id,
+    template,
+    customSetup: {
+      files,
+      ...customSetup
+    },
+    sensitive: {
+      files: sensitiveSources
+    }
+  } = useSelector(selectSandboxFull);
 
   const {
     layout: {
@@ -44,16 +62,28 @@ const Editor = () => {
 
   const dispatch = useDispatch();
 
-  const onCodeSave = (path, code) => {
-    dispatch(saveSandboxCodeAsync(id, path, code));
+  const onCodeSave = (path, sensitive, code) => {
+    dispatch(saveSandboxCodeAsync(id, path, code, sensitive));
   };
 
   const onContextMenu = (mid, path, prefixedPath, directory) => {
-    if ([1, 2, 3].includes(mid)) {
-      dispatch(showFileMenuPane());
-    } else if (mid === 4) {
-      // Delete
-      dispatch(deleteSandboxFile(id, path, prefixedPath, directory));
+    switch (mid) {
+      case 1:
+      case 2:
+      case 3:
+        dispatch(showFileMenuPane());
+        break;
+      case 4:
+        dispatch(deleteSandboxFile(id, path, prefixedPath, directory));
+        break;
+      case 5:
+        dispatch(markSensitiveSandboxFile(id, path));
+        break;
+      case 6:
+        dispatch(unmarkSensitiveSandboxFile(id, path));
+        break;
+      default:
+        break;
     }
   };
 
@@ -73,15 +103,15 @@ const Editor = () => {
     switch(mid) {
       case 1:
         dispatch(newSandboxFile(id, `${prefixedPath}${value}`));
-        return;
+        break;
       case 2:
         dispatch(newSandboxFolder(id, `${prefixedPath}${value}/`))
-        return;
+        break;
       case 3:
         dispatch(renameSandboxFile(id, path, `${prefixedPath}${value}`));
-        return;
+        break;
       default:
-        return;
+        break;
     }
   };
 
@@ -99,7 +129,7 @@ const Editor = () => {
     >
       <SandpackProvider
         template={template}
-        customSetup={{ files }}
+        customSetup={{ files: { ...files, ...sensitiveSources } }}
         autorun={false}
       >
         <SandpackLayoutProvider
@@ -150,10 +180,11 @@ const Editor = () => {
       </SandpackProvider>
       <SandpackProvider
         template={template}
-        customSetup={{ files }}
+        customSetup={{ files: { ...files, ...sensitiveSources } }}
         autorun={true}
       >
         <SandpackPreview
+          navigatorComponent={Navigator}
           showNavigator={true}
           showOpenInCodeSandbox={false}
           showRefreshButton={false}

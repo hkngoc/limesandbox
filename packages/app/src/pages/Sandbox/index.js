@@ -45,6 +45,9 @@ const Composed = compose(
     }, {
       collection: "sandbox_sources",
       doc: id
+    }, {
+      collection: "sandbox_sensitive",
+      doc: id
     }];
   })
 )(Main);
@@ -56,4 +59,3 @@ const DynamicModule = (props) => (
 );
 
 export default DynamicModule;
-

@@ -48,6 +48,7 @@ class ModuleList extends React.PureComponent {
                 prefixedPath={prefixedPath}
                 selectFile={selectFile}
                 onContextMenu={onContextMenu}
+                sensitive={files[file.path].sensitive}
               />
             );
           })

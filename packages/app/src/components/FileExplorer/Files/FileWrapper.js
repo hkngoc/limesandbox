@@ -1,8 +1,8 @@
-const FileWrapper = ({ onClick, onContextMenu, active, depth, children }) => {
+const FileWrapper = ({ onClick, onContextMenu, active, depth, className = "", children }) => {
 
   return (
     <div
-      className="sp-button"
+      className={`sp-button ${className}`}
       {...{
         "data-active": active,
         type: "button",

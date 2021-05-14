@@ -3,3 +3,4 @@ export * from './FileExplorer';
 export * from './FileMenu';
 export * from './MonacoWrapper';
 export * from './MonacoTree';
+export * from './Navigator';

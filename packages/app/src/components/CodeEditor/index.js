@@ -13,7 +13,6 @@ import { useSandpackLayout, } from 'contexts/sandpackLayoutContext';
 
 import { FileTabs } from 'components/FileTabs';
 
-// import Editor from './CodeMirrorEditor';
 import Editor from './MonacoEditor';
 
 const CodeEditor = ({ customStyle, onSave, onFileTabContextMenu }) => {
@@ -100,7 +99,7 @@ const CodeEditor = ({ customStyle, onSave, onFileTabContextMenu }) => {
                       code: files[filePath].code,
                       filePath: filePath,
                       onCodeUpdate: updateFile.bind(this, filePath),
-                      onCodeSave: onSave ? onSave.bind(this, filePath) : null,
+                      onCodeSave: onSave ? onSave.bind(this, filePath, files[filePath].sensitive || false) : null,
                       onClose: onCloseTab.bind(this, index, filePath, 1),
                     }}
                   />

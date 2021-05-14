@@ -21,13 +21,14 @@ class File extends React.PureComponent {
   }
 
   render() {
-    const { onClick, onContextMenu, active, depth, path, prefixedPath, directory = false, ...rest } = this.props;
+    const { onClick, onContextMenu, active, depth, path, prefixedPath, directory = false, sensitive = false, ...rest } = this.props;
 
     return (
       <FileWrapper
         {...{
           onClick: this.selectFile,
           onContextMenu: onContextMenu ? onContextMenu.bind(this, path, prefixedPath, directory) : null,
+          className: sensitive ? "font-italic" : "",
           active,
           depth,
         }}

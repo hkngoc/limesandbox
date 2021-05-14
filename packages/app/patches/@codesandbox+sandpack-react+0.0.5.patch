@@ -40,11 +40,85 @@ index 105702c..3356d3d 100644
              {
                  key: "mod-Backspace",
                  run: deleteGroupBackward,
+diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/components/Navigator/index.js b/node_modules/@codesandbox/sandpack-react/dist/esm/components/Navigator/index.js
+index 3cc242d..586b206 100644
+--- a/node_modules/@codesandbox/sandpack-react/dist/esm/components/Navigator/index.js
++++ b/node_modules/@codesandbox/sandpack-react/dist/esm/components/Navigator/index.js
+@@ -3,7 +3,7 @@ import * as React from "react";
+ import { useSandpack } from "../../hooks/useSandpack";
+ import { BackwardIcon, ForwardIcon, RefreshIcon } from "../../icons";
+ import { splitUrl } from "./utils";
+-export const Navigator = () => {
++export const Navigator = ({ appendMenu: AppendMenu }) => {
+     var _a;
+     const [baseUrl, setBaseUrl] = React.useState("");
+     const { sandpack, dispatch, listen } = useSandpack();
+@@ -54,13 +54,17 @@ export const Navigator = () => {
+     const handleForward = () => {
+         dispatch({ type: "urlforward" });
+     };
+-    return (React.createElement("div", { className: c("navigator") },
+-        React.createElement("button", { "aria-label": "Go back one page", className: c("button", "icon"), disabled: !backEnabled, onClick: handleBack, type: "button" },
+-            React.createElement(BackwardIcon, null)),
+-        React.createElement("button", { "aria-label": "Go forward one page", className: c("button", "icon"), disabled: !forwardEnabled, onClick: handleForward, type: "button" },
+-            React.createElement(ForwardIcon, null)),
+-        React.createElement("button", { "aria-label": "Refresh page", className: c("button", "icon"), onClick: handleRefresh, type: "button" },
+-            React.createElement(RefreshIcon, null)),
+-        React.createElement("input", { "aria-label": "Current Sandpack URL", className: c("input"), name: "Current Sandpack URL", onChange: handleInputChange, onKeyDown: handleKeyDown, type: "text", value: relativeUrl })));
++    return (
++        React.createElement("div", { className: c("navigator") },
++            React.createElement("button", { "aria-label": "Go back one page", className: c("button", "icon"), disabled: !backEnabled, onClick: handleBack, type: "button" },
++                React.createElement(BackwardIcon, null)),
++            React.createElement("button", { "aria-label": "Go forward one page", className: c("button", "icon"), disabled: !forwardEnabled, onClick: handleForward, type: "button" },
++                React.createElement(ForwardIcon, null)),
++            React.createElement("button", { "aria-label": "Refresh page", className: c("button", "icon"), onClick: handleRefresh, type: "button" },
++                React.createElement(RefreshIcon, null)),
++            React.createElement("input", { "aria-label": "Current Sandpack URL", className: c("input"), name: "Current Sandpack URL", onChange: handleInputChange, onKeyDown: handleKeyDown, type: "text", value: relativeUrl }),
++            AppendMenu && React.createElement(AppendMenu, null)
++        )
++    );
+ };
+ //# sourceMappingURL=index.js.map
+\ No newline at end of file
+diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/components/Preview/index.js b/node_modules/@codesandbox/sandpack-react/dist/esm/components/Preview/index.js
+index c20d0cb..4e087f6 100644
+--- a/node_modules/@codesandbox/sandpack-react/dist/esm/components/Preview/index.js
++++ b/node_modules/@codesandbox/sandpack-react/dist/esm/components/Preview/index.js
+@@ -8,7 +8,7 @@ import { useSandpack } from "../../hooks/useSandpack";
+ import { Navigator } from "../Navigator";
+ import { RefreshButton } from "./RefreshButton";
+ export { RefreshButton };
+-export const SandpackPreview = ({ customStyle, showNavigator = false, showRefreshButton = true, showOpenInCodeSandbox = true, showSandpackErrorOverlay = true, viewportSize = "auto", viewportOrientation = "portrait", }) => {
++export const SandpackPreview = ({ customStyle, navigatorComponent: NavigatorComponent, showNavigator = false, showRefreshButton = true, showOpenInCodeSandbox = true, showSandpackErrorOverlay = true, viewportSize = "auto", viewportOrientation = "portrait", }) => {
+     const { sandpack, listen } = useSandpack();
+     const [iframeComputedHeight, setComputedAutoHeight] = React.useState(null);
+     const { status, iframeRef, errorScreenRegisteredRef, openInCSBRegisteredRef, } = sandpack;
+@@ -29,7 +29,7 @@ export const SandpackPreview = ({ customStyle, showNavigator = false, showRefres
+             ...viewportStyle,
+             display: status !== "idle" ? "flex" : "none",
+         } },
+-        showNavigator ? React.createElement(Navigator, null) : null,
++        showNavigator ? React.createElement(NavigatorComponent || Navigator, null) : null,
+         React.createElement("div", { className: c("preview-container") },
+             React.createElement("iframe", { ref: iframeRef, className: c("preview-iframe"), style: {
+                     // set height based on the content only in auto mode
 diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
-index 9e80089..67ec9c1 100644
+index 9e80089..8b1c298 100644
 --- a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
 +++ b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
-@@ -118,6 +118,9 @@ class SandpackProvider extends React.PureComponent {
+@@ -41,7 +41,10 @@ class SandpackProvider extends React.PureComponent {
+             const { recompileMode, recompileDelay } = this.props;
+             const newFiles = {
+                 ...files,
+-                [path]: { code: newCode },
++                [path]: {
++                    ...files[path],
++                    code: newCode,
++                },
+             };
+             this.setState({ files: newFiles });
+             if (sandpackStatus !== "running") {
+@@ -118,6 +121,9 @@ class SandpackProvider extends React.PureComponent {
                  };
              });
          };
@@ -54,7 +128,7 @@ index 9e80089..67ec9c1 100644
          this.dispatchMessage = (message) => {
              if (this.client === null) {
                  console.warn("dispatch cannot be called while in idle mode");
-@@ -161,6 +164,7 @@ class SandpackProvider extends React.PureComponent {
+@@ -161,6 +167,7 @@ class SandpackProvider extends React.PureComponent {
                  editorState,
                  setActiveFile: this.setActiveFile,
                  openFile: this.openFile,
