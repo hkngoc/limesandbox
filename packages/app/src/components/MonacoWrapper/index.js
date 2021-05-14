@@ -21,8 +21,19 @@ const MonacoWrapper = ({ children }) => {
   React.useEffect(() => {
     if (monaco) {
       for (const path in files) {
-        const { code } = files[path];
-        getOrCreateModel(monaco, code, null, path);
+        const { code, folder = false } = files[path];
+
+        if (!folder) {
+          getOrCreateModel(monaco, code, null, path);
+        }
+      }
+
+      const models = monaco.editor.getModels();
+      for (const model of models) {
+        const path = model.uri.path;
+        if (!(path in files)) {
+          model.dispose();
+        }
       }
     }
   }, [monaco, files]);

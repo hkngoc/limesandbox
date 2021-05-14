@@ -92,7 +92,10 @@ export const newSandboxFolder = (id, path) => async (dispatch, getState, { getFi
     doc: id
   }, {
     files: {
-      [path]: "\n"
+      [path]: {
+        code: "\n",
+        folder: true
+      }
     }
   }, {
     merge: true
