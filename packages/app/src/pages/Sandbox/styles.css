@@ -283,3 +283,7 @@ nav.navbar.header.sp-header {
   box-shadow: unset;
   background-color: var(--sp-colors-bg-input);
 }
+
+.sp-navigator .sp-input {
+  margin-right: var(--sp-space-4);
+}
