@@ -23,11 +23,14 @@ const CreateNewSandboxModal = ({ show }) => {
     dispatch(closeCreateSandboxModal());
   };
 
-  const onSubmit = ({ index }) => {
+  const onSubmit = async ({ index }) => {
     const { category, ...template } = templates[index];
 
     handleClose();
-    dispatch(createSandboxAsync(template));
+    const result = await dispatch(createSandboxAsync(template));
+    if (result) {
+      window.location.replace(`/#/s/${result}`);
+    }
   };
 
   return (

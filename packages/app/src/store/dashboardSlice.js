@@ -34,6 +34,7 @@ export const createSandboxAsync = sandbox => async (dispatch, getState, { getFir
   }, {
     ...template,
     owner: uid,
+    privacy: "private",
     createdAt: firestore.FieldValue.serverTimestamp()
   });
 
@@ -45,6 +46,8 @@ export const createSandboxAsync = sandbox => async (dispatch, getState, { getFir
   }, {
     merge: true
   });
+
+  return id;
 };
 
 export const selectDashboard = state => state.dashboard;

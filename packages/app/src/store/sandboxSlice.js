@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { mapValues, get } from 'lodash';
+import { mapValues, get, pick } from 'lodash';
 
 export const sandboxSlice = createSlice({
   name: "sandbox",
@@ -32,6 +32,19 @@ export const sandboxSlice = createSlice({
     }
   }
 });
+
+export const updateSandbox = (id, values) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firestore = getFirestore();
+
+  await firestore.set({
+    collection: "sandboxs",
+    doc: id
+  }, {
+    ...pick(values, ["path", "name", "privacy"])
+  }, {
+    merge: true
+  });
+};
 
 export const saveSandboxCodeAsync = (id, path, code, sensitive = false) => async (dispatch, getState, { getFirebase, getFirestore }) => {
   const firestore = getFirestore();
@@ -212,6 +225,39 @@ export const unmarkSensitiveSandboxFile = (id, path) => async (dispatch, getStat
   });
 };
 
+export const createTemplateFromSandbox = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firestore = getFirestore();
+
+  const sandboxRef = await firestore.get({
+    collection: "sandboxs",
+    doc: id
+  });
+
+  const sourceRef = await firestore.get({
+    collection: "sandbox_sources",
+    doc: id
+  });
+
+  const { name, template, owner } = sandboxRef.data();
+  const { id: templateId } = await firestore.add({
+    collection: "templates"
+  }, {
+    name,
+    template,
+    owner,
+    createdAt: firestore.FieldValue.serverTimestamp()
+  });
+
+  await firestore.set({
+    collection: "template_sources",
+    doc: templateId
+  }, {
+    ...sourceRef.data()
+  }, {
+    merge: true
+  });
+};
+
 const selectSandbox = state => state.sandbox;
 
 const selectSandboxFull = ({
@@ -231,11 +277,20 @@ const selectSandboxFull = ({
   }
 };
 
-const selectSandboxLite = ({ firestoreSandbox: { data: { sandbox } } }) => {
-  return sandbox;
+const selectSandboxLite = ({ firestoreSandbox: { ordered } }) => {
+  return {
+    ...get(ordered, "sandbox[0]", {}),
+  };
+};
+
+const selectProfile = ({ firestoreSandbox: { data } }) => {
+  return {
+    ...get(data, "profile")
+  };
 };
 
 export {
+  selectProfile,
   selectSandbox,
   selectSandboxLite,
   selectSandboxFull

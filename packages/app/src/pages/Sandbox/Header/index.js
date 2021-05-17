@@ -4,23 +4,25 @@ import {
 } from 'react-bootstrap';
 
 import Logo from './Logo';
+import SandboxName from './SandboxName';
+import Actions from './Actions';
+
 import './styles.css';
 
 const Header = () => {
   return (
-    <Navbar className="header sp-header" collapseOnSelect expand="sm" bg="dark" variant="dark" sticky="top">
+    <Navbar className="header sp-header sp-sandbox-header flex-nowrap" collapseOnSelect expand="sm" bg="dark" variant="dark" sticky="top">
       <Navbar.Brand href="#">
         <Logo />
       </Navbar.Brand>
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-      <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="mr-auto">
-        </Nav>
-        <ul className="px-3 c-header-nav">
-        </ul>
-        <Nav>
-        </Nav>
-      </Navbar.Collapse>
+      <Nav>
+      </Nav>
+      <Nav className="flex-grow-1 align-items-center justify-content-center">
+        <SandboxName />
+      </Nav>
+      <Nav className="px-3">
+        <Actions />
+      </Nav>
     </Navbar>
   )
 };

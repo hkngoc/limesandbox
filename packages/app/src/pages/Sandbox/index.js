@@ -1,8 +1,8 @@
 import React from 'react';
 import { DynamicModuleLoader } from 'redux-dynamic-modules';
 import { compose } from 'redux';
-import { useSelector } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
+import { useSelector, connect } from 'react-redux';
+import { firebaseConnect, firestoreConnect } from 'react-redux-firebase';
 import { Helmet } from 'react-helmet-async';
 
 import { selectSandboxLite } from 'store/sandboxSlice';
@@ -37,7 +37,13 @@ const Main = () => {
 };
 
 const Composed = compose(
-  firestoreConnect(({ match: { params: { id } } }) => {
+  firebaseConnect(),
+  connect(({ firebase: { auth } }) => {
+    return {
+      auth
+    }
+  }),
+  firestoreConnect(({ match: { params: { id } }, auth: { uid } }) => {
     return [{
       collection: "sandboxs",
       doc: id,
@@ -48,8 +54,12 @@ const Composed = compose(
     }, {
       collection: "sandbox_sensitive",
       doc: id
+    }, {
+      collection: "users",
+      doc: uid,
+      storeAs: "profile"
     }];
-  })
+  }),
 )(Main);
 
 const DynamicModule = (props) => (

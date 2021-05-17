@@ -14,7 +14,7 @@ const Header = () => {
   // console.log(context);
 
   return (
-    <Navbar className="header" collapseOnSelect expand="sm" bg="dark" variant="dark" sticky="top">
+    <Navbar className="header dashboard-header" collapseOnSelect expand="sm" bg="dark" variant="dark" sticky="top">
       <Navbar.Toggle aria-controls="responsive-navbar-nav" className="btn-sm border-0 p-0" />
       <Navbar.Brand href="#dashboard" className="d-none d-sm-inline-block">
         <Logo />
