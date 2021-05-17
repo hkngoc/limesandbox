@@ -233,7 +233,7 @@ nav.navbar.header.sp-header {
   height: 15px;
 }
 .sp-button svg {
-  fill: var(--sp-colors-fg-default);
+  /* fill: var(--sp-colors-fg-default); */
   overflow: visible;
 }
 
@@ -285,5 +285,6 @@ nav.navbar.header.sp-header {
 }
 
 .sp-navigator .sp-input {
-  margin-right: var(--sp-space-4);
+  margin-left: var(--sp-space-2);
+  margin-right: var(--sp-space-2);
 }

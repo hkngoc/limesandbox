@@ -20,7 +20,7 @@ const SomeMenu = () => {
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          fill="#777"
+          fill="currentColor"
           fillRule="evenodd"
           clipRule="evenodd"
           d="M8 6a1 1 0 00-1 1v7a1 1 0 001 1h10a1 1 0 001-1V7a1 1 0 00-1-1H8zM5 9h1v5a2 2 0 002 2h7v1a1 1 0 01-1 1H5a1 1 0 01-1-1v-7a1 1 0 011-1z"
