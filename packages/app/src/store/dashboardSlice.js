@@ -42,7 +42,17 @@ export const createSandboxAsync = sandbox => async (dispatch, getState, { getFir
     collection: "sandbox_sources",
     doc: id
   }, {
+    files: {},
     ...sourceRef.data()
+  }, {
+    merge: true
+  });
+
+  await firestore.set({
+    collection: "sandbox_sensitive",
+    doc: id
+  }, {
+    files: {}
   }, {
     merge: true
   });
