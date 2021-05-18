@@ -2,10 +2,6 @@ import {
   Button
 } from 'react-bootstrap';
 
-import { useDispatch } from 'react-redux';
-
-import { openCreateSandboxModal } from 'store/dashboardSlice';
-
 const Icon = (props) => (
   <svg
     viewBox="0 0 16 16"
@@ -21,13 +17,11 @@ const Icon = (props) => (
   </svg>
 );
 
-const NewSandbox = (props) => {
-  const dispatch = useDispatch();
-
+const NewSandbox = ({ onClick }) => {
   return (
     <Button
       className="w-100 h-100 btn-sandbox bg-transparent border-sandbox"
-      onClick={() => dispatch(openCreateSandboxModal())}
+      onClick={onClick}
     >
       <div className="d-flex flex-column align-items-center justify-content-center">
         <Icon width={24} height={24} className="mb-2"/>

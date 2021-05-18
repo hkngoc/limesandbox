@@ -1,6 +1,8 @@
 import { applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createStore } from 'redux-dynamic-modules';
+import { persistStore } from 'redux-persist';
+
 import { getFirebase } from 'react-redux-firebase';
 import { reduxFirestore, createFirestoreInstance, getFirestore } from 'redux-firestore';
 
@@ -11,7 +13,11 @@ import 'firebase/firestore';
 import firebaseConfig from './firebase.json';
 
 firebase.initializeApp(firebaseConfig);
-firebase.firestore();
+const firestore = firebase.firestore();
+
+// const auth = firebase.auth();
+// auth.useEmulator("http://localhost:9099");
+// firestore.useEmulator("localhost", 8080);
 
 const rrfConfig = {
   userProfile: "users",
@@ -25,6 +31,8 @@ const store = createStore({
   )],
 });
 
+const persistedStore = persistStore(store, { manualPersist: true });
+
 const rrfProps = {
   firebase,
   config: rrfConfig,
@@ -36,5 +44,6 @@ export default store;
 export {
   rrfConfig,
   firebase,
-  rrfProps
+  rrfProps,
+  persistedStore
 };

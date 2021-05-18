@@ -133,7 +133,8 @@ const Editor = () => {
         autorun={false}
       >
         <SandpackLayoutProvider
-          customSetup={customSetup}
+          customSetup={{ ...customSetup }}
+          files={Object.keys(files)}
         >
           <SplitPane
             className="sp-pane sp-pane-vertical"

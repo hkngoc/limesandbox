@@ -8,7 +8,7 @@ import {
 import Loading from './Loading';
 import { UserIsAuthenticated } from './RouteProtection';
 
-const Counter = React.lazy(() => import(/* webpackChunkName: "Counter" */'pages/Counter'));
+// const Counter = React.lazy(() => import(/* webpackChunkName: "Counter" */'pages/Counter'));
 
 const SignIn = React.lazy(() => import(/* webpackChunkName: "SignIn" */'pages/SignIn'));
 const SignOut = React.lazy(() => import(/* webpackChunkName: "SignOut" */'pages/SignOut'));
@@ -20,7 +20,7 @@ const Main = () => {
   return (
     <React.Suspense fallback={<Loading />}>
       <Switch>
-        <Route path="/counter" name="Counter" component={Counter} />
+        {/* <Route path="/counter" name="Counter" component={Counter} /> */}
 
         <Route path="/auth" name="SignIn" component={SignIn} />
         <Route path="/signout" name="SignOut" component={SignOut} />

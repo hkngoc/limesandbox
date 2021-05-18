@@ -21,7 +21,7 @@ const ComponentForTypes = {
 };
 
 const Item = ({ data, rowIndex, columnIndex, style }) => {
-  const { items, columnCount, containerWidth } = data;
+  const { items, columnCount, containerWidth, onItemClick } = data;
 
   const totalWidth = containerWidth;
   const containerLeftOffset = 0;
@@ -64,13 +64,16 @@ const Item = ({ data, rowIndex, columnIndex, style }) => {
         ...margins,
       }}
     >
-      <Component item={item} />
+      <Component
+        item={item}
+        onClick={onItemClick ? onItemClick.bind(this, type, item) : null}
+      />
     </div>
   );
 };
 
-const VariableGrid = ({ items }) => {
-  const gridRef = React.useRef(null);
+const VariableGrid = ({ items, onItemClick }) => {
+  const gridRef = React.useRef();
 
   const ITEM_HEIGHT = ITEM_HEIGHT_GRID;
 
@@ -125,6 +128,7 @@ const VariableGrid = ({ items }) => {
                 items,
                 columnCount,
                 containerWidth: width,
+                onItemClick,
               }}
             >
               {Item}

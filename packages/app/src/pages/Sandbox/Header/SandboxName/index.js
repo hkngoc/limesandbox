@@ -25,7 +25,7 @@ const SandboxName = () => {
   React.useEffect(() => {
     setValue("name", name);
     setValue("privacy", privacy);
-  }, [name, privacy]);
+  }, [name, privacy, setValue]);
 
   const onSubmit = (values) => {
     dispatch(updateSandbox(id, values));

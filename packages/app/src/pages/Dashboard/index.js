@@ -8,17 +8,28 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import Content from './Content';
 
-import dashboardModule from './module';
 import {
-  selectDashboard
-} from 'store/dashboardSlice';
+  selectSetting
+} from 'store/settingSlice';
+
+import dashboardModule from './module';
+
+import {
+  persistedStore
+} from 'store';
 
 import './styles.css';
 
-const CreateNewSandbox = React.lazy(() => import(/* webpackChunkName: "CreateNewSandbox" */'components/CreateNewSandbox'));
-
 const Dashboard = () => {
-  const { showCreateSandboxModal } = useSelector(selectDashboard);
+  const { _persist } = useSelector(selectSetting);
+
+  console.log(_persist);
+
+  React.useEffect(() => {
+    if (!_persist || !_persist.rehydrated) {
+      persistedStore.persist();
+    }
+  }, []);
 
   return (
     <div className="wrapper">
@@ -29,7 +40,6 @@ const Dashboard = () => {
           <Content />
         </main>
       </div>
-      <CreateNewSandbox show={showCreateSandboxModal} />
     </div>
   )
 };

@@ -5,36 +5,21 @@ import {
   InputGroup
 } from 'react-bootstrap';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { closeCreateSandboxModal, createSandboxAsync, templateSelector } from 'store/dashboardSlice';
+import { orderedTemplateSelector } from "store/syncSandboxsSlice";
 
-const CreateNewSandboxModal = ({ show }) => {
-  const templates = useSelector(templateSelector);
-  const dispatch = useDispatch();
+const CreateNewSandboxModal = ({ show, onSubmit, onHide }) => {
+  const templates = useSelector(orderedTemplateSelector);
 
   const {
     register,
     handleSubmit
   } = useForm();
 
-  const handleClose = () => {
-    dispatch(closeCreateSandboxModal());
-  };
-
-  const onSubmit = async ({ index }) => {
-    const { category, ...template } = templates[index];
-
-    handleClose();
-    const result = await dispatch(createSandboxAsync(template));
-    if (result) {
-      window.location.replace(`/#/s/${result}`);
-    }
-  };
-
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
         <Modal.Title>Modal heading</Modal.Title>
       </Modal.Header>
@@ -46,13 +31,13 @@ const CreateNewSandboxModal = ({ show }) => {
             <InputGroup>
               <Form.Control
                 as="select"
-                {...register("index")}
+                {...register("id")}
               >
                 {
-                  templates.map((template, index) => {
-                    const { name } = template;
+                  templates.map((template) => {
+                    const { id, name } = template;
                     return (
-                      <option key={index} value={index}>{name}</option>
+                      <option key={id} value={id}>{name}</option>
                     )
                   })
                 }
@@ -68,10 +53,10 @@ const CreateNewSandboxModal = ({ show }) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={onHide}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleClose}>
+        <Button variant="primary" onClick={onHide}>
           Save Changes
         </Button>
       </Modal.Footer>

@@ -10,11 +10,7 @@ const Sidebar = () => {
       <div className="flex flex-row w-100">
         <Nav.Link href="#/dashboard/home">Home</Nav.Link>
         <hr />
-        <Nav.Link href="#/dashboard/draft">Draft</Nav.Link>
-        <hr />
-        <Nav.Link href="#/dashboard/all">All</Nav.Link>
-        <hr />
-        <Nav.Link href="#/counter">Counter</Nav.Link>
+        <Nav.Link href="#/dashboard/local">Local</Nav.Link>
         <hr />
         <Nav.Link href="#/signout">Sign Out</Nav.Link>
         <hr />

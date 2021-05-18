@@ -4,17 +4,13 @@ const SandpackLayout = React.createContext(null);
 
 const getSandpackLayoutStateFromProps = (props) => {
   const {
-    activePath,
-    openPaths,
-    customSetup,
-    activeMenu = {},
+    files = [],
+    customSetup
   } = props;
 
   return {
-    activePath,
-    openPaths,
-    customSetup,
-    activeMenu,
+    files,
+    customSetup
   }
 };
 
@@ -64,17 +60,27 @@ class SandpackLayoutProvider extends React.PureComponent {
 
     const nextState = getSandpackLayoutStateFromProps(props);
 
-    this.state = nextState;
+    this.state = {
+      activePath: null,
+      openPaths: [],
+      activeMenu: {},
+      ...nextState
+    };
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.activePath !== this.props.activePath
-      || JSON.stringify(prevProps.openPaths) !== JSON.stringify(this.props.openPaths)
-      || JSON.stringify(prevProps.customSetup) !== JSON.stringify(this.props.customSetup)
+    if (
+      JSON.stringify(prevProps.customSetup) !== JSON.stringify(this.props.customSetup)
+      || JSON.stringify(prevProps.files) !== JSON.stringify(this.props.files)
     ) {
       const nextState = getSandpackLayoutStateFromProps(this.props);
 
-      this.setState(nextState);
+      const { openPaths: currentOpenPaths, activePath: currentActivePath } = this.state;
+
+      const openPaths = currentOpenPaths.filter(path => nextState.files.includes(path));
+      const activePath = openPaths.includes(currentActivePath) ? prevProps.activePath : (openPaths.length > 0 ? openPaths[0] : null);
+
+      this.setState({ ...nextState, openPaths, activePath });
     }
   }
 
@@ -92,8 +98,6 @@ class SandpackLayoutProvider extends React.PureComponent {
 };
 
 SandpackLayoutProvider.defaultProps = {
-  openPaths: [],
-  activePath: null,
 };
 
 const SandpackLayoutConsumer = SandpackLayout.Consumer;
