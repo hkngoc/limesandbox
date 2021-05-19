@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import autoMergeLevelRecursive from './autoMergeLevelRecursive';
 import createIdbStorage from '@piotr-cz/redux-persist-idb-storage';
 
 export const settingSlice = createSlice({
@@ -30,9 +30,12 @@ export const { changeViewMode } = settingSlice.actions;
 
 const config = {
   key: "setting",
+  keyPrefix: "",
   storage: createIdbStorage({ name: "setting", storeName: "setting" }),
-  // stateReconciler: autoMergeLevel2,
+  debug: true,
   serialize: false,
+  deserialize: false,
+  stateReconciler: autoMergeLevelRecursive,
 };
 
 export default persistReducer(config, settingSlice.reducer);

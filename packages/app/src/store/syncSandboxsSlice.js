@@ -63,13 +63,14 @@ const templateSelector = ({ firestoreDashboard: { data: { templates = {} } } }) 
   return templates;
 };
 
-const selectOrderedSandbox = ({ firestoreDashboard: { ordered: { sandboxs = [] } } }) => {
+const selectOrderedSyncSandboxs = ({ firestoreDashboard: { ordered: { sandboxs = [] } } }) => {
   return sandboxs;
 };
+
 export {
   orderedTemplateSelector,
   templateSelector,
-  selectOrderedSandbox,
+  selectOrderedSyncSandboxs,
 };
 
 export default syncSandboxsSlice.reducer;
