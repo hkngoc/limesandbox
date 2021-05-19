@@ -27,7 +27,7 @@ const Main = () => {
 
         <Route path="/dashboard" name="Dashboard" component={UserIsAuthenticated(Dashboard)} />
         <Route path="/s/:id" name="Sandbox" component={UserIsAuthenticated(Sandbox)} />
-        <Route path="/ls/:id" name="Sandbox" component={UserIsAuthenticated(Sandbox)} />
+        {/* <Route path="/ls/:id" name="LocalSandbox" component={UserIsAuthenticated(Sandbox)} /> */}
 
         <Redirect from="/" to="/dashboard" />
       </Switch>

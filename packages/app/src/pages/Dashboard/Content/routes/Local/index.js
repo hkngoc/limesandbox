@@ -18,13 +18,13 @@ import {
 
 import {
   selectLocalSandboxs,
+  selectOrderedLocalSandboxs,
   createSandboxAsync,
 } from 'store/localSandboxsSlice';
 
 import {
-  persistedStore
+  persistor
 } from 'store';
-
 
 import localModule from './module';
 
@@ -34,16 +34,13 @@ const Local = () => {
   const { showCreateSandboxModal } = useSelector(selectDashboard);
   const templates = useSelector(templateSelector);
   const { _persist } = useSelector(selectLocalSandboxs);
-
-  console.log(_persist);
-
-  const sandboxs = [];
+  const sandboxs = useSelector(selectOrderedLocalSandboxs);
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     if (!_persist || !_persist.rehydrated) {
-      persistedStore.persist();
+      persistor.persist();
     }
   }, [ _persist ]);
 
@@ -64,6 +61,9 @@ const Local = () => {
     try {
       if (template) {
         const result = await dispatch(createSandboxAsync({ ...template, id }));
+        if (result) {
+          window.location.replace(`/#/ls/${result}`);
+        }
       }
     } catch (e) {
       console.error(e);

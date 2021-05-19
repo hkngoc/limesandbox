@@ -6,11 +6,12 @@ import {
   Route
 } from 'react-router-dom';
 
-// const Home = React.lazy(() => import(/* webpackChunkName: "DashboardHome" */'./routes/Home'));
+const Home = React.lazy(() => import(/* webpackChunkName: "DashboardHome" */'./routes/Home'));
+const Local = React.lazy(() => import(/* webpackChunkName: "DashboardHome" */'./routes/Local'));
 // const Draft = React.lazy(() => import( webpackChunkName: "DashboardDraft" './routes/Draft'));
 // const All = React.lazy(() => import(/* webpackChunkName: "DashboardAll" */'./routes/All'));
-import Home from './routes/Home';
-import Local from './routes/Local';
+// import Home from './routes/Home';
+// import Local from './routes/Local';
 // import Draft from './routes/Draft';
 // import All from './routes/All';
 

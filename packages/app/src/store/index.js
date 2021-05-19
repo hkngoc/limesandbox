@@ -31,7 +31,7 @@ const store = createStore({
   )],
 });
 
-const persistedStore = persistStore(store, { manualPersist: true });
+const persistor = persistStore(store, { manualPersist: true });
 
 const rrfProps = {
   firebase,
@@ -45,5 +45,5 @@ export {
   rrfConfig,
   firebase,
   rrfProps,
-  persistedStore
+  persistor,
 };

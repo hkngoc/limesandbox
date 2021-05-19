@@ -1,6 +1,5 @@
 import {
   Button,
-  Nav
 } from 'react-bootstrap';
 
 const IconMore = (props) => {
@@ -56,16 +55,20 @@ const IconTemplate = (props) => {
 
 const SandboxCard = ({ sandbox: { name, id }}) => {
   return (
-    <Nav.Link href={`#/s/${id}`} className="w-100 h-100 p-0">
+    <div className="w-100 h-100 p-0">
       <div className="d-flex flex-column w-100 h-100 sandbox-card">
-        <div className="d-flex sandbox-thumbnail bg-light rounded-top">
-        </div>
+        <a href={`#/${id.length <= 10 ? "ls" : "s"}/${id}`}>
+          <div className="d-flex sandbox-thumbnail bg-light rounded-top">
+          </div>
+        </a>
         <div className="sandbox-template-icon">
           <IconTemplate width={16} height={16}/>
         </div>
         <div className="d-flex flex-column flex-grow-1 justify-content-around">
           <div className="d-flex flex-row justify-content-between mx-3 sandbox-title">
-            <span>{ name }</span>
+            <a href={`#/${id.length <= 10 ? "ls" : "s"}/${id}`}>
+              <span>{ name }</span>
+            </a>
             <Button
               size="sm"
               className="btn-transparent btn-sandbox bg-transparent border-0 border-sandbox rounded-circle"
@@ -85,7 +88,7 @@ const SandboxCard = ({ sandbox: { name, id }}) => {
           </div>
         </div>
       </div>
-    </Nav.Link>
+    </div>
   );
 };
 

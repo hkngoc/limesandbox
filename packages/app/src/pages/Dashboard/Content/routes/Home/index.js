@@ -12,7 +12,7 @@ import {
 } from 'store/dashboardSlice';
 
 import {
-  selectOrderedSandbox,
+  selectOrderedSyncSandboxs,
   templateSelector,
   createSandboxAsync,
 } from 'store/syncSandboxsSlice';
@@ -21,7 +21,7 @@ const CreateNewSandbox = React.lazy(() => import(/* webpackChunkName: "CreateNew
 
 const Home = () => {
   const { showCreateSandboxModal } = useSelector(selectDashboard);
-  const sandboxs = useSelector(selectOrderedSandbox);
+  const sandboxs = useSelector(selectOrderedSyncSandboxs);
   const templates = useSelector(templateSelector);
 
   const dispatch = useDispatch();
@@ -42,7 +42,6 @@ const Home = () => {
     const template = templates[id];
     try {
       const result = await dispatch(createSandboxAsync({ ...template, id }));
-      console.log(result);
       if (result) {
         window.location.replace(`/#/s/${result}`);
       }

@@ -1,8 +1,8 @@
 import React from 'react';
 import { DynamicModuleLoader } from 'redux-dynamic-modules';
 import { compose } from 'redux';
-import { useSelector } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase'
+import { useSelector, connect } from 'react-redux';
+import { firebaseConnect, firestoreConnect } from 'react-redux-firebase';
 
 import Sidebar from './Sidebar';
 import Header from './Header';
@@ -15,7 +15,7 @@ import {
 import dashboardModule from './module';
 
 import {
-  persistedStore
+  persistor,
 } from 'store';
 
 import './styles.css';
@@ -23,13 +23,11 @@ import './styles.css';
 const Dashboard = () => {
   const { _persist } = useSelector(selectSetting);
 
-  console.log(_persist);
-
   React.useEffect(() => {
     if (!_persist || !_persist.rehydrated) {
-      persistedStore.persist();
+      persistor.persist();
     }
-  }, []);
+  }, [ _persist ]);
 
   return (
     <div className="wrapper">
@@ -41,13 +39,17 @@ const Dashboard = () => {
         </main>
       </div>
     </div>
-  )
+  );
 };
 
 const Composed = compose(
-  firestoreConnect(({ firebase }) => {
-    const { currentUser: { uid } } = firebase.auth().toJSON();
-
+  firebaseConnect(),
+  connect(({ firebase: { auth } }) => {
+    return {
+      auth
+    }
+  }),
+  firestoreConnect(({ auth: { uid } }) => {
     return [{
       collection: "templates",
       storeAs: "templates"
@@ -56,7 +58,7 @@ const Composed = compose(
       storeAs: "sandboxs",
       where: [["owner", "==", uid]] 
     }];
-  })
+  }),
 )(Dashboard);
 
 const DynamicModule = (props) => (
