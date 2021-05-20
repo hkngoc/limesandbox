@@ -3,10 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 
 import autoMergeLevelRecursive from './autoMergeLevelRecursive';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-
-import createIdbStorage from '@piotr-cz/redux-persist-idb-storage';
-import localForage from 'localforage';
+// import createIdbStorage from '@piotr-cz/redux-persist-idb-storage';
 import storage from './storage';
 
 import { pick, get, map } from 'lodash';
@@ -41,6 +38,26 @@ const generateUniqId = (sandboxs) => {
   return id;
 };
 
+const initSource = async (id, source) => {
+  try {
+    const sources = storage({ name: "sandboxs", storeName: "sources" });
+    console.log("1", id, source);
+    const f = await sources.db.setItem(id, source);
+    console.log("2", f);
+  } catch (e) {
+    console.error(e);
+  }
+
+  // return new Promise((resolve) => {
+  //   console.log("1");
+  //   const sources = storage({ name: "sandboxs", storeName: "sources" });
+  //   sources.db.setItem(id, source, () => {
+  //     console.log("work here");
+  //     resolve();
+  //   })
+  // });
+};
+
 export const createSandboxAsync = (sandbox) => async (dispatch, getState, { getFirebase, getFirestore }) => {
   const firebase = getFirebase();
   const firestore = getFirestore();
@@ -67,11 +84,7 @@ export const createSandboxAsync = (sandbox) => async (dispatch, getState, { getF
   }));
 
   const sources = storage({ name: "sandboxs", storeName: "sources" });
-  const data = sourceRef.data();
-  sources.setItem(id, data);
-
-  const sensitive = storage({ name: "sandboxs", storeName: "sensitive" });
-  sensitive.setItem(id, { files: {} });
+  await sources.db.setItem(id, sourceRef.data());
 
   return id;
 };
@@ -81,20 +94,18 @@ export const selectLocalSandboxs = state => {
 }
 
 export const selectOrderedLocalSandboxs = state => {
-  const { _persist, ...sandboxs } = get(state, "localSandboxs.sandboxs", {});
+  const { _persist, ...sandboxs } = get(state, "localSandboxs", {});
 
   return map(sandboxs, (v, k) => ({ id: k, ...v }));
 };
 
-const rootReducer = combineReducers({
-  sandboxs: persistReducer({
-    key: "sandboxs",
-    storage: storage({ name: "sandboxs", storeName: "sandboxs" }),
-    keyPrefix: "",
-    serialize: false,
-    deserialize: false,
-    stateReconciler: autoMergeLevelRecursive,
-  }, localSandboxsSlice.reducer),
-});
+const rootReducer = persistReducer({
+  key: "sandboxs",
+  storage: storage({ name: "sandboxs", storeName: "sandboxs" }),
+  keyPrefix: "",
+  serialize: false,
+  deserialize: false,
+  stateReconciler: autoMergeLevelRecursive,
+}, localSandboxsSlice.reducer)
 
 export default rootReducer;

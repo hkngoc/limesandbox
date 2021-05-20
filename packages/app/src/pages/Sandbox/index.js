@@ -1,71 +1,29 @@
 import React from 'react';
-import { DynamicModuleLoader } from 'redux-dynamic-modules';
-import { compose } from 'redux';
-import { useSelector, connect } from 'react-redux';
-import { firebaseConnect, firestoreConnect } from 'react-redux-firebase';
-import { Helmet } from 'react-helmet-async';
 
-import { selectSandboxLite } from 'store/sandboxSlice';
-import sandboxModule from './module';
+import {
+  Switch,
+  Route
+} from 'react-router-dom';
 
-import Header from './Header';
-import SandpackLayout from './SandpackLayout';
+import Loading from './Loading';
 
 import '@codesandbox/sandpack-react/dist/index.css';
 import './styles.css';
 
-const Main = () => {
-  const sandbox = useSelector(selectSandboxLite);
+const SyncSandboxWrapper = React.lazy(() => import(/* webpackChunkName: "SyncSandboxWrapper" */'./SyncWrapper'));
+const LocalSandboxWrapper = React.lazy(() => import(/* webpackChunkName: "LocalSandboxWrapper" */'./LocalWrapper'));
 
-  const getTitle = () => {
-    return sandbox ? sandbox.name || "" : "";
-  };
-
+const Sandbox = () => {
   return (
     <div className="wrapper sp-wrapper sp-monokai-pro">
-      <Helmet>
-        <title>{`${getTitle()} - LimeSandbox`}</title>
-      </Helmet>
-      <Header />
-      <div className="body flex-row">
-        <main className="editor-content">
-          <SandpackLayout />
-        </main>
-      </div>
+      <React.Suspense fallback={<Loading />}>
+        <Switch>
+          <Route path="/sandbox/s/:id" name="SyncSandbox" component={SyncSandboxWrapper} />
+          <Route path="/sandbox/ls/:id" name="LocalSandbox" component={LocalSandboxWrapper} />
+        </Switch>
+      </React.Suspense>
     </div>
-  )
+  );
 };
 
-const Composed = compose(
-  firebaseConnect(),
-  connect(({ firebase: { auth } }) => {
-    return {
-      auth
-    }
-  }),
-  firestoreConnect(({ match: { params: { id } }, auth: { uid } }) => {
-    return [{
-      collection: "sandboxs",
-      doc: id,
-      storeAs: "sandbox"
-    }, {
-      collection: "sandbox_sources",
-      doc: id
-    }, {
-      collection: "sandbox_sensitive",
-      doc: id
-    }, {
-      collection: "users",
-      doc: uid,
-      storeAs: "profile"
-    }];
-  }),
-)(Main);
-
-const DynamicModule = (props) => (
-  <DynamicModuleLoader modules={[sandboxModule]}>
-    <Composed {...props } />
-  </DynamicModuleLoader>
-);
-
-export default DynamicModule;
+export default Sandbox;

@@ -10,7 +10,8 @@ import { createPackageJSON } from '@codesandbox/sandpack-client';
 import {
   useSandpackLayout,
 } from 'contexts/sandpackLayoutContext';
-import { selectSandboxFull } from 'store/sandboxSlice';
+
+// import { selectSandboxFull } from 'store/syncSandboxSlice';
 
 import CloseButtonSVG from './CloseButton';
 import { getFileName } from './utils';
@@ -21,19 +22,19 @@ const FileTab = ({ index, filePath, onClose, onContextMenu, setActiveFile }) => 
   const { sandpackLayout } = useSandpackLayout();
   const { activePath } = sandpackLayout;
 
-  const { template, customSetup, sensitive } = useSelector(selectSandboxFull);
+  // const { template, customSetup, sensitive } = useSelector(selectSandboxFull);
 
   const getTitle = () => {
-    if (filePath in customSetup.files) {
-      const currentSource = files[filePath].code
-      const source = (sensitive.files[filePath] ? sensitive.files[filePath].code : false) || customSetup.files[filePath] || (filePath in SANDBOX_TEMPLATES[template].files ? SANDBOX_TEMPLATES[template].files[filePath].code : (createPackageJSON(SANDBOX_TEMPLATES[template].dependencies)));
+    // if (filePath in customSetup.files) {
+    //   const currentSource = files[filePath].code
+    //   const source = (sensitive.files[filePath] ? sensitive.files[filePath].code : false) || customSetup.files[filePath] || (filePath in SANDBOX_TEMPLATES[template].files ? SANDBOX_TEMPLATES[template].files[filePath].code : (createPackageJSON(SANDBOX_TEMPLATES[template].dependencies)));
   
-      const diff = currentSource !== source;
+    //   const diff = currentSource !== source;
   
-      return `${getFileName(filePath)} ${diff ? "*" : ""}`;
-    } else {
-      return `${getFileName(filePath)}`;
-    }
+    //   return `${getFileName(filePath)} ${diff ? "*" : ""}`;
+    // } else {
+    // }
+    return `${getFileName(filePath)}`;
   };
 
   const handleClose = (e) => {

@@ -61,8 +61,9 @@ const Local = () => {
     try {
       if (template) {
         const result = await dispatch(createSandboxAsync({ ...template, id }));
+
         if (result) {
-          window.location.replace(`/#/ls/${result}`);
+          window.location.replace(`/#/sandbox/ls/${result}`);
         }
       }
     } catch (e) {

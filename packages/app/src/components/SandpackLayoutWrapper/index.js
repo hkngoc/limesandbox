@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import SplitPane from 'react-split';
+import useKeypress from 'react-use-keypress';
 
 import {
   SandpackProvider,
@@ -8,7 +9,11 @@ import {
   SandpackPreview,
 } from '@codesandbox/sandpack-react';
 
-import useKeypress from 'react-use-keypress';
+import {
+  selectSandbox,
+  resizePane,
+  hideFileMenuPane,
+} from 'store/sandboxSlice';
 
 import { SandpackLayoutProvider } from 'contexts/sandpackLayoutContext';
 import { MonacoServicesProvider } from 'contexts/monacoServiceContext';
@@ -21,35 +26,18 @@ import {
   Navigator,
 } from 'components';
 
-import {
-  selectSandbox,
-  selectSandboxFull,
-  showFileMenuPane,
-  resizePane,
-  hideFileMenuPane,
-  renameSandboxFile,
-  newSandboxFile,
-  deleteSandboxFile,
-  newSandboxFolder,
-  markSensitiveSandboxFile,
-  unmarkSensitiveSandboxFile,
-} from 'store/sandboxSlice';
-import { saveSandboxCodeAsync } from 'store/sandboxSlice';
-
-const Editor = () => {
+const SandpackLayoutWrapper = ({
+  customSetup,
+  files,
+  sensitiveSources = {},
+  template,
+  onCodeSave,
+  onContextMenu,
+  onMenuSubmit,
+}) => {
   const monacoPaneRef = React.useRef();
 
-  const {
-    id,
-    template,
-    customSetup: {
-      files,
-      ...customSetup
-    },
-    sensitive: {
-      files: sensitiveSources
-    }
-  } = useSelector(selectSandboxFull);
+  const dispatch = useDispatch();
 
   const {
     layout: {
@@ -59,33 +47,6 @@ const Editor = () => {
       editorSizes
     }
   } = useSelector(selectSandbox);
-
-  const dispatch = useDispatch();
-
-  const onCodeSave = (path, sensitive, code) => {
-    dispatch(saveSandboxCodeAsync(id, path, code, sensitive));
-  };
-
-  const onContextMenu = (mid, path, prefixedPath, directory) => {
-    switch (mid) {
-      case 1:
-      case 2:
-      case 3:
-        dispatch(showFileMenuPane());
-        break;
-      case 4:
-        dispatch(deleteSandboxFile(id, path, prefixedPath, directory));
-        break;
-      case 5:
-        dispatch(markSensitiveSandboxFile(id, path));
-        break;
-      case 6:
-        dispatch(unmarkSensitiveSandboxFile(id, path));
-        break;
-      default:
-        break;
-    }
-  };
 
   const onDragEnd = (spliter, sizes) => {
     dispatch(resizePane(spliter, sizes));
@@ -97,21 +58,11 @@ const Editor = () => {
 
   useKeypress("Escape", onEscape);
 
-  const onMenuSubmit = ({ id: mid, path, prefixedPath, directory }, { value }) => {
+  const handleOnMenuSubmit = (...params) => {
     onEscape();
 
-    switch(mid) {
-      case 1:
-        dispatch(newSandboxFile(id, `${prefixedPath}${value}`));
-        break;
-      case 2:
-        dispatch(newSandboxFolder(id, `${prefixedPath}${value}/`))
-        break;
-      case 3:
-        dispatch(renameSandboxFile(id, path, `${prefixedPath}${value}`));
-        break;
-      default:
-        break;
+    if (onMenuSubmit) {
+      onMenuSubmit.call(this, ...params);
     }
   };
 
@@ -174,7 +125,7 @@ const Editor = () => {
               </MonacoServicesProvider>
             </SandpackLayout>
             <FileMenu
-              onSubmit={onMenuSubmit}
+              onSubmit={handleOnMenuSubmit}
             />
           </SplitPane>
         </SandpackLayoutProvider>
@@ -195,18 +146,7 @@ const Editor = () => {
   );
 };
 
-const Wrapper = (props) => {
-  const { id, customSetup: { files } } = useSelector(selectSandboxFull);
-
-  if (!id || !files) {
-    return (
-      <h1>Loading</h1>
-    );
-  }
-
-  return (
-    <Editor {...props}/>
-  );
-};
-
-export default Wrapper;
+export default SandpackLayoutWrapper;
+export {
+  SandpackLayoutWrapper
+}

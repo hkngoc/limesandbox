@@ -57,7 +57,7 @@ const SandboxCard = ({ sandbox: { name, id }}) => {
   return (
     <div className="w-100 h-100 p-0">
       <div className="d-flex flex-column w-100 h-100 sandbox-card">
-        <a href={`#/${id.length <= 10 ? "ls" : "s"}/${id}`}>
+        <a href={`#/sandbox/${id.length <= 10 ? "ls" : "s"}/${id}`}>
           <div className="d-flex sandbox-thumbnail bg-light rounded-top">
           </div>
         </a>
@@ -66,7 +66,7 @@ const SandboxCard = ({ sandbox: { name, id }}) => {
         </div>
         <div className="d-flex flex-column flex-grow-1 justify-content-around">
           <div className="d-flex flex-row justify-content-between mx-3 sandbox-title">
-            <a href={`#/${id.length <= 10 ? "ls" : "s"}/${id}`}>
+            <a href={`#/sandbox/${id.length <= 10 ? "ls" : "s"}/${id}`}>
               <span>{ name }</span>
             </a>
             <Button

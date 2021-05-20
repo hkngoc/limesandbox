@@ -1,8 +1,7 @@
 import { firestoreReducer } from 'redux-firestore';
 import sandboxReducer from 'store/sandboxSlice';
-// import settingReducer from 'store/settingSlice';
 
-const sandboxModule = [
+const syncSandboxModule = [
   {
     id: "firestore_sandbox",
     reducerMap: {
@@ -17,4 +16,4 @@ const sandboxModule = [
   }
 ];
 
-export default sandboxModule;
+export default syncSandboxModule;
