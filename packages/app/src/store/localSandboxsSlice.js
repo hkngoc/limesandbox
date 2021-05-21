@@ -26,8 +26,22 @@ export const localSandboxsSlice = createSlice({
         [id]: sandbox,
       }
     },
+    deleteSandbox: (state, action) => {
+      const {
+        id
+      } = action.payload;
+
+      const rest = Object.keys(state)
+        .filter(key => key !== id);
+
+      console.log(rest);
+
+      return pick(state, rest);
+    }
   }
 });
+
+export const { deleteSandbox }  = localSandboxsSlice.actions;
 
 const generateUniqId = (sandboxs) => {
   do {

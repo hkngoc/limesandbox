@@ -20,6 +20,7 @@ import {
   selectLocalSandboxs,
   selectOrderedLocalSandboxs,
   createSandboxAsync,
+  deleteSandbox,
 } from 'store/localSandboxsSlice';
 
 import {
@@ -47,6 +48,16 @@ const Local = () => {
   const onItemClick = (type) => {
     if (type === "new-sandbox") {
       dispatch(openCreateSandboxModal());
+    }
+  };
+
+  const onSelectMenu = (id, eventKey) => {
+    switch (eventKey) {
+      case "3":
+        dispatch(deleteSandbox({ id }));
+        break;
+      default:
+        break;
     }
   };
 
@@ -79,8 +90,9 @@ const Local = () => {
       </Helmet>
       <Header title="Local" showViewOptions={true} />
       <VariableGrid
-        items={ [{ type: "new-sandbox" }, ...sandboxs.map(s => ({ type: "sandbox", sandbox: s })) ]}
+        items={ [{ type: "new-sandbox", sandbox: { id: 0 } }, ...sandboxs.map(s => ({ type: "sandbox", sandbox: s })) ]}
         onItemClick={onItemClick}
+        onSelectMenu={onSelectMenu}
       />
       <CreateNewSandbox
         show={showCreateSandboxModal}

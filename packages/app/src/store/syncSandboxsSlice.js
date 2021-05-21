@@ -53,6 +53,25 @@ export const createSandboxAsync = sandbox => async (dispatch, getState, { getFir
   return id;
 };
 
+export const deleteSandboxAsync = ({ id }) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firestore = getFirestore();
+
+  await firestore.delete({
+    collection: "sandboxs",
+    doc: id
+  });
+
+  await firestore.delete({
+    collection: "sandbox_sources",
+    doc: id
+  });
+
+  await firestore.delete({
+    collection: "sandbox_sensitive",
+    doc: id
+  });
+};
+
 export const selectSyncSandboxs = state => state.dashboard;
 
 const orderedTemplateSelector = ({ firestoreDashboard: { ordered: { templates = [] } } }) => {

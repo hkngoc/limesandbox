@@ -1,13 +1,14 @@
 // import SandboxListItem from './SandboxListItem';
 import SandboxCard from './SandboxCard';
 
-const GenericSandbox = ({ item }) => {
+const GenericSandbox = ({ item, ...props }) => {
   const { sandbox } = item;
 
   const Component = SandboxCard;
 
   const sandboxProps = {
-    sandbox
+    sandbox,
+    ...props
   };
 
   return (

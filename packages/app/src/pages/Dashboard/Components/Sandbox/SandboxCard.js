@@ -1,5 +1,5 @@
 import {
-  Button,
+  Dropdown,
 } from 'react-bootstrap';
 
 const IconMore = (props) => {
@@ -53,28 +53,34 @@ const IconTemplate = (props) => {
   );
 };
 
-const SandboxCard = ({ sandbox: { name, id }}) => {
+const SandboxCard = ({ sandbox: { name, id }, onSelectMenu }) => {
   return (
-    <div className="w-100 h-100 p-0">
-      <div className="d-flex flex-column w-100 h-100 sandbox-card">
+    <div className="w-100 h-100 p-0 position-relative">
+      <div className="sandbox-template-icon">
+        <IconTemplate width={16} height={16}/>
+      </div>
+      <div className="d-flex flex-column w-100 h-100 sandbox-card-content">
         <a href={`#/sandbox/${id.length <= 10 ? "ls" : "s"}/${id}`}>
           <div className="d-flex sandbox-thumbnail bg-light rounded-top">
           </div>
         </a>
-        <div className="sandbox-template-icon">
-          <IconTemplate width={16} height={16}/>
-        </div>
         <div className="d-flex flex-column flex-grow-1 justify-content-around">
           <div className="d-flex flex-row justify-content-between mx-3 sandbox-title">
             <a href={`#/sandbox/${id.length <= 10 ? "ls" : "s"}/${id}`}>
               <span>{ name }</span>
             </a>
-            <Button
-              size="sm"
-              className="btn-transparent btn-sandbox bg-transparent border-0 border-sandbox rounded-circle"
-            >
-              <IconMore width={9} height={9}/>
-            </Button>
+            <Dropdown onSelect={onSelectMenu ? onSelectMenu.bind(this, id) : null}>
+              <Dropdown.Toggle variant="transparent" className="d-flex dropdown-toggle-transparent" size="sm">
+                <IconMore width={15} height={15} />
+              </Dropdown.Toggle>
+              <Dropdown.Menu align={"right"}>
+                <Dropdown.Item disabled={true} eventKey={1}>Rename</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item disabled={true} eventKey={2}>Fork</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item eventKey={3}>Delete</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
           <div className="d-flex mx-3 text-sm sandbox-stat">
             <span className="d-flex flex-row small">

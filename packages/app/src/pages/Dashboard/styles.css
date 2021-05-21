@@ -13,3 +13,11 @@ main.content {
 main.content a {
   color: rgb(153, 153, 153);
 }
+
+.btn.dropdown-toggle svg {
+  color: var(--white);
+}
+
+.dropdown-divider {
+  border-color: rgb(36, 36, 36);
+}

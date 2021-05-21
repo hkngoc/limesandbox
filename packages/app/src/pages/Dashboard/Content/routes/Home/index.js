@@ -15,6 +15,7 @@ import {
   selectOrderedSyncSandboxs,
   templateSelector,
   createSandboxAsync,
+  deleteSandboxAsync,
 } from 'store/syncSandboxsSlice';
 
 const CreateNewSandbox = React.lazy(() => import(/* webpackChunkName: "CreateNewSandbox" */'components/CreateNewSandbox'));
@@ -32,6 +33,16 @@ const Home = () => {
     }
   };
 
+  const onSelectMenu = (id, eventKey) => {
+    switch (eventKey) {
+      case "3":
+        dispatch(deleteSandboxAsync({ id }));
+        break;
+      default:
+        break;
+    }
+  };
+
   const onHide = () => {
     dispatch(closeCreateSandboxModal());
   };
@@ -42,8 +53,9 @@ const Home = () => {
     const template = templates[id];
     try {
       const result = await dispatch(createSandboxAsync({ ...template, id }));
+
       if (result) {
-        window.location.replace(`/#/s/${result}`);
+        window.location.replace(`/#/sandbox/s/${result}`);
       }
     } catch (e) {
       console.error(e);
@@ -57,8 +69,9 @@ const Home = () => {
       </Helmet>
       <Header title="Home" showViewOptions={true} />
       <VariableGrid
-        items={ [{ type: "new-sandbox" }, ...sandboxs.map(s => ({ type: "sandbox", sandbox: s })) ]}
+        items={ [{ type: "new-sandbox", sandbox: { id: 0 } }, ...sandboxs.map(s => ({ type: "sandbox", sandbox: s })) ]}
         onItemClick={onItemClick}
+        onSelectMenu={onSelectMenu}
       />
       <CreateNewSandbox
         show={showCreateSandboxModal}

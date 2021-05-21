@@ -1,141 +1,46 @@
 import React from 'react';
 
-import { VariableSizeGrid as Grid } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
-
 import { Sandbox, NewSandbox } from '../Sandbox';
 
-export const GRID_MAX_WIDTH = 1900;
-export const MAX_COLUMN_COUNT = 6;
-export const GUTTER = 36;
-const ITEM_MIN_WIDTH = 220;
-const ITEM_HEIGHT_GRID = 240;
-// const ITEM_HEIGHT_LIST = 64;
-// const HEADER_HEIGHT = 64;
-// const GRID_VERTICAL_OFFSET = 120;
-const ITEM_VERTICAL_OFFSET = 32;
+import './styles.css';
 
 const ComponentForTypes = {
   "new-sandbox": NewSandbox,
   "sandbox": Sandbox
 };
 
-const Item = ({ data, rowIndex, columnIndex, style }) => {
-  const { items, columnCount, containerWidth, onItemClick } = data;
-
-  const totalWidth = containerWidth;
-  const containerLeftOffset = 0;
-  const spaceReqiuredForGutters = GUTTER * (columnCount - 1);
-  const spaceLeftForItems = totalWidth - spaceReqiuredForGutters;
-  const numberOfItems = columnCount;
-  const eachItemWidth = spaceLeftForItems / numberOfItems;
-  const spaceTakenBeforeThisItem = containerLeftOffset + columnIndex * (eachItemWidth + GUTTER);
-  const leftOffset = spaceTakenBeforeThisItem + 0;
-
-  const index = rowIndex * data.columnCount + columnIndex;
-  const item = items[index];
-
-  const margins = {
-    marginTop: ITEM_VERTICAL_OFFSET,
-    marginBottom: ITEM_VERTICAL_OFFSET,
-  };
-
-  const numberOfRows = Math.ceil(items.length / columnCount);
-  const isLastRow = rowIndex === numberOfRows - 1;
-  if (isLastRow) {
-    margins.marginBottom += ITEM_VERTICAL_OFFSET;
-  }
-
-  if (!item) {
-    return null;
-  }
-
-  const { type } = item;
+const Item = ({ data, onItemClick, onSelectMenu }) => {
+  const { type } = data;
   const Component = ComponentForTypes[type];
 
   return (
     <div
-      className="border border-sandbox rounded"
-      style={{
-        ...style,
-        width: eachItemWidth,
-        left: leftOffset,
-        height: (style.height) - GUTTER,
-        ...margins,
-      }}
+      className="sandbox-card border border-sandbox rounded"
     >
       <Component
-        item={item}
-        onClick={onItemClick ? onItemClick.bind(this, type, item) : null}
+        item={data}
+        onClick={onItemClick ? onItemClick.bind(this, type, data) : null}
+        onSelectMenu={onSelectMenu}
       />
     </div>
   );
 };
 
-const VariableGrid = ({ items, onItemClick }) => {
-  const gridRef = React.useRef();
-
-  const ITEM_HEIGHT = ITEM_HEIGHT_GRID;
-
-  React.useEffect(() => {
-    recalculatePositions();
-  }, [items]);
-
-  const onResize = () => {
-    recalculatePositions();
-  };
-
-  const recalculatePositions = () => {
-    if (gridRef.current) {
-      gridRef.current.resetAfterIndices({
-        columnIndex: 0,
-        rowIndex: 0,
-        shouldForceUpdate: true,
-      });
-    }
-  };
-
-  const getRowHeight = (rowIndex, columnCount) => {
-    return ITEM_HEIGHT + GUTTER;
-  };
-
+const VariableGrid = ({ items, onItemClick, onSelectMenu }) => {
   return (
-    <div className="w-100 pb-3">
-      <AutoSizer
-        disableHeight={true}
-        onResize={onResize}
-      >
-        {({ width }) => {
-          const cappedWith = width;
-          const columnCount = Math.min(
-            Math.floor((cappedWith - GUTTER) / (ITEM_MIN_WIDTH + GUTTER)),
-            MAX_COLUMN_COUNT
-          ) || 1;
-          const rowCount = Math.ceil(items.length / columnCount);
-
+    <div className="my-grid w-100 py-3">
+      {
+        items.map(o => {
           return (
-            <Grid
-              ref={gridRef}
-              height={rowCount * (ITEM_HEIGHT_GRID + GUTTER)}
-              width={width}
-              columnCount={columnCount}
-              rowCount={rowCount}
-              columnWidth={index => width / columnCount}
-              rowHeight={rowIndex => getRowHeight(rowIndex, columnCount, items)}
-              estimatedColumnWidth={width / columnCount}
-              estimatedRowHeight={ITEM_HEIGHT}
-              itemData={{
-                items,
-                columnCount,
-                containerWidth: width,
-                onItemClick,
-              }}
-            >
-              {Item}
-            </Grid>
-          );
-        }}
-      </AutoSizer>
+            <Item
+              key={o.sandbox.id}
+              data={o}
+              onItemClick={onItemClick}
+              onSelectMenu={onSelectMenu}
+            />
+          )
+        })
+      }
     </div>
   );
 };
