@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useSelector, useDispatch } from 'react-redux';
 
 import Header from './Header';
 import SandpackLayout from './SandpackLayout';

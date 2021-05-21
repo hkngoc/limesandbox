@@ -103,7 +103,7 @@ index c20d0cb..4e087f6 100644
              React.createElement("iframe", { ref: iframeRef, className: c("preview-iframe"), style: {
                      // set height based on the content only in auto mode
 diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
-index 9e80089..8b1c298 100644
+index 9e80089..a51a819 100644
 --- a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
 +++ b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
 @@ -41,7 +41,10 @@ class SandpackProvider extends React.PureComponent {
@@ -128,7 +128,18 @@ index 9e80089..8b1c298 100644
          this.dispatchMessage = (message) => {
              if (this.client === null) {
                  console.warn("dispatch cannot be called while in idle mode");
-@@ -161,6 +167,7 @@ class SandpackProvider extends React.PureComponent {
+@@ -149,8 +155,9 @@ class SandpackProvider extends React.PureComponent {
+             return this.client.listen(listener);
+         };
+         this._getSandpackState = () => {
+-            const { files, activePath, openPaths, startRoute, bundlerState, editorState, error, sandpackStatus, } = this.state;
++            const { files, activePath, openPaths, startRoute, bundlerState, editorState, error, sandpackStatus, origin, } = this.state;
+             return {
++                origin,
+                 files,
+                 openPaths,
+                 activePath,
+@@ -161,6 +168,7 @@ class SandpackProvider extends React.PureComponent {
                  editorState,
                  setActiveFile: this.setActiveFile,
                  openFile: this.openFile,
@@ -136,3 +147,20 @@ index 9e80089..8b1c298 100644
                  updateCurrentFile: this.updateCurrentFile,
                  updateFile: this.updateFile,
                  runSandpack: this.runSandpack,
+@@ -175,6 +183,7 @@ class SandpackProvider extends React.PureComponent {
+         };
+         const { activePath, openPaths, files, environment, } = getSandpackStateFromProps(props);
+         this.state = {
++            origin: files,
+             files,
+             environment,
+             openPaths,
+@@ -232,7 +241,7 @@ class SandpackProvider extends React.PureComponent {
+                 JSON.stringify(this.props.customSetup)) {
+             const { activePath, openPaths, files, environment, } = getSandpackStateFromProps(this.props);
+             /* eslint-disable react/no-did-update-set-state */
+-            this.setState({ activePath, openPaths, files, environment });
++            this.setState({ activePath, openPaths, files, environment, origin: files });
+             if (this.state.sandpackStatus !== "running" || !this.client) {
+                 return;
+             }

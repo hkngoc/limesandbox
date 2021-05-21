@@ -4,37 +4,27 @@ import { useSelector } from 'react-redux';
 import {
   useSandpack,
 } from '@codesandbox/sandpack-react';
-import { SANDBOX_TEMPLATES } from '@codesandbox/sandpack-react/dist/esm/templates';
-import { createPackageJSON } from '@codesandbox/sandpack-client';
 
 import {
   useSandpackLayout,
 } from 'contexts/sandpackLayoutContext';
-
-// import { selectSandboxFull } from 'store/syncSandboxSlice';
 
 import CloseButtonSVG from './CloseButton';
 import { getFileName } from './utils';
 
 const FileTab = ({ index, filePath, onClose, onContextMenu, setActiveFile }) => {
   const { sandpack } = useSandpack();
-  const { files } = sandpack;
+  const { files, origin } = sandpack;
   const { sandpackLayout } = useSandpackLayout();
   const { activePath } = sandpackLayout;
 
-  // const { template, customSetup, sensitive } = useSelector(selectSandboxFull);
-
   const getTitle = () => {
-    // if (filePath in customSetup.files) {
-    //   const currentSource = files[filePath].code
-    //   const source = (sensitive.files[filePath] ? sensitive.files[filePath].code : false) || customSetup.files[filePath] || (filePath in SANDBOX_TEMPLATES[template].files ? SANDBOX_TEMPLATES[template].files[filePath].code : (createPackageJSON(SANDBOX_TEMPLATES[template].dependencies)));
-  
-    //   const diff = currentSource !== source;
-  
-    //   return `${getFileName(filePath)} ${diff ? "*" : ""}`;
-    // } else {
-    // }
-    return `${getFileName(filePath)}`;
+    const currentSource = files[filePath].code
+    const source = origin[filePath].code;
+
+    const diff = currentSource !== source;
+
+    return `${getFileName(filePath)} ${diff ? "*" : ""}`;
   };
 
   const handleClose = (e) => {

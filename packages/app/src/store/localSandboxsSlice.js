@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 
@@ -36,26 +35,6 @@ const generateUniqId = (sandboxs) => {
   } while (id in sandboxs);
 
   return id;
-};
-
-const initSource = async (id, source) => {
-  try {
-    const sources = storage({ name: "sandboxs", storeName: "sources" });
-    console.log("1", id, source);
-    const f = await sources.db.setItem(id, source);
-    console.log("2", f);
-  } catch (e) {
-    console.error(e);
-  }
-
-  // return new Promise((resolve) => {
-  //   console.log("1");
-  //   const sources = storage({ name: "sandboxs", storeName: "sources" });
-  //   sources.db.setItem(id, source, () => {
-  //     console.log("work here");
-  //     resolve();
-  //   })
-  // });
 };
 
 export const createSandboxAsync = (sandbox) => async (dispatch, getState, { getFirebase, getFirestore }) => {

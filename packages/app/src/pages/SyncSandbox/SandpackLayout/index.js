@@ -6,8 +6,8 @@ import {
 } from 'store/sandboxSlice';
 
 import {
-  saveSandboxCodeAsync,
   selectSandboxFull,
+  saveSandboxCodeAsync,
   renameSandboxFile,
   newSandboxFile,
   deleteSandboxFile,

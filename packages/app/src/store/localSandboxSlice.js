@@ -1,7 +1,6 @@
-import { combineReducers } from 'redux';
 import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
-import { get, pick } from 'lodash';
+import { get, pick, mapKeys } from 'lodash';
 
 // import createIdbStorage from '@piotr-cz/redux-persist-idb-storage';
 import autoMergeLevelRecursive from './autoMergeLevelRecursive';
@@ -40,8 +39,112 @@ export const localSandboxSourcesSlice = createSlice({
     locked: []
   },
   reducers: {
+    saveSandboxCodeAsync: (state, action) => {
+      const {
+        path,
+        code
+      } = action.payload;
+
+      return {
+        ...state,
+        files: {
+          ...state.files,
+          [path]: code
+        }
+      }
+    },
+    renameSandboxFile: (state, action) => {
+      const {
+        oldPath,
+        newPath,
+        directory,
+      } = action.payload;
+
+      const sourceRef = get(state, "files", {});
+
+      const candidates = directory ? (
+        Object.keys(sourceRef)
+        .filter(file => file.startsWith(oldPath))
+        .reduce((obj, item) => {
+          console.log(item);
+
+          const re = new RegExp(`^${oldPath}`, "g");
+          const updated = item.replace(re, newPath);
+
+          return {
+            ...obj,
+            [item]: updated
+          }
+        }, {})
+      ) : {
+        oldPath: newPath
+      };
+
+      return {
+        ...state,
+        files: mapKeys(state.files, (v, k) => k in candidates ? candidates[k] : k)
+      }
+    },
+    newSandboxFile: (state, action) => {
+      const {
+        path
+      } = action.payload;
+
+      return {
+        ...state,
+        files: {
+          ...state.files,
+          [path]: "\n"
+        }
+      }
+    },
+    deleteSandboxFile: (state, action) => {
+      const {
+        path,
+        directory
+      } = action.payload;
+
+      const sourceRef = get(state, "files", {});
+
+      const candidates = directory ? (
+        Object.keys(sourceRef)
+        .filter(file => !file.startsWith(path))
+      ) : (
+        Object.keys(sourceRef)
+        .filter(file => file !== path)
+      );
+
+      return {
+        ...state,
+        files: pick(sourceRef, candidates)
+      }
+    },
+    newSandboxFolder: (state, action) => {
+      const {
+        path
+      } = action.payload;
+
+      return {
+        ...state,
+        files: {
+          ...state.files,
+          [path]: {
+            code: "\n",
+            folder: true
+          }
+        }
+      }
+    },
   }
 });
+
+export const {
+  saveSandboxCodeAsync,
+  renameSandboxFile,
+  newSandboxFile,
+  deleteSandboxFile,
+  newSandboxFolder,
+} = localSandboxSourcesSlice.actions;
 
 export const selectSandboxLite = (id, state) => {
   return get(state, `localSandbox.${id}`, {});
