@@ -13,7 +13,7 @@ import ModuleList from './ModuleList';
 import { useSandpackLayout, } from 'contexts/sandpackLayoutContext';
 import { useMonacoServices, } from 'contexts/monacoServiceContext';
 
-const FileExplorer = ({ customStyle, onContextMenu }) => {
+const FileExplorer = ({ customStyle, onContextMenu, sensitiveEnable = false }) => {
   const { sandpack } = useSandpack();
   const { sandpackLayout } = useSandpackLayout();
   const { services: { contextMenuService } } = useMonacoServices();
@@ -55,8 +55,8 @@ const FileExplorer = ({ customStyle, onContextMenu }) => {
       if (!directory) {
         const { files: { [path]: { sensitive = false } } } = sandpack;
 
-        actions.push(new Action("5", "Mark Sensitive", "", !locked.includes(path) && !sensitive, handleContextMenuCallback.bind(this, 5, path, prefixedPath, directory)));
-        actions.push(new Action("6", "UnMark Sensitive", "", !locked.includes(path) && sensitive, handleContextMenuCallback.bind(this, 6, path, prefixedPath, directory)));
+        actions.push(new Action("5", "Mark Sensitive", "", sensitiveEnable && !locked.includes(path) && !sensitive, handleContextMenuCallback.bind(this, 5, path, prefixedPath, directory)));
+        actions.push(new Action("6", "UnMark Sensitive", "", sensitiveEnable && !locked.includes(path) && sensitive, handleContextMenuCallback.bind(this, 6, path, prefixedPath, directory)));
         actions.push(new Separator());
       }
       actions.push(new Action("7", "Upload Files", "", false, handleContextMenuCallback.bind(this, 7, path, prefixedPath, directory)));

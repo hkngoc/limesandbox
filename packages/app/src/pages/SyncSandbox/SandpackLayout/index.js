@@ -81,6 +81,7 @@ const Editor = () => {
         files,
         sensitiveSources,
         template,
+        sensitiveEnable: true,
         onCodeSave,
         onContextMenu,
         onMenuSubmit,

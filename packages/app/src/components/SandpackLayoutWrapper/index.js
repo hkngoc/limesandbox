@@ -31,6 +31,7 @@ const SandpackLayoutWrapper = ({
   files,
   sensitiveSources = {},
   template,
+  sensitiveEnable = false,
   onCodeSave,
   onContextMenu,
   onMenuSubmit,
@@ -116,6 +117,7 @@ const SandpackLayoutWrapper = ({
                     <FileExplorer
                       onContextMenu={onContextMenu}
                       onEscape={onEscape}
+                      sensitiveEnable={sensitiveEnable}
                     />
                     <CodeEditor
                       onSave={onCodeSave}
