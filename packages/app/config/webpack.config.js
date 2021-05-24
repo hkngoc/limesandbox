@@ -84,6 +84,9 @@ const hasJsxRuntime = (() => {
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function (webpackEnv) {
   const isEnvDevelopment = webpackEnv === 'development';
+
+  console.log(webpackEnv, isEnvDevelopment);
+
   const isEnvProduction = webpackEnv === 'production';
 
   // Variable used for enabling profiling in Production

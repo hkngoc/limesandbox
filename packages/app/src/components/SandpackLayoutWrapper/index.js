@@ -135,6 +135,7 @@ const SandpackLayoutWrapper = ({
       <SandpackProvider
         template={template}
         customSetup={{ files: { ...files, ...sensitiveSources } }}
+        bundlerURL={`${window.location.origin}/sandpack/index.html`}
         autorun={true}
       >
         <SandpackPreview

@@ -13,11 +13,13 @@ import 'firebase/firestore';
 import firebaseConfig from './firebase.json';
 
 firebase.initializeApp(firebaseConfig);
-const firestore = firebase.firestore();
 
-// const auth = firebase.auth();
-// auth.useEmulator("http://localhost:9099");
-// firestore.useEmulator("localhost", 8080);
+// if (process.env.NODE_ENV !== "production") {
+//   const firestore = firebase.firestore();
+//   firestore.useEmulator("localhost", 8080);
+//   const auth = firebase.auth();
+//   auth.useEmulator("http://localhost:9099");
+// }
 
 const rrfConfig = {
   userProfile: "users",
