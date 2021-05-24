@@ -98,3 +98,7 @@ hr {
 .sandbox-template-icon svg {
   vertical-align: top;
 }
+
+.nav-link a {
+  text-decoration: none;
+}

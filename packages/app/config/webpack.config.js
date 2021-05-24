@@ -575,7 +575,7 @@ module.exports = function (webpackEnv) {
       isEnvDevelopment &&
         new CleanWebpackPlugin({
           verbose: true,
-          cleanStaleWebpackAssets: true,
+          cleanStaleWebpackAssets: false,
           cleanAfterEveryBuildPatterns: [
             '*.hot-update.json',
             '*.hot-update.js',

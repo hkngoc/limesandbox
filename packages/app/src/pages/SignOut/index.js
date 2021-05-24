@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import firebase from 'firebase/app';
 
-const SignOut = () => {
+const SignOut = ({ history }) => {
   useEffect(() => {
     const logout = async () => {
       await firebase.logout();
 
-      window.location.replace("/");
+      history.replace("/");
     }
 
     logout();
-  }, []);
+  }, [history]);
 
   return (
     <h1>Signout</h1>

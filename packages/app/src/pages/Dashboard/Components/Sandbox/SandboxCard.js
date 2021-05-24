@@ -2,6 +2,10 @@ import {
   Dropdown,
 } from 'react-bootstrap';
 
+import {
+  Link,
+} from 'react-router-dom';
+
 const IconMore = (props) => {
   return (
     <svg
@@ -60,15 +64,14 @@ const SandboxCard = ({ sandbox: { name, id }, onSelectMenu }) => {
         <IconTemplate width={16} height={16}/>
       </div>
       <div className="d-flex flex-column w-100 h-100 sandbox-card-content">
-        <a href={`#/sandbox/${id.length <= 10 ? "ls" : "s"}/${id}`}>
-          <div className="d-flex sandbox-thumbnail bg-light rounded-top">
-          </div>
-        </a>
+        <Link to={`/sandbox/${id.length <= 10 ? "ls" : "s"}/${id}`}>
+          <div className="d-flex sandbox-thumbnail bg-light rounded-top" />
+        </Link>
         <div className="d-flex flex-column flex-grow-1 justify-content-around">
           <div className="d-flex flex-row justify-content-between mx-3 sandbox-title">
-            <a href={`#/sandbox/${id.length <= 10 ? "ls" : "s"}/${id}`}>
+            <Link to={`/sandbox/${id.length <= 10 ? "ls" : "s"}/${id}`}>
               <span>{ name }</span>
-            </a>
+            </Link>
             <Dropdown onSelect={onSelectMenu ? onSelectMenu.bind(this, id) : null}>
               <Dropdown.Toggle variant="transparent" className="d-flex dropdown-toggle-transparent" size="sm">
                 <IconMore width={15} height={15} />

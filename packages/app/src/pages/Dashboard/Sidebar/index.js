@@ -1,6 +1,6 @@
 import {
-  Nav
-} from 'react-bootstrap';
+  Link,
+} from 'react-router-dom';
 
 import './styles.css';
 
@@ -8,11 +8,23 @@ const Sidebar = () => {
   return (
     <div className="sidebar d-none d-sm-block">
       <div className="flex flex-row w-100">
-        <Nav.Link href="#/dashboard/home">Home</Nav.Link>
+        <div className="nav-link" role="button">
+          <Link to="/dashboard/home">
+            <div>Home</div>
+          </Link>
+        </div>
         <hr />
-        <Nav.Link href="#/dashboard/local">Local</Nav.Link>
+        <div className="nav-link" role="button">
+          <Link to="/dashboard/local">
+            <div>Local</div>
+          </Link>
+        </div>
         <hr />
-        <Nav.Link href="#/signout">Sign Out</Nav.Link>
+        <div className="nav-link" role="button">
+          <Link to="/signout">
+            <div>Sign Out</div>
+          </Link>
+        </div>
         <hr />
       </div>
     </div>

@@ -1,8 +1,14 @@
+import React from 'react';
 import firebase from 'firebase/app';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import locationHelper from 'redux-auth-wrapper/history4/locationHelper';
 
+const timeout = (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
+
 const SignIn = (props) => {
+  const { history } = props;
   const helper = locationHelper();
 
   const CONFIG = {
@@ -13,7 +19,16 @@ const SignIn = (props) => {
         prompt: "select_account"
       }
     }],
-    signInSuccessUrl: helper.getRedirectQueryParam(props) || "/"
+    // signInSuccessUrl: helper.getRedirectQueryParam(props) || "/",
+    callbacks: {
+      signInSuccessWithAuthResult: async () => {
+        await timeout(1000);
+
+        history.replace(helper.getRedirectQueryParam(props) || "/");
+
+        return false;
+      }
+    }
   };
 
   return (
