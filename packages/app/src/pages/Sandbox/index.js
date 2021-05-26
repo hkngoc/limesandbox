@@ -18,8 +18,34 @@ const Sandbox = () => {
     <div className="wrapper sp-wrapper sp-monokai-pro">
       <React.Suspense fallback={<Loading />}>
         <Switch>
-          <Route path="/sandbox/s/:id" name="SyncSandbox" component={SyncSandboxWrapper} />
-          <Route path="/sandbox/ls/:id" name="LocalSandbox" component={LocalSandboxWrapper} />
+          <Route
+            path="/sandbox/s/:id"
+            name="SyncSandbox"
+            render={(props) => (
+              <SyncSandboxWrapper {...props}/>
+            )}
+          />
+          <Route
+            path="/sandbox/ps/:id"
+            name="PreviewSyncSandbox"
+            render={(props) => (
+              <SyncSandboxWrapper {...props} preview={true}/>
+            )}
+          />
+          <Route
+            path="/sandbox/ls/:id"
+            name="LocalSandbox"
+            render={(props) => (
+              <LocalSandboxWrapper {...props}/>
+            )}
+          />
+          <Route
+            path="/sandbox/pls/:id"
+            name="PreviewLocalSandbox"
+            render={(props) => (
+              <LocalSandboxWrapper {...props} preview={true}/>
+            )}
+          />
         </Switch>
       </React.Suspense>
     </div>

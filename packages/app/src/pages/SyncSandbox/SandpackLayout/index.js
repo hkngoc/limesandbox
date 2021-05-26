@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Helmet } from 'react-helmet-async';
 
 import {
   showFileMenuPane,
@@ -16,7 +17,7 @@ import {
   unmarkSensitiveSandboxFile,
 } from 'store/syncSandboxSlice';
 
-import { SandpackLayoutWrapper } from 'components';
+import { SandpackLayoutWrapper, PreviewWrapper } from 'components';
 
 const Editor = () => {
   const {
@@ -90,8 +91,31 @@ const Editor = () => {
   );
 };
 
-const Wrapper = (props) => {
-  const { id, customSetup: { files } } = useSelector(selectSandboxFull);
+const Preview = () => {
+  const {
+    template,
+    customSetup: {
+      files,
+    },
+    sensitive: {
+      files: sensitiveSources
+    }
+  } = useSelector(selectSandboxFull);
+
+  return (
+    <PreviewWrapper
+      {...{
+        files,
+        sensitiveSources,
+        template,
+        showNavigator: false,
+      }}
+    />
+  );
+};
+
+const Wrapper = ({ preview = false, ...props }) => {
+  const { id, name, customSetup: { files } } = useSelector(selectSandboxFull);
 
   if (!id || !files) {
     return (
@@ -100,7 +124,18 @@ const Wrapper = (props) => {
   }
 
   return (
-    <Editor {...props}/>
+    <Fragment>
+      <Helmet>
+        <title>{`${name} - LimeSandbox`}</title>
+      </Helmet>
+      {
+        preview ? (
+          <Preview {...props} />
+        ) : (
+          <Editor {...props} />
+        )
+      }
+    </Fragment>
   );
 };
 

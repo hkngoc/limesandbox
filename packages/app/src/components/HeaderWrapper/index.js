@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { Helmet } from 'react-helmet-async';
 
 import {
   Navbar,
@@ -15,9 +14,6 @@ import './styles.css';
 const HeaderWrapper = ({ name, privacy, admin, folder, onActionClick, onSubmit }) => {
   return (
     <Fragment>
-      <Helmet>
-        <title>{`${name} - LimeSandbox`}</title>
-      </Helmet>
       <Navbar className="header sp-header sp-sandbox-header flex-nowrap" collapseOnSelect expand="sm" bg="dark" variant="dark" sticky="top">
         <Navbar.Brand href="#">
           <Logo />
@@ -32,7 +28,7 @@ const HeaderWrapper = ({ name, privacy, admin, folder, onActionClick, onSubmit }
             onSubmit={onSubmit}
           />
         </Nav>
-        <Nav className="px-3">
+        <Nav className="pl-3 h-100">
           <Actions
             admin={admin}
             onActionClick={onActionClick}

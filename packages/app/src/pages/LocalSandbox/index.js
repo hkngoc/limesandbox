@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { Helmet } from 'react-helmet-async';
 
 import Header from './Header';
 import SandpackLayout from './SandpackLayout';
@@ -9,17 +8,23 @@ import {
 } from 'store';
 
 const Sandbox = (props) => {
-  const { match: { params: { id } } } = props;
+  const { match: { params: { id } }, preview } = props;
 
   React.useEffect(() => {
     persistor.persist();
-  }, []);
+  }, [id]);
+
+  if (preview) {
+    return (
+      <SandpackLayout
+        id={id}
+        preview={preview}
+      />
+    );
+  }
 
   return (
     <Fragment>
-      <Helmet>
-        <title></title>
-      </Helmet>
       <Header
         id={id}
       />

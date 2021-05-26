@@ -8,7 +8,7 @@ import { useMonacoServices, } from 'contexts/monacoServiceContext';
 
 import { Action } from 'monaco-editor/esm/vs/base/common/actions';
 
-import TabChooser from './TabChooser';
+import Extension from './Extensions';
 import DraggbleList from './DraggbleList';
 
 const reorder = (list, startIndex, endIndex) => {
@@ -19,7 +19,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const FileTabs = ({ onCloseTab }) => {
+const FileTabs = ({ onCloseTab, onExtensionClick }) => {
   const { sandpackLayout } = useSandpackLayout();
   const {
     openPaths,
@@ -111,7 +111,9 @@ const FileTabs = ({ onCloseTab }) => {
           </Droppable>
         </DragDropContext>
       </div>
-      <TabChooser />
+      <Extension
+        onExtensionClick={onExtensionClick}
+      />
     </div>
   );
 };

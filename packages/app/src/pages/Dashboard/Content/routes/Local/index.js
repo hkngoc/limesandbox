@@ -20,7 +20,7 @@ import {
   selectLocalSandboxs,
   selectOrderedLocalSandboxs,
   createSandboxAsync,
-  deleteSandbox,
+  deleteSandboxAsync,
 } from 'store/localSandboxsSlice';
 
 import {
@@ -31,7 +31,7 @@ import localModule from './module';
 
 const CreateNewSandbox = React.lazy(() => import(/* webpackChunkName: "CreateNewSandbox" */'components/CreateNewSandbox'));
 
-const Local = () => {
+const Local = ({ history }) => {
   const { showCreateSandboxModal } = useSelector(selectDashboard);
   const templates = useSelector(templateSelector);
   const { _persist } = useSelector(selectLocalSandboxs);
@@ -54,7 +54,7 @@ const Local = () => {
   const onSelectMenu = (id, eventKey) => {
     switch (eventKey) {
       case "3":
-        dispatch(deleteSandbox({ id }));
+        dispatch(deleteSandboxAsync(id));
         break;
       default:
         break;
@@ -74,7 +74,7 @@ const Local = () => {
         const result = await dispatch(createSandboxAsync({ ...template, id }));
 
         if (result) {
-          window.location.replace(`/#/sandbox/ls/${result}`);
+          history.push(`/sandbox/ls/${result}`);
         }
       }
     } catch (e) {

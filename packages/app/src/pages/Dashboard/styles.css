@@ -14,14 +14,6 @@ main.content a {
   color: rgb(153, 153, 153);
 }
 
-.btn.dropdown-toggle svg {
-  color: var(--white);
-}
-
-.dropdown-divider {
-  border-color: rgb(36, 36, 36);
-}
-
 hr {
   border-color: rgb(36, 36, 36);
 }
@@ -29,6 +21,7 @@ hr {
 .border-sandbox {
   border-color:rgb(36, 36, 36) !important;
 }
+
 .border-sandbox:focus, .border-sandbox:active {
   box-shadow: 0 0 0 1px rgb(36, 36, 36) !important;
 }
@@ -57,10 +50,6 @@ hr {
   background-color: rgb(21, 21, 21);
   border: 1px solid rgb(36, 36, 36);
   padding: unset;
-  color: var(--white);
-}
-
-.dropdown-item, .dropdown-item:hover, .dropdown-item:focus {
   color: var(--white);
 }
 

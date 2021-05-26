@@ -37,3 +37,15 @@
   display: flex;
   flex-grow: 1;
 }
+
+.btn.dropdown-toggle svg {
+  color: var(--white);
+}
+
+.dropdown-divider {
+  border-color: rgb(36, 36, 36);
+}
+
+.dropdown-item, .dropdown-item:hover, .dropdown-item:focus {
+  color: var(--white);
+}

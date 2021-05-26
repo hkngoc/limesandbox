@@ -6,25 +6,26 @@ import useKeypress from 'react-use-keypress';
 import {
   SandpackProvider,
   SandpackLayout,
-  SandpackPreview,
 } from '@codesandbox/sandpack-react';
-
-import {
-  selectSandbox,
-  resizePane,
-  hideFileMenuPane,
-} from 'store/sandboxSlice';
-
-import { SandpackLayoutProvider } from 'contexts/sandpackLayoutContext';
-import { MonacoServicesProvider } from 'contexts/monacoServiceContext';
 
 import {
   FileExplorer,
   CodeEditor,
   FileMenu,
   MonacoWrapper,
-  Navigator,
 } from 'components';
+
+import {
+  selectSandbox,
+  resizePane,
+  hideFileMenuPane,
+  togglePreview,
+} from 'store/sandboxSlice';
+
+import PreviewWrapper from './PreviewWrapper';
+
+import { SandpackLayoutProvider } from 'contexts/sandpackLayoutContext';
+import { MonacoServicesProvider } from 'contexts/monacoServiceContext';
 
 const SandpackLayoutWrapper = ({
   customSetup,
@@ -43,6 +44,7 @@ const SandpackLayoutWrapper = ({
   const {
     layout: {
       showFileMenu,
+      showPreview,
       editorVsPreviewSizes,
       editorVsFileMenuSizes,
       editorSizes
@@ -50,7 +52,7 @@ const SandpackLayoutWrapper = ({
   } = useSelector(selectSandbox);
 
   const onDragEnd = (spliter, sizes) => {
-    dispatch(resizePane(spliter, sizes));
+    dispatch(resizePane({ spliter, sizes }));
   };
 
   const onEscape = () => {
@@ -67,6 +69,16 @@ const SandpackLayoutWrapper = ({
     }
   };
 
+  const onExtensionClick = (id) => {
+    switch (id) {
+      case 1:
+        dispatch(togglePreview());
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <SplitPane
       className="sp-pane sp-pane-horizontal"
@@ -75,7 +87,7 @@ const SandpackLayoutWrapper = ({
       snapOffset={30}
       dragInterval={1}
       direction="horizontal"
-      minSize={50}
+      minSize={showPreview ? 50 : 0}
       sizes={editorVsPreviewSizes}
       onDragEnd={onDragEnd.bind(this, "editorVsPreviewSizes")}
     >
@@ -121,6 +133,7 @@ const SandpackLayoutWrapper = ({
                     />
                     <CodeEditor
                       onSave={onCodeSave}
+                      onExtensionClick={onExtensionClick}
                     />
                   </SplitPane>
                 </MonacoWrapper>
@@ -132,24 +145,24 @@ const SandpackLayoutWrapper = ({
           </SplitPane>
         </SandpackLayoutProvider>
       </SandpackProvider>
-      <SandpackProvider
-        template={template}
-        customSetup={{ files: { ...files, ...sensitiveSources } }}
-        bundlerURL={`${window.location.origin}/sandpack/index.html`}
-        autorun={true}
-      >
-        <SandpackPreview
-          navigatorComponent={Navigator}
-          showNavigator={true}
-          showOpenInCodeSandbox={false}
-          showRefreshButton={false}
-        />
-      </SandpackProvider>
+      {
+        showPreview ? (
+          <PreviewWrapper
+            {...{
+              template,
+              files,
+              sensitiveSources
+            }}
+          />
+        ) : <div />
+      }
     </SplitPane>
   );
 };
 
 export default SandpackLayoutWrapper;
+
 export {
-  SandpackLayoutWrapper
+  SandpackLayoutWrapper,
+  PreviewWrapper,
 }

@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
+import shortid from 'shortid';
 
 import autoMergeLevelRecursive from './autoMergeLevelRecursive';
 // import createIdbStorage from '@piotr-cz/redux-persist-idb-storage';
 import storage from './storage';
 
 import { pick, get, map } from 'lodash';
-import shortid from 'shortid';
 
 export const localSandboxsSlice = createSlice({
   name: "local_sandboxs",
@@ -34,14 +34,12 @@ export const localSandboxsSlice = createSlice({
       const rest = Object.keys(state)
         .filter(key => key !== id);
 
-      console.log(rest);
-
       return pick(state, rest);
     }
   }
 });
 
-export const { deleteSandbox }  = localSandboxsSlice.actions;
+export const { }  = localSandboxsSlice.actions;
 
 const generateUniqId = (sandboxs) => {
   do {
@@ -80,6 +78,13 @@ export const createSandboxAsync = (sandbox) => async (dispatch, getState, { getF
   await sources.db.setItem(id, sourceRef.data());
 
   return id;
+};
+
+export const deleteSandboxAsync = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  dispatch(localSandboxsSlice.actions.deleteSandbox({ id }));
+
+  const sources = storage({ name: "sandboxs", storeName: "sources" });
+  await sources.db.removeItem(id);
 };
 
 export const selectLocalSandboxs = state => {

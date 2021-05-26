@@ -225,6 +225,67 @@ export const createTemplateFromSandbox = (id) => async (dispatch, getState, { ge
   });
 };
 
+export const exportSandbox = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firestore = getFirestore();
+
+  const sourceRef = await firestore.get({
+    collection: "sandbox_sources",
+    doc: id
+  });
+
+  return sourceRef.data();
+};
+
+export const forkSandbox = (sid) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firebase = getFirebase();
+  const firestore = getFirestore();
+
+  const { currentUser: { uid } } = firebase.auth().toJSON();
+
+  const sandboxRef = await firestore.get({
+    collection: "sandboxs",
+    doc: sid
+  });
+
+  const { name, template } = (pick(sandboxRef.data(), ["name", "template"]));
+
+  const { id } = await firestore.add({
+    collection: "sandboxs"
+  }, {
+    name: `(Forked) ${name}`,
+    template: template,
+    owner: uid,
+    privacy: "private",
+    createdAt: firestore.FieldValue.serverTimestamp()
+  });
+
+  const sourceRef = await firestore.get({
+    collection: "sandbox_sources",
+    doc: sid
+  });
+
+  await firestore.set({
+    collection: "sandbox_sources",
+    doc: id
+  }, {
+    files: {},
+    ...sourceRef.data()
+  }, {
+    merge: true
+  });
+
+  await firestore.set({
+    collection: "sandbox_sensitive",
+    doc: id
+  }, {
+    files: {}
+  }, {
+    merge: true
+  });
+
+  return id;
+};
+
 export const selectSandboxFull = ({
   firestoreSandbox: {
     ordered

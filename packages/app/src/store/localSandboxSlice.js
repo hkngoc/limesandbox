@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import { get, pick, mapKeys } from 'lodash';
+import shortid from 'shortid';
 
 // import createIdbStorage from '@piotr-cz/redux-persist-idb-storage';
 import autoMergeLevelRecursive from './autoMergeLevelRecursive';
@@ -11,6 +12,19 @@ export const localSandboxSlice = createSlice({
   initialState: {
   },
   reducers: {
+    createSandbox: (state, action) => {
+      const {
+        payload: {
+          id,
+          ...sandbox
+        }
+      } = action;
+
+      return {
+        ...state,
+        [id]: sandbox,
+      }
+    },
     updateSandbox: (state, action) => {
       const {
         payload: {
@@ -146,13 +160,66 @@ export const {
   newSandboxFolder,
 } = localSandboxSourcesSlice.actions;
 
+export const exportSandbox = (id) => async (dispatch, getState) => {
+  const state = getState();
+
+  return {
+    files: get(state, `localSandboxSources_${id}.files`, {})
+  };
+};
+
+const generateUniqId = (sandboxs) => {
+  do {
+    var id = shortid.generate();
+  } while (id in sandboxs);
+
+  return id;
+};
+
+export const forkSandbox = (sid) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firebase = getFirebase();
+  const { currentUser: { uid } } = firebase.auth().toJSON();
+
+  const {
+    localSandbox: {
+      _persist: p1,
+      ...sandboxs
+    },
+    [`localSandboxSources_${sid}`]: {
+      _persist: p2,
+      ...sourceRef
+    }
+  } = getState();
+
+  const id = generateUniqId(sandboxs);
+  const {
+    [sid]: sandboxRef
+  } = sandboxs
+
+  const { name, template } = pick(sandboxRef, ["name", "template"]);
+
+  dispatch(localSandboxSlice.actions.createSandbox({
+    name: `(Forked) ${name}`,
+    template: template,
+    id,
+    owner: uid,
+    privacy: "private",
+    createdAt: Date.now(),
+  }));
+
+  const sources = storage({ name: "sandboxs", storeName: "sources" });
+  await sources.db.setItem(id, sourceRef);
+
+  return id;
+};
+
 export const selectSandboxLite = (id, state) => {
   return get(state, `localSandbox.${id}`, {});
 };
 
 export const selectSandboxFull = (id, state) => {
   const sandbox = selectSandboxLite(id, state);
-  const { _persist, ...customSetup } = get(state, "localSandboxSources", {});
+  const { _persist, ...customSetup } = get(state, `localSandboxSources_${id}`, {});
 
   return {
     id,

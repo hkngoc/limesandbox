@@ -21,9 +21,9 @@ const localSandboxModule = (id) => {
       }
     },
     {
-      id: "local_sandbox_sources",
+      id: `local_sandbox_sources_${id}`,
       reducerMap: {
-        localSandboxSources: generateSourcesReducer(id),
+        [`localSandboxSources_${id}`]: generateSourcesReducer(id),
       }
     },
     // {

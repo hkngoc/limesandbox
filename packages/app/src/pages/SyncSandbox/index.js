@@ -3,7 +3,13 @@ import React, { Fragment } from 'react';
 import Header from './Header';
 import SandpackLayout from './SandpackLayout';
 
-const Sandbox = () => {
+const Sandbox = ({ preview }) => {
+  if (preview) {
+    return (
+      <SandpackLayout preview={preview}/>
+    );
+  }
+
   return (
     <Fragment>
       <Header />

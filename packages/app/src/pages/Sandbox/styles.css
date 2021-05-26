@@ -176,9 +176,6 @@ nav.navbar.header.sp-header {
   width: 100%;
 }
 
-.dropdown-tabs {
-  border-left: 1px solid var(--sp-colors-fg-inactive);
-}
 .dropdown-tabs .dropdown-toggle {
   box-shadow: none;
   color: var(--sp-colors-fg-default);
@@ -371,4 +368,20 @@ nav.header.navbar {
 .sp-header .sp-input {
   margin-left: unset;
   /* margin-right: var(--sp-space-4); */
+}
+
+.editor-toolbar {
+  border-left: 1px solid var(--sp-colors-fg-inactive);
+}
+
+.editor-toolbar .sp-button {
+  padding: var(--sp-space-1) var(--sp-space-2) var(--sp-space-1) var(--sp-space-2);
+}
+
+.sp-wrapper > .sp-stack {
+  flex-grow: 1;
+}
+
+.sp-button.sp-icon a {
+  color: unset;
 }

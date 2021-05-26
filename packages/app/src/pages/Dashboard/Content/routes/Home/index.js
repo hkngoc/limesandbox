@@ -20,7 +20,7 @@ import {
 
 const CreateNewSandbox = React.lazy(() => import(/* webpackChunkName: "CreateNewSandbox" */'components/CreateNewSandbox'));
 
-const Home = () => {
+const Home = ({ history }) => {
   const { showCreateSandboxModal } = useSelector(selectDashboard);
   const sandboxs = useSelector(selectOrderedSyncSandboxs);
   const templates = useSelector(templateSelector);
@@ -55,7 +55,7 @@ const Home = () => {
       const result = await dispatch(createSandboxAsync({ ...template, id }));
 
       if (result) {
-        window.location.replace(`/#/sandbox/s/${result}`);
+        history.push(`/sandbox/s/${result}`);
       }
     } catch (e) {
       console.error(e);

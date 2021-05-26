@@ -15,7 +15,7 @@ import { FileTabs } from 'components/FileTabs';
 
 import Editor from './MonacoEditor';
 
-const CodeEditor = ({ customStyle, onSave, onFileTabContextMenu }) => {
+const CodeEditor = ({ customStyle, onSave, onFileTabContextMenu, onExtensionClick }) => {
   const { sandpack } = useSandpack();
   const {
     files,
@@ -79,7 +79,10 @@ const CodeEditor = ({ customStyle, onSave, onFileTabContextMenu }) => {
 
   return (
     <SandpackStack {...{ customStyle }}>
-      <FileTabs onCloseTab={onCloseTab}/>
+      <FileTabs
+        onCloseTab={onCloseTab}
+        onExtensionClick={onExtensionClick}
+      />
       <Tab.Container
         activeKey={activePath}
         onSelect={onSelect}

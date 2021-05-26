@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Helmet } from 'react-helmet-async';
 
 import {
   showFileMenuPane,
@@ -14,7 +15,7 @@ import {
   newSandboxFolder,
 } from 'store/localSandboxSlice';
 
-import { SandpackLayoutWrapper } from 'components';
+import { SandpackLayoutWrapper, PreviewWrapper } from 'components';
 
 const Editor = (props) => {
   const { id } = props;
@@ -78,9 +79,30 @@ const Editor = (props) => {
   );
 };
 
-const Wrapper = (props) => {
+const Preview = (props) => {
   const { id } = props;
-  const { template, customSetup: { files } } = useSelector(selectSandboxFull.bind(this, id));
+
+  const {
+    template,
+    customSetup: {
+      files,
+    }
+  } = useSelector(selectSandboxFull.bind(this, id));
+
+  return (
+    <PreviewWrapper
+      {...{
+        files,
+        template,
+        showNavigator: false,
+      }}
+    />
+  );
+};
+
+const Wrapper = ({ preview, ...props }) => {
+  const { id } = props;
+  const { name, template, customSetup: { files } } = useSelector(selectSandboxFull.bind(this, id));
 
   if (!id || ((!files || Object.keys(files).length <= 0) && !template)) {
     return (
@@ -89,7 +111,18 @@ const Wrapper = (props) => {
   }
 
   return (
-    <Editor {...props}/>
+    <Fragment>
+      <Helmet>
+        <title>{`${name} - LimeSandbox`}</title>
+      </Helmet>
+      {
+        preview ? (
+          <Preview {...props} />
+        ) : (
+          <Editor {...props} />
+        )
+      }
+    </Fragment>
   );
 };
 

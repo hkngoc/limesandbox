@@ -1,15 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import {
   selectProfile,
   selectSandboxLite,
   createTemplateFromSandbox,
   updateSandbox,
+  exportSandbox,
+  forkSandbox,
 } from 'store/syncSandboxSlice';
 
 import { HeaderWrapper } from 'components';
+import { ZipSources as zipSources } from 'utils';
 
 const Header = () => {
+  const history = useHistory();
+
   const dispatch = useDispatch();
 
   const { id, name = "", privacy } = useSelector(selectSandboxLite);
@@ -19,12 +25,33 @@ const Header = () => {
     dispatch(createTemplateFromSandbox(id));
   };
 
-  const onActionClick = (id) => {
-    switch (id) {
+  const handleExportSandbox = async () => {
+    const { files } = await dispatch(exportSandbox(id));
+
+    await zipSources(files, name);
+  };
+
+  const handleForkSandbox = async () => {
+    const result = await dispatch(forkSandbox(id));
+
+    if (result) {
+      history.push(`/sandbox/s/${result}`);
+    }
+  };
+
+  const onActionClick = (mid) => {
+    switch (mid) {
       case 1:
         forkToTemplate();
         break;
+      case 2:
+        handleForkSandbox();
+        break;
+      case 4:
+        handleExportSandbox();
+        break;
       default:
+        console.log(mid);
         break;
     }
   };

@@ -17,7 +17,7 @@ const TabChooser = () => {
 
   return (
     <Dropdown
-      className="d-flex dropdown-tabs"
+      className="d-flex dropdown-tabs h-100"
       onSelect={setActiveFile}
     >
       <Dropdown.Toggle variant="transparent" size="sm"></Dropdown.Toggle>
