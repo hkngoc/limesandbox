@@ -49,3 +49,7 @@
 .dropdown-item, .dropdown-item:hover, .dropdown-item:focus {
   color: var(--white);
 }
+
+.dropdown-menu:empty {
+  display: none;
+}

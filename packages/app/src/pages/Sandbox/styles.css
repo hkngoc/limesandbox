@@ -78,6 +78,7 @@ nav.navbar.header.sp-header {
 .sp-pane {
   display: flex;
   flex: auto;
+  max-width: 100%;
 }
 
 .gutter {
