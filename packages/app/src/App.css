@@ -42,14 +42,14 @@
   color: var(--white);
 }
 
-.dropdown-divider {
+.dropdown-menu .dropdown-divider {
   border-color: rgb(36, 36, 36);
 }
 
-.dropdown-item, .dropdown-item:hover, .dropdown-item:focus {
+.dropdown-menu .dropdown-item, .dropdown-menu .dropdown-item:hover, .dropdown-menu .dropdown-item:focus {
   color: var(--white);
 }
 
-.dropdown-menu:empty {
+.dropdown-menu.show:empty {
   display: none;
 }

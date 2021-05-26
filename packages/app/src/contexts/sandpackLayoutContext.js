@@ -78,7 +78,7 @@ class SandpackLayoutProvider extends React.PureComponent {
       const { openPaths: currentOpenPaths, activePath: currentActivePath } = this.state;
 
       const openPaths = currentOpenPaths.filter(path => nextState.files.includes(path));
-      const activePath = openPaths.includes(currentActivePath) ? prevProps.activePath : (openPaths.length > 0 ? openPaths[0] : null);
+      const activePath = openPaths.includes(currentActivePath) ? currentActivePath : (openPaths.length > 0 ? openPaths[0] : null);
 
       this.setState({ ...nextState, openPaths, activePath });
     }
