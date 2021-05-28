@@ -80,7 +80,6 @@ export const localSandboxSourcesSlice = createSlice({
         Object.keys(sourceRef)
         .filter(file => file.startsWith(oldPath))
         .reduce((obj, item) => {
-          console.log(item);
 
           const re = new RegExp(`^${oldPath}`, "g");
           const updated = item.replace(re, newPath);
@@ -91,7 +90,7 @@ export const localSandboxSourcesSlice = createSlice({
           }
         }, {})
       ) : {
-        oldPath: newPath
+        [oldPath]: newPath
       };
 
       return {

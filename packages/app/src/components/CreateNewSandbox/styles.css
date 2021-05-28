@@ -1,0 +1,26 @@
+.create-sandbox-modal a {
+  color: var(--info);
+}
+
+.create-sandbox-modal .modal-dialog {
+  min-height: 100%;
+}
+
+.create-sandbox-modal a.nav-link.active {
+  border: solid #dee2e6;
+  border-width: 1px 0px 1px 1px;
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+.nav-remain {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  border-right: 1px solid #dee2e6;
+}
+
+.nav-tabs-vertical .nav-item .nav-link[aria-selected=false] {
+  border-right: 1px solid #dee2e6;
+}

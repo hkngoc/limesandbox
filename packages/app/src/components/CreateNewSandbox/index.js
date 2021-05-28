@@ -1,65 +1,52 @@
 import {
   Modal,
-  Button,
-  Form,
-  InputGroup
+  Tab,
+  Nav,
+  Col,
+  Row
 } from 'react-bootstrap';
 
-import { useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
+import Templates from './Templates';
 
-import { orderedTemplateSelector } from "store/syncSandboxsSlice";
+import './styles.css';
 
-const CreateNewSandboxModal = ({ show, onSubmit, onHide }) => {
-  const templates = useSelector(orderedTemplateSelector);
-
-  const {
-    register,
-    handleSubmit
-  } = useForm();
+const CreateNewSandboxModal = ({ show, onHide, onSubmit, }) => {
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal
+      show={show}
+      onHide={onHide}
+      scrollable
+      size="lg"
+      className="create-sandbox-modal"
+    >
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Create Sandbox</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Woohoo, you're reading this text in a modal!</p>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Form.Group>
-            <Form.Label>Template</Form.Label>
-            <InputGroup>
-              <Form.Control
-                as="select"
-                {...register("id")}
-              >
-                {
-                  templates.map((template) => {
-                    const { id, name } = template;
-                    return (
-                      <option key={id} value={id}>{name}</option>
-                    )
-                  })
-                }
-              </Form.Control>
-              <InputGroup.Append>
-                <Button variant="success" type="submit">Go</Button>
-              </InputGroup.Append>
-            </InputGroup>
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
-          </Form.Group>
-        </Form>
+      <Tab.Container defaultActiveKey={"templates"}>
+        <Row className="h-100">
+          <Col sm={3} className="d-flex flex-column">
+            <Nav className="flex-column nav-tabs-vertical h-100">
+              <Nav.Item>
+                <Nav.Link eventKey="templates">Templates</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="import">Import</Nav.Link>
+              </Nav.Item>
+              <div className="nav-item nav-remain"></div>
+            </Nav>
+          </Col>
+          <Col sm={9}>
+            <Tab.Content>
+              <Tab.Pane eventKey="templates">
+                <Templates onSubmit={onSubmit}/>
+              </Tab.Pane>
+            </Tab.Content>
+          </Col>
+        </Row>
+      </Tab.Container>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
-          Close
-        </Button>
-        <Button variant="primary" onClick={onHide}>
-          Save Changes
-        </Button>
-      </Modal.Footer>
     </Modal>
   );
 };

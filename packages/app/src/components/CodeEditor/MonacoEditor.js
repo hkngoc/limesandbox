@@ -70,6 +70,7 @@ const MonacoEditor = ({ filePath, code, onCodeUpdate, onCodeSave, onClose, onInv
         wordWrap: "off",
         renderWhitespace: true,
         scrollBeyondLastLine: false,
+        tabSize: 2,
         minimap: {
           enabled: false
         },
