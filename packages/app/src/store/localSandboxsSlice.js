@@ -80,6 +80,31 @@ export const createSandboxAsync = (sandbox) => async (dispatch, getState, { getF
   return id;
 };
 
+export const importSandboxAsync = (name, files) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firebase = getFirebase();
+
+  const { currentUser: { uid } } = firebase.auth().toJSON();
+
+  const { _persist, ...sandboxs } = selectLocalSandboxs(getState());
+
+  const id = generateUniqId(sandboxs);
+
+  dispatch(localSandboxsSlice.actions.createSandbox({
+    name,
+    id,
+    owner: uid,
+    privacy: "private",
+    createdAt: Date.now(),
+  }));
+
+  const sources = storage({ name: "sandboxs", storeName: "sources" });
+  await sources.db.setItem(id, {
+    files
+  });
+
+  return id;
+};
+
 export const deleteSandboxAsync = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
   dispatch(localSandboxsSlice.actions.deleteSandbox({ id }));
 

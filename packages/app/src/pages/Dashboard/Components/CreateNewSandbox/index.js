@@ -1,3 +1,5 @@
+import { useSelector, useDispatch } from 'react-redux';
+
 import {
   Modal,
   Tab,
@@ -6,15 +8,32 @@ import {
   Row
 } from 'react-bootstrap';
 
+import {
+  selectDashboard,
+  closeCreateSandboxModal,
+  changeActiveKey,
+} from 'store/dashboardSlice';
+
 import Templates from './Templates';
+import Importer from './Importer';
 
 import './styles.css';
 
-const CreateNewSandboxModal = ({ show, onHide, onSubmit, }) => {
+const CreateNewSandboxModal = ({ onUseTemplate, onImport }) => {
+  const { showCreateSandboxModal, activeKey } = useSelector(selectDashboard);
+  const dispatch = useDispatch();
+
+  const onHide = () => {
+    dispatch(closeCreateSandboxModal());
+  };
+
+  const onSelect = (key) => {
+    dispatch(changeActiveKey(key));
+  };
 
   return (
     <Modal
-      show={show}
+      show={showCreateSandboxModal}
       onHide={onHide}
       scrollable
       size="lg"
@@ -24,7 +43,7 @@ const CreateNewSandboxModal = ({ show, onHide, onSubmit, }) => {
         <Modal.Title>Create Sandbox</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      <Tab.Container defaultActiveKey={"templates"}>
+      <Tab.Container activeKey={activeKey} onSelect={onSelect}>
         <Row className="h-100">
           <Col sm={3} className="d-flex flex-column">
             <Nav className="flex-column nav-tabs-vertical h-100">
@@ -40,7 +59,10 @@ const CreateNewSandboxModal = ({ show, onHide, onSubmit, }) => {
           <Col sm={9}>
             <Tab.Content>
               <Tab.Pane eventKey="templates">
-                <Templates onSubmit={onSubmit}/>
+                <Templates onSubmit={onUseTemplate}/>
+              </Tab.Pane>
+              <Tab.Pane eventKey="import">
+                <Importer onSubmit={onImport}/>
               </Tab.Pane>
             </Tab.Content>
           </Col>

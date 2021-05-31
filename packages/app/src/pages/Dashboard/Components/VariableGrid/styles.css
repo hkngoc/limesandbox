@@ -8,3 +8,7 @@
 .sandbox-card {
   min-height: 220px;
 }
+
+.template-card {
+  min-height: 100px;
+}

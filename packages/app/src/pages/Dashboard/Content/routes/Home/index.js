@@ -6,7 +6,6 @@ import Header from 'pages/Dashboard/Components/Header';
 import VariableGrid from 'pages/Dashboard/Components/VariableGrid';
 
 import {
-  selectDashboard,
   openCreateSandboxModal,
   closeCreateSandboxModal,
 } from 'store/dashboardSlice';
@@ -16,12 +15,12 @@ import {
   templateSelector,
   createSandboxAsync,
   deleteSandboxAsync,
+  importSandboxAsync,
 } from 'store/syncSandboxsSlice';
 
-const CreateNewSandbox = React.lazy(() => import(/* webpackChunkName: "CreateNewSandbox" */'components/CreateNewSandbox'));
+const CreateNewSandbox = React.lazy(() => import(/* webpackChunkName: "CreateNewSandbox" */'pages/Dashboard/Components/CreateNewSandbox'));
 
 const Home = ({ history }) => {
-  const { showCreateSandboxModal } = useSelector(selectDashboard);
   const sandboxs = useSelector(selectOrderedSyncSandboxs);
   const templates = useSelector(templateSelector);
 
@@ -47,13 +46,26 @@ const Home = ({ history }) => {
     dispatch(closeCreateSandboxModal());
   };
 
-  const onSubmit = async ({ id }) => {
+  const onUseTemplate = async ({ id }) => {
     onHide();
 
     const template = templates[id];
     try {
       const result = await dispatch(createSandboxAsync({ ...template, id }));
 
+      if (result) {
+        history.push(`/sandbox/s/${result}`);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const onImport = async (name, files) => {
+    onHide();
+
+    try {
+      const result = await dispatch(importSandboxAsync({ name, files }));
       if (result) {
         history.push(`/sandbox/s/${result}`);
       }
@@ -74,9 +86,8 @@ const Home = ({ history }) => {
         onSelectMenu={onSelectMenu}
       />
       <CreateNewSandbox
-        show={showCreateSandboxModal}
-        onSubmit={onSubmit}
-        onHide={onHide}
+        onUseTemplate={onUseTemplate}
+        onImport={onImport}
       />
     </div>
   );
