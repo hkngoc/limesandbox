@@ -15,8 +15,12 @@ const MonacoServicesProvider = ({ container, children }) => {
   const [contextMenuService, setContextMenuService] = React.useState(null);
 
   React.useEffect(() => {
-    if (container && container.parent) {
-      const services = new DynamicStandaloneServices(container.parent, {});
+    if (container && container.current) {
+      const current = container.current;
+
+      const dom = current instanceof HTMLElement ? current : current.parent;
+
+      const services = new DynamicStandaloneServices(dom, {});
       setServices(services);
 
       const telemetryService = services.get(ITelemetryService);
@@ -45,7 +49,8 @@ const MonacoServicesProvider = ({ container, children }) => {
 
   const getMonacoServicesState = () => {
     return {
-      contextMenuService
+      contextMenuService,
+      services
     };
   };
 
@@ -61,7 +66,7 @@ const MonacoServicesProvider = ({ container, children }) => {
 const MonacoServicesConsumer = MonacoServices.Consumer;
 
 const useMonacoServices = () => {
-  const services =  React.useContext(MonacoServices);
+  const services =  React.useContext(MonacoServices) || {};
 
   const { dispatch, listen, ...rest } = services;
   return {

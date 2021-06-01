@@ -45,6 +45,7 @@ export const sandboxSlice = createSlice({
         }
       } else {
         const { cachedEditorVsPreviewSizes } = state.layout;
+
         state.layout = {
           ...state.layout,
           showPreview: true,

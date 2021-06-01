@@ -40,7 +40,7 @@ const FileExplorer = ({ customStyle, onContextMenu, sensitiveEnable = false }) =
     if (contextMenuService) {
       const { customSetup: { locked = [] } } = sandpackLayout;
   
-      const anchorOffset = { x: 0, y: 30 };
+      const anchorOffset = { x: 0, y: 0 };
       const anchor = { x: event.clientX + anchorOffset.x, y: event.clientY + anchorOffset.y };
   
       const actions = [];

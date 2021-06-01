@@ -25,7 +25,6 @@ import {
 import PreviewWrapper from './PreviewWrapper';
 
 import { SandpackLayoutProvider } from 'contexts/sandpackLayoutContext';
-import { MonacoServicesProvider } from 'contexts/monacoServiceContext';
 
 const SandpackLayoutWrapper = ({
   customSetup,
@@ -37,8 +36,6 @@ const SandpackLayoutWrapper = ({
   onContextMenu,
   onMenuSubmit,
 }) => {
-  const monacoPaneRef = React.useRef();
-
   const dispatch = useDispatch();
 
   const {
@@ -112,32 +109,29 @@ const SandpackLayoutWrapper = ({
             onDragEnd={onDragEnd.bind(this, "editorVsFileMenuSizes")}
           >
             <SandpackLayout theme="monokai-pro">
-              <MonacoServicesProvider container={monacoPaneRef.current}>
-                <MonacoWrapper>
-                  <SplitPane
-                    ref={monacoPaneRef}
-                    className="sp-pane sp-pane-horizontal"
-                    gutterAlign="center"
-                    gutterSize={0}
-                    snapOffset={30}
-                    dragInterval={1}
-                    direction="horizontal"
-                    minSize={50}
-                    sizes={editorSizes}
-                    onDragEnd={onDragEnd.bind(this, "editorSizes")}
-                  >
-                    <FileExplorer
-                      onContextMenu={onContextMenu}
-                      onEscape={onEscape}
-                      sensitiveEnable={sensitiveEnable}
-                    />
-                    <CodeEditor
-                      onSave={onCodeSave}
-                      onExtensionClick={onExtensionClick}
-                    />
-                  </SplitPane>
-                </MonacoWrapper>
-              </MonacoServicesProvider>
+              <MonacoWrapper>
+                <SplitPane
+                  className="sp-pane sp-pane-horizontal"
+                  gutterAlign="center"
+                  gutterSize={0}
+                  snapOffset={30}
+                  dragInterval={1}
+                  direction="horizontal"
+                  minSize={50}
+                  sizes={editorSizes}
+                  onDragEnd={onDragEnd.bind(this, "editorSizes")}
+                >
+                  <FileExplorer
+                    onContextMenu={onContextMenu}
+                    onEscape={onEscape}
+                    sensitiveEnable={sensitiveEnable}
+                  />
+                  <CodeEditor
+                    onSave={onCodeSave}
+                    onExtensionClick={onExtensionClick}
+                  />
+                </SplitPane>
+              </MonacoWrapper>
             </SandpackLayout>
             <FileMenu
               onSubmit={handleOnMenuSubmit}

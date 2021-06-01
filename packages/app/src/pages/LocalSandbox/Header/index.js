@@ -32,17 +32,28 @@ const Header = ({ id }) => {
     }
   };
 
-  const onActionClick = (mid) => {
+  const goHome = () => {
+    history.replace("/");
+  };
+
+  const onMenuClick = (mid) => {
     switch (mid) {
-      case 2:
+      case "home":
+        goHome();
+        break;
+      case "fork":
         handleForkSandbox();
         break;
-      case 4:
+      case "export":
         handleExportSandbox();
         break;
       default:
         break;
     }
+  };
+
+  const onActionClick = (mid) => {
+    console.log(mid);
   };
 
   const onSubmit = (values) => {
@@ -57,6 +68,7 @@ const Header = ({ id }) => {
         admin: false,
         folder: false,
         onActionClick,
+        onMenuClick,
         onSubmit,
       }}
     />

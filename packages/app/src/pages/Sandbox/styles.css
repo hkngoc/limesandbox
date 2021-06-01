@@ -386,3 +386,7 @@ nav.header.navbar {
 .sp-button.sp-icon a {
   color: unset;
 }
+
+.action-menu-item:hover {
+  text-decoration: none;
+}

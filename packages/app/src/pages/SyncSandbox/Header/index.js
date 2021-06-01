@@ -39,19 +39,32 @@ const Header = () => {
     }
   };
 
-  const onActionClick = (mid) => {
+  const goHome = () => {
+    history.replace("/");
+  };
+
+  const onMenuClick = (mid) => {
     switch (mid) {
-      case 1:
-        forkToTemplate();
+      case "home":
+        goHome();
         break;
-      case 2:
+      case "fork":
         handleForkSandbox();
         break;
-      case 4:
+      case "export":
         handleExportSandbox();
         break;
+      case "fork to template":
+        forkToTemplate();
+        break;
       default:
-        console.log(mid);
+        break;
+    }
+  };
+
+  const onActionClick = (mid) => {
+    switch (mid) {
+      default:
         break;
     }
   };
@@ -68,6 +81,7 @@ const Header = () => {
         admin,
         folder: true,
         onActionClick,
+        onMenuClick,
         onSubmit,
       }}
     />

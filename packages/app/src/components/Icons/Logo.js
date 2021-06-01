@@ -1,4 +1,4 @@
-const Logo = () => {
+const Logo = (props) => {
   return (
     <svg
       className="logo"
@@ -9,6 +9,7 @@ const Logo = () => {
       x="0"
       y="0"
       viewBox="0 0 512 512"
+      {...props}
     >
       <rect
         width="490.667"
