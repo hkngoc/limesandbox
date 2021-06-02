@@ -1,7 +1,8 @@
 {
   "name": "limesandbox",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "manifest_version": 2,
+  "description": "Codesandbox on chrome extension",
   "browser_action": {
     "default_title": "Limesandbox"
   },
