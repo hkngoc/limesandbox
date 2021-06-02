@@ -12,8 +12,14 @@ body[path="search"] main.content {
 
 .instant-search {
   display: grid;
-  grid-template-columns: 1fr 340px;
+  grid-template-columns: 1fr minmax(340px, 0.5fr);
   gap: 24px;
+}
+
+@media screen and (max-width: 768px) {
+  .instant-search {
+    grid-template-columns: 1fr ;
+  } 
 }
 
 .ais-PoweredBy .ais-PoweredBy-link svg {
@@ -205,6 +211,7 @@ body[path="search"] main.content {
   font-size: 18px;
   line-height: 25px;
   font-weight: normal;
+  cursor: pointer;
 }
 
 .ais-RefinementList-searchBox .ais-SearchBox-input {
@@ -316,9 +323,9 @@ body[path="search"] main.content {
   min-height: 220px;
 }
 
-.sandbox-card a:hover {
+/* .sandbox-card a:hover {
   text-decoration: none;
-}
+} */
 
 .sandbox-card .sandbox-card-stat, .sandbox-card .sandbox-card-info {
   flex-grow: 1;

@@ -14,7 +14,11 @@ const SandboxCard = ({ sandbox: { name, id }, onSelectMenu }) => {
         <IconTemplate width={16} height={16}/>
       </div>
       <div className="d-flex flex-column w-100 h-100 sandbox-card-content">
-        <Link to={`/sandbox/${id.length <= 10 ? "ls" : "s"}/${id}`}>
+        <Link
+          to={`/sandbox/${id.length <= 10 ? "pls" : "ps"}/${id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <div className="d-flex sandbox-thumbnail bg-light rounded-top" />
         </Link>
         <div className="d-flex flex-column flex-grow-1 justify-content-around">

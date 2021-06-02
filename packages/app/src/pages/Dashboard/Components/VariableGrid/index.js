@@ -28,7 +28,7 @@ const Item = ({ data, onItemClick, onSelectMenu }) => {
 
 const VariableGrid = ({ items, onItemClick, onSelectMenu }) => {
   return (
-    <div className="my-grid w-100 py-3">
+    <div className="variable-grid w-100 py-3">
       {
         items.map(o => {
           return (

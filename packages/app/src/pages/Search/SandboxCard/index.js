@@ -10,7 +10,11 @@ const SandboxCard = ({ sandbox: { name, id } }) => {
       className="sandbox-card sandbox-card-result d-flex flex-column border border-sandbox rounded"
       // role="button"
     >
-      <Link to={`/sandbox/s/${id}`}>
+      <Link
+        to={`/sandbox/ps/${id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <div className="sandbox-card-thumbnail rounded-top bg-light">
           <img
             alt={name}

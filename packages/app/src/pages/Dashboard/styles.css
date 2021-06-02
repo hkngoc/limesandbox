@@ -22,25 +22,6 @@ hr {
   display: grid;
 }
 
-.dropdown-toggle-transparent:focus {
-  box-shadow: 0 0 0 1px rgb(36, 36, 36);
-}
-
-.dropdown-toggle-transparent::after {
-  content: unset;
-}
-
-.dropdown-menu {
-  background-color: rgb(21, 21, 21);
-  border: 1px solid rgb(36, 36, 36);
-  padding: unset;
-  color: var(--white);
-}
-
-.dropdown-item:hover, .dropdown-item:focus {
-  background-color: rgb(36, 36, 36);
-}
-
 .sandbox-thumbnail {
   height: 140px;
 }

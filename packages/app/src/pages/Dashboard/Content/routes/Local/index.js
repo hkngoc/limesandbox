@@ -100,11 +100,13 @@ const Local = ({ history }) => {
         <title>Local - LimeSandbox</title>
       </Helmet>
       <Header title="Local" showViewOptions={true} />
-      <VariableGrid
-        items={ [{ type: "new-sandbox", sandbox: { id: 0 } }, ...sandboxs.map(s => ({ type: "sandbox", sandbox: s })) ]}
-        onItemClick={onItemClick}
-        onSelectMenu={onSelectMenu}
-      />
+      <div className="container-xxl">
+        <VariableGrid
+          items={ [{ type: "new-sandbox", sandbox: { id: 0 } }, ...sandboxs.map(s => ({ type: "sandbox", sandbox: s })) ]}
+          onItemClick={onItemClick}
+          onSelectMenu={onSelectMenu}
+        />
+      </div>
       <CreateNewSandbox
         onUseTemplate={onUseTemplate}
         onImport={onImport}
