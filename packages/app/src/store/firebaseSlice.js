@@ -6,7 +6,12 @@ const authenticatedSelector = ({ firebase: { auth }}) => {
   return auth.isLoaded && !auth.isEmpty;
 };
 
+const selectAuth = ({ firebase: { auth } }) => {
+  return auth;
+};
+
 export {
   authenticatingSelector,
   authenticatedSelector,
+  selectAuth,
 };

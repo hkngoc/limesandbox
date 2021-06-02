@@ -53,3 +53,7 @@
 .dropdown-menu.show:empty {
   display: none;
 }
+
+.dropdown-item.active, .dropdown-item:active {
+  background-color: unset;
+}

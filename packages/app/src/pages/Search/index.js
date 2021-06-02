@@ -75,6 +75,7 @@ const Search = ({ history, location }) => {
     <div className="body flex-row">
       <Helmet>
         <title>Search - LimeSandbox</title>
+        <body path="search" />
       </Helmet>
       <main className="content">
         <div className="container-xl p-3 overflow-auto">

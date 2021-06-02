@@ -2,8 +2,8 @@ main.content {
   display: flex;
   flex-grow: 1;
   /*background-color: var(--light);*/
-  /* background-color: rgb(21, 21, 21); */
-  background-color: rgb(17, 21, 24);
+  background-color: rgb(21, 21, 21);
+  /* background-color: rgb(17, 21, 24); */
   /*color: var(--white);*/
   color: rgb(230, 230, 230);
   height: calc(100vh - 48px);
@@ -13,12 +13,4 @@ main.content {
 
 main.content a {
   color: rgb(153, 153, 153);
-}
-
-main.content {
-  background: rgb(17, 21, 24) !important;
-}
-
-nav.header.navbar {
-  background: rgb(17, 21, 24) !important;
 }

@@ -26,12 +26,6 @@ const Sidebar = () => {
           </Link>
         </div>
         <hr />
-        <div className="nav-link" role="button">
-          <Link to="/signout">
-            <div>Sign Out</div>
-          </Link>
-        </div>
-        <hr />
       </div>
     </div>
   )

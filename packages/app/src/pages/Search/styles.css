@@ -1,8 +1,8 @@
-nav.header.navbar {
+body[path="search"] nav.header.navbar {
   background: rgb(17, 21, 24) !important;
 }
 
-main.content {
+body[path="search"] main.content {
   background: rgb(17, 21, 24) !important;
 }
 
