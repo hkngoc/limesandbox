@@ -7,11 +7,6 @@ const Filters = () => {
         attributeName="category"
         operator="or"
         title="Category"
-        transformItems={(items) => {
-          console.log(items);
-
-          return items;
-        }}
       />
     </aside>
   )
