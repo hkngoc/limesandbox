@@ -53,3 +53,6 @@ const Logo = (props) => {
 };
 
 export default Logo;
+export {
+  Logo
+}

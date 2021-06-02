@@ -5,7 +5,6 @@ import { useSelector, connect } from 'react-redux';
 import { firebaseConnect, firestoreConnect } from 'react-redux-firebase';
 
 import Sidebar from './Sidebar';
-import Header from './Header';
 import Content from './Content';
 
 import {
@@ -30,14 +29,11 @@ const Dashboard = () => {
   }, [ _persist ]);
 
   return (
-    <div className="wrapper">
-      <Header />
-      <div className="body flex-row">
-        <Sidebar />
-        <main className="content">
-          <Content />
-        </main>
-      </div>
+    <div className="body flex-row">
+      <Sidebar />
+      <main className="content">
+        <Content />
+      </main>
     </div>
   );
 };
@@ -56,7 +52,8 @@ const Composed = compose(
     }, {
       collection: "sandboxs",
       storeAs: "sandboxs",
-      where: [["owner", "==", uid]] 
+      where: [["owner", "==", uid]],
+      // orderBy : ["createdAt", "desc"],
     }];
   }),
 )(Dashboard);

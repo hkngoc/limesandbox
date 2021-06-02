@@ -13,10 +13,11 @@ import { UserIsAuthenticated } from './RouteProtection';
 const SignIn = React.lazy(() => import(/* webpackChunkName: "SignIn" */'pages/SignIn'));
 const SignOut = React.lazy(() => import(/* webpackChunkName: "SignOut" */'pages/SignOut'));
 
-const Dashboard = React.lazy(() => import(/* webpackChunkName: "Dashboard" */'pages/Dashboard'));
+const Home = React.lazy(() => import(/* webpackChunkName: "Home" */'pages/Home'));
+
 const Sandbox = React.lazy(() => import(/* webpackChunkName: "Sandbox" */'pages/Sandbox'));
 
-const Main = () => {
+const Routing = () => {
   return (
     <React.Suspense fallback={<Loading />}>
       <Switch>
@@ -25,8 +26,9 @@ const Main = () => {
         <Route path="/auth" name="SignIn" component={SignIn} />
         <Route path="/signout" name="SignOut" component={SignOut} />
 
-        <Route path="/dashboard" name="Dashboard" component={UserIsAuthenticated(Dashboard)} />
         <Route path="/sandbox" name="Sandbox" component={UserIsAuthenticated(Sandbox)} />
+
+        <Route path="/" name="Home" component={UserIsAuthenticated(Home)} />
 
         <Redirect from="/" to="/dashboard" />
       </Switch>
@@ -35,5 +37,5 @@ const Main = () => {
 };
 
 export {
-  Main
+  Routing
 }

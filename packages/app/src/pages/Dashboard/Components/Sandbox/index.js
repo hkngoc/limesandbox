@@ -22,3 +22,6 @@ export const Sandbox = GenericSandbox;
 export default Sandbox;
 
 export * from './NewSandbox';
+export {
+  SandboxCard
+}

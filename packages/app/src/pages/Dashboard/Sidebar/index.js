@@ -21,6 +21,12 @@ const Sidebar = () => {
         </div>
         <hr />
         <div className="nav-link" role="button">
+          <Link to="/search">
+            <div>Search</div>
+          </Link>
+        </div>
+        <hr />
+        <div className="nav-link" role="button">
           <Link to="/signout">
             <div>Sign Out</div>
           </Link>

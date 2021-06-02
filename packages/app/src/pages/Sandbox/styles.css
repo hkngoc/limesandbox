@@ -24,8 +24,14 @@ main.editor-content {
   display: flex;
 }
 
-nav.navbar.header.sp-header {
+body[path="sandbox"] nav.navbar.header.sp-header {
   background-color: rgb(45, 42, 46) !important;
+}
+
+body[path="sandbox"] nav.header.navbar {
+  height: 48px;
+  background-color: rgb(21, 21, 21) !important;
+  color: var(--sp-colors-fg-active);
 }
 
 .sp-layout {
@@ -291,12 +297,6 @@ svg.logo {
   width: 24px;
   height: 24px;
   vertical-align: middle;
-}
-
-nav.header.navbar {
-  height: 48px;
-  background-color: rgb(21, 21, 21) !important;
-  color: var(--sp-colors-fg-active);
 }
 
 .sp-sandbox-header {

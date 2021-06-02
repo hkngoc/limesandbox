@@ -2,7 +2,8 @@
   display: flex;
   min-width: 240px;
   /*background-color: var(--light);*/
-  background-color: rgb(21, 21, 21);
+  /* background-color: rgb(21, 21, 21); */
+  background-color: rgb(17, 21, 24);
   color: rgb(153, 153, 153);
   border-right: 1px solid rgb(36, 36, 36);
   height: calc(100vh - 48px);

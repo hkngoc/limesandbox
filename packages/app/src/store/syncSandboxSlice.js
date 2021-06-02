@@ -7,7 +7,7 @@ export const updateSandbox = (id, values) => async (dispatch, getState, { getFir
     collection: "sandboxs",
     doc: id
   }, {
-    ...pick(values, ["path", "name", "privacy"])
+    ...pick(values, ["path", "name"])
   }, {
     merge: true
   });

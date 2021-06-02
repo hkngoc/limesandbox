@@ -25,7 +25,7 @@ export const createSandboxAsync = sandbox => async (dispatch, getState, { getFir
   const { id } = await firestore.add({
     collection: "sandboxs"
   }, {
-    ...(pick(template, ["name", "template"])),
+    ...(pick(template, ["name", "template", "category"])),
     owner: uid,
     privacy: "private",
     createdAt: firestore.FieldValue.serverTimestamp()
@@ -65,7 +65,7 @@ export const importSandboxAsync = ({ name, files }) => async (dispatch, getState
     name,
     template: "",
     owner: uid,
-    privacy: "private",
+    privacy: "public",
     createdAt: firestore.FieldValue.serverTimestamp()
   });
 

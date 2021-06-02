@@ -44,7 +44,7 @@ const SandboxName = ({ name, privacy, folder, onSubmit}) => {
                 as="select"
                 title="Privacy"
                 custom={true}
-                {...register("privacy")}
+                // {...register("privacy")}
                 onChange={onPrivacyChange}
               >
                 <option value={"private"}>👻</option>

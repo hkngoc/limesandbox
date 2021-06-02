@@ -1,0 +1,310 @@
+nav.header.navbar {
+  background: rgb(17, 21, 24) !important;
+}
+
+main.content {
+  background: rgb(17, 21, 24) !important;
+}
+
+.border-sandbox {
+  border-color:rgb(36, 36, 36) !important;
+}
+
+.instant-search {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+}
+
+.ais-PoweredBy .ais-PoweredBy-link svg {
+  height: 1.2em;
+  vertical-align: bottom;
+  fill: rgba(255, 255, 255, 0.8);
+}
+
+.ais-PoweredBy .ais-PoweredBy-link svg path:nth-child(4) {
+  fill: rgba(255, 255, 255, 0.8);
+}
+
+.ais-PoweredBy-text {
+  white-space: nowrap;
+}
+
+.ais-SearchBox .ais-SearchBox-form {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+}
+
+.ais-SearchBox-input {
+  transition: 0.3s ease border-color;
+  position: relative;
+  background: rgb(28, 32, 34);
+  border: 2px solid rgb(28, 32, 34);
+  border-radius: 4px;
+  outline: none;
+  color: rgb(230, 230, 230);
+  padding: 0.5em;
+  padding-left: 2em;
+  width: inherit;
+  box-sizing: border-box;
+  font-size: 1.125em;
+  font-weight: 500;
+  /* width: calc(100% - 170px); */
+  flex: 1 1 auto;
+}
+
+.ais-SearchBox-input::placeholder {
+  display: flex;
+  align-items: center;
+  /* color: ${theme.placeholder}; */
+}
+
+.ais-SearchBox-input:focus {
+  border-color: rgba(108, 174, 221, 0.5);
+}
+
+.ais-SearchBox-form .ais-SearchBox-submit {
+  position: absolute;
+  /* height: 42px; */
+  /* top: auto; */
+  /* bottom: 0px; */
+  right: inherit;
+  left: 0px;
+  margin: 0px;
+  border: 0px;
+  border-radius: 3px 0px 0px 3px;
+  background-color: rgba(255, 255, 255, 0);
+  padding: 0px 0px 2px 4px;
+  width: 32px;
+  vertical-align: middle;
+  text-align: center;
+  font-size: inherit;
+  user-select: none;
+}
+
+.ais-SearchBox-form .ais-SearchBox-submit svg {
+  margin: 6px;
+  width: 14px;
+  height: 14px;
+  vertical-align: baseline;
+  fill: rgba(255, 255, 255, 0.5);
+}
+
+.ais-SearchBox-reset {
+  display: none;
+}
+
+.ais-ClearRefinements .ais-ClearRefinements-button {
+  cursor: pointer;
+  padding: 4px 8px;
+  border: none;
+  font-size: 12px;
+  box-shadow: rgb(0 0 0 / 25%) 2px 2px 2px;
+  border-radius: 4px;
+  color: white;
+  background: rgb(64, 169, 243);
+}
+
+.ais-ClearRefinements .ais-ClearRefinements-button:disabled[disabled], .ais-ClearRefinements .ais-ClearRefinements-button:disabled:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.ais-Pagination {
+  /* width: auto; */
+  /* margin: 0px auto; */
+  box-sizing: border-box;
+  display: inline-block;
+  border-radius: 4px;
+  padding: 8px 16px;
+}
+
+.ais-Pagination .ais-Pagination-item--disabled {
+  visibility: visible;
+  color: rgb(187, 187, 187);
+}
+
+.ais-Pagination .ais-Pagination-item {
+  transition: all 0.3s ease 0s;
+  display: inline-block;
+  padding: 3px;
+  width: 28px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.ais-Pagination .ais-Pagination-item--selected {
+  color: rgb(224, 224, 224);
+  background: rgb(64, 169, 243);
+}
+
+.ais-Pagination .ais-Pagination-item.ais-Pagination-item--selected.ais-Pagination-item--page:hover {
+  background: rgb(64, 169, 243);
+}
+
+.ais-Pagination .ais-Pagination-item:hover {
+  background: rgba(108, 174, 221, 0.2);
+}
+
+.ais-Pagination .ais-Pagination-item--selected .ais-Pagination-link {
+  color: currentcolor;
+}
+
+.ais-Pagination .ais-Pagination-item--disabled {
+  visibility: visible;
+  color: #bbbbbb;
+}
+
+.ais-Pagination .ais-Pagination-item--disabled[disabled],
+.ais-Pagination .ais-Pagination-item--disabled:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.ais-Pagination .ais-Pagination-item--disabled:hover {
+  cursor: default;
+  text-decoration: none;
+}
+
+.ais-Pagination .ais-Pagination-link {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.5);
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ais-Hits .ais-Hits-list {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media screen and (max-width: 1100px) {
+  .ais-Hits .ais-Hits-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .ais-Hits .ais-Hits-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.refinement-list {
+  background-color: rgb(28, 32, 34);
+  box-shadow: rgb(0 0 0 / 25%) 0px 4px 4px;
+}
+
+.refinement-list .refinement-list-title {
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: normal;
+}
+
+.ais-RefinementList-searchBox .ais-SearchBox-input {
+  background: rgb(17, 21, 24);
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+.ais-RefinementList-searchBox .ais-SearchBox-form .ais-SearchBox-submit svg {
+  width: 12px;
+  height: 12px;
+}
+
+.ais-RefinementList-item {
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 6px;
+}
+
+.ais-RefinementList-label {
+  cursor: pointer;
+  font-weight: 300;
+}
+
+.ais-RefinementList-item .ais-RefinementList-checkbox {
+  display: inline-block;
+  border-radius: 3.5px;
+  width: 16px;
+  height: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  outline: none;
+  vertical-align: middle;
+  margin-right: 8px;
+  transition: all 0.15s ease 0s;
+}
+
+.ais-RefinementList-count {
+  border-radius: 2px;
+  background-color: rgba(0, 0, 0, 0.2);
+  float: right;
+  color: rgba(255, 255, 255, 0.2);
+  font-weight: 500;
+  font-size: 12px;
+  padding: 3px 10px;
+}
+
+.ais-RefinementList-showMore {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0px;
+  margin: 1rem 0px 0px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: normal;
+}
+
+.sandbox-card-result:hover {
+  background-color: rgb(33, 38, 41);
+  transform: translateY(-5px);
+  box-shadow: rgb(0 0 0 / 30%) 0px 8px 4px;
+}
+
+.sandbox-card-thumbnail {
+  height: 150px;
+  border-bottom: 3px solid rgb(97, 218, 251);
+}
+
+.sandbox-card-thumbnail img {
+  display: block;
+  margin-bottom: 0px;
+  z-index: 0;
+  height: auto;
+  width: 100%;
+  /* background-color: rgb(33, 38, 41); */
+  border-image-width: 0;
+}
+
+.sandbox-card .sandbox-name {
+  color: rgb(97, 218, 251);
+  font-family: Poppins, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  margin-top: 0px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  max-height: 20px;
+  word-break: break-all;
+}
+
+.sandbox-card {
+  min-height: 220px;
+}
+
+.sandbox-card a:hover {
+  text-decoration: none;
+}
+
+.sandbox-card .sandbox-card-stat, .sandbox-card .sandbox-card-info {
+  flex-grow: 1;
+}

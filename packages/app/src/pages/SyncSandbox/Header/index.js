@@ -18,7 +18,11 @@ const Header = () => {
 
   const dispatch = useDispatch();
 
-  const { id, name = "", privacy } = useSelector(selectSandboxLite);
+  const {
+    id,
+    name = "",
+    // privacy,
+  } = useSelector(selectSandboxLite);
   const { admin } = useSelector(selectProfile);
 
   const forkToTemplate = () => {
@@ -77,7 +81,7 @@ const Header = () => {
     <HeaderWrapper
       {...{
         name,
-        privacy,
+        // privacy,
         admin,
         folder: true,
         onActionClick,

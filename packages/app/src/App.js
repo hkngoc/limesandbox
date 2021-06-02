@@ -8,7 +8,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { DynamicModuleLoader } from 'redux-dynamic-modules';
 
 import {
-  Main
+  Routing
 } from './pages';
 
 import appModule from './module';
@@ -29,7 +29,7 @@ const App = () => {
         <Router>
           <React.Suspense fallback={<Loading />}>
             <Switch>
-              <Route path="/" name="Main" component={Main} />
+              <Route path="/" name="Routing" component={Routing} />
             </Switch>
           </React.Suspense> 
         </Router>

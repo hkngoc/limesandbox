@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 import {
   Switch,
@@ -31,42 +32,47 @@ const Sandbox = () => {
   const [paneRef, ready, container] = useRefCallback();
 
   return (
-    <MonacoServicesProvider container={container} read={ready}>
-      <div className="wrapper sp-wrapper sp-monokai-pro" ref={paneRef}>
-        <React.Suspense fallback={<Loading />}>
-          <Switch>
-            <Route
-              path="/sandbox/s/:id"
-              name="SyncSandbox"
-              render={(props) => (
-                <SyncSandboxWrapper {...props}/>
-              )}
-            />
-            <Route
-              path="/sandbox/ps/:id"
-              name="PreviewSyncSandbox"
-              render={(props) => (
-                <SyncSandboxWrapper {...props} preview={true}/>
-              )}
-            />
-            <Route
-              path="/sandbox/ls/:id"
-              name="LocalSandbox"
-              render={(props) => (
-                <LocalSandboxWrapper {...props}/>
-              )}
-            />
-            <Route
-              path="/sandbox/pls/:id"
-              name="PreviewLocalSandbox"
-              render={(props) => (
-                <LocalSandboxWrapper {...props} preview={true}/>
-              )}
-            />
-          </Switch>
-        </React.Suspense>
-      </div>
-    </MonacoServicesProvider>
+    <Fragment>
+      <Helmet>
+        <body path="sandbox"/>
+      </Helmet>
+      <MonacoServicesProvider container={container} read={ready}>
+        <div className="wrapper sp-wrapper sp-monokai-pro" ref={paneRef}>
+          <React.Suspense fallback={<Loading />}>
+            <Switch>
+              <Route
+                path="/sandbox/s/:id"
+                name="SyncSandbox"
+                render={(props) => (
+                  <SyncSandboxWrapper {...props}/>
+                )}
+              />
+              <Route
+                path="/sandbox/ps/:id"
+                name="PreviewSyncSandbox"
+                render={(props) => (
+                  <SyncSandboxWrapper {...props} preview={true}/>
+                )}
+              />
+              <Route
+                path="/sandbox/ls/:id"
+                name="LocalSandbox"
+                render={(props) => (
+                  <LocalSandboxWrapper {...props}/>
+                )}
+              />
+              <Route
+                path="/sandbox/pls/:id"
+                name="PreviewLocalSandbox"
+                render={(props) => (
+                  <LocalSandboxWrapper {...props} preview={true}/>
+                )}
+              />
+            </Switch>
+          </React.Suspense>
+        </div>
+      </MonacoServicesProvider>
+    </Fragment>
   );
 };
 
