@@ -4,14 +4,6 @@ svg.logo {
   vertical-align: middle;
 }
 
-nav.header.navbar {
-  height: 48px;
-  background-color: rgb(21, 21, 21) !important;
-}
-.dashboard-header {
-  border-bottom: 1px solid rgb(36, 36, 36);
-}
-
 nav.header .navbar-brand {
   padding: 0;
 }

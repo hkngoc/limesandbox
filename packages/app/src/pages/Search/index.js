@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useSelector } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
 
-import qs from 'qs';
+// import qs from 'qs';
 import algoliasearch  from 'algoliasearch/lite';
 
 import {
@@ -33,7 +33,7 @@ import {
   // ALGOLIA_API_KEY_PUBLIC,
 } from './algolia.json';
 
-const updateAfter = 700;
+// const updateAfter = 700;
 
 // const createURL = (state) => {
 //   return `?${qs.stringify(state)}`;

@@ -30,7 +30,7 @@ const Header = () => {
   const { displayName, photoURL } = useSelector(selectAuth);
 
   return (
-    <Navbar className="header dashboard-header" collapseOnSelect expand="sm" bg="dark" variant="dark" sticky="top">
+    <Navbar className="header dashboard-header" expand="sm" sticky="top" collapseOnSelect={true}>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" className="btn-sm border-0 p-0" />
       <Navbar.Brand href="#dashboard" className="d-none d-sm-inline-block">
         <Logo />

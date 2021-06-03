@@ -105,9 +105,7 @@ const Wrapper = ({ preview, ...props }) => {
   const { name, template, customSetup: { files } } = useSelector(selectSandboxFull.bind(this, id));
 
   if (!id || ((!files || Object.keys(files).length <= 0) && !template)) {
-    return (
-      <h1>Loading</h1>
-    );
+    return null;
   }
 
   return (

@@ -20,10 +20,12 @@
 .firebase-emulator-warning {
   display: none;
 }
+
 .app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: rgb(21, 21, 21);
 }
 
 .wrapper {
@@ -36,6 +38,11 @@
 .body {
   display: flex;
   flex-grow: 1;
+}
+
+nav.header.navbar {
+  height: 48px;
+  border-bottom: 1px solid rgb(36, 36, 36);
 }
 
 .btn.dropdown-toggle svg {

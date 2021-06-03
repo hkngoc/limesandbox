@@ -26,8 +26,6 @@ const HeaderWrapper = ({
       className="header sp-header sp-sandbox-header flex-nowrap"
       collapseOnSelect={true}
       expand="sm"
-      bg="dark"
-      variant="dark"
       sticky="top"
     >
       <Menu

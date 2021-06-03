@@ -7,20 +7,14 @@ import {
 import { HelmetProvider } from 'react-helmet-async';
 import { DynamicModuleLoader } from 'redux-dynamic-modules';
 
-import {
-  Routing
-} from './pages';
-
 import appModule from './module';
+
+import Loading from 'pages/Loading';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
-const Loading = () => {
-  return (
-    <h1>Loading</h1>
-  )
-};
+const Routing = React.lazy(() => import(/* webpackChunkName: "SignIn" */'pages/Routing'));
 
 const App = () => {
   return (

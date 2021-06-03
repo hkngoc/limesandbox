@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { DynamicModuleLoader } from 'redux-dynamic-modules';
-import { ReactReduxFirebaseProvider, ReduxFirestoreProvider } from 'react-redux-firebase'
+import { ReactReduxFirebaseProvider, ReduxFirestoreProvider } from 'react-redux-firebase';
 
 import * as serviceWorker from './serviceWorker';
 

@@ -39,11 +39,11 @@ const SandboxName = ({
     <Form
       onSubmit={handleSubmit(onSubmit)}
       ref={formRef}
-      className="d-flex flex-grow-1"
+      className="d-flex flex-grow-1 px-2"
     >
       <InputGroup className="flex-nowrap">
         {
-          (!readOnly) ? (
+          (privacy && !readOnly) ? (
             <InputGroup.Prepend>
               <Form.Control
                 as="select"
