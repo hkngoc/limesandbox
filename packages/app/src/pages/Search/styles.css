@@ -330,3 +330,7 @@ body[path="search"] main.content {
 .sandbox-card .sandbox-card-stat, .sandbox-card .sandbox-card-info {
   flex-grow: 1;
 }
+
+aside.refinement .accordion:not(:last-child) {
+  margin-bottom: 1rem;
+}

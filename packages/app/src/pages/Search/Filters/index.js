@@ -2,7 +2,7 @@ import Filter from './Filter';
 
 const Filters = () => {
   return (
-    <aside>
+    <aside className="refinement">
       <Filter
         attributeName="category"
         operator="or"

@@ -7,7 +7,9 @@ import { getFirebase } from 'react-redux-firebase';
 import { reduxFirestore, createFirestoreInstance, getFirestore } from 'redux-firestore';
 
 import firebase from 'firebase/app';
+
 import 'firebase/auth';
+import 'firebase/functions';
 import 'firebase/firestore';
 
 import firebaseConfig from './firebase.json';
@@ -17,8 +19,12 @@ firebase.initializeApp(firebaseConfig);
 // if (process.env.NODE_ENV !== "production") {
 //   const firestore = firebase.firestore();
 //   firestore.useEmulator("localhost", 8080);
+
 //   const auth = firebase.auth();
 //   auth.useEmulator("http://localhost:9099");
+
+//   const functions = firebase.functions();
+//   functions.useEmulator("localhost", 5001);
 // }
 
 const rrfConfig = {

@@ -97,7 +97,7 @@ export const deleteSandboxAsync = ({ id }) => async (dispatch, getState, { getFi
   const firestore = getFirestore();
 
   await firestore.delete({
-    collection: "sandboxs",
+    collection: "sandbox_sensitive",
     doc: id
   });
 
@@ -107,7 +107,7 @@ export const deleteSandboxAsync = ({ id }) => async (dispatch, getState, { getFi
   });
 
   await firestore.delete({
-    collection: "sandbox_sensitive",
+    collection: "sandboxs",
     doc: id
   });
 };
