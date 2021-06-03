@@ -6,7 +6,15 @@ import monokai from 'monaco-themes/themes/Monokai.json';
 import monokaiPro from './assets/monokai-pro.json';
 import './assets/monaco.css';
 
-const MonacoEditor = ({ filePath, code, onCodeUpdate, onCodeSave, onClose, onInvokeCommandPalette }) => {
+const MonacoEditor = ({
+  readOnly,
+  filePath,
+  code,
+  onCodeUpdate,
+  onCodeSave,
+  onClose,
+  onInvokeCommandPalette,
+}) => {
   const editorRef = React.useRef(null);
 
   const handleEditorWillMount = (monaco) => {
@@ -66,6 +74,7 @@ const MonacoEditor = ({ filePath, code, onCodeUpdate, onCodeSave, onClose, onInv
       onMount={handleEditorMount}
       onChange={onCodeUpdate}
       options={{
+        readOnly,
         automaticLayout: true,
         wordWrap: "off",
         renderWhitespace: true,

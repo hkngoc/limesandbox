@@ -34,7 +34,7 @@ const Templates = ({ onSubmit }) => {
   const templates = useSelector(orderedTemplateSelector);
 
   return (
-    <div className="my-grid w-100 pb-3">
+    <div className="variable-grid w-100 pb-3">
       {
         templates.map((template) => {
           const { id, name } = template;

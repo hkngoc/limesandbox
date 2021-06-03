@@ -15,7 +15,13 @@ import { FileTabs } from 'components/FileTabs';
 
 import Editor from './MonacoEditor';
 
-const CodeEditor = ({ customStyle, onSave, onFileTabContextMenu, onExtensionClick }) => {
+const CodeEditor = ({
+  customStyle,
+  onSave,
+  onFileTabContextMenu,
+  onExtensionClick,
+  readOnly,
+}) => {
   const { sandpack } = useSandpack();
   const {
     files,
@@ -98,6 +104,7 @@ const CodeEditor = ({ customStyle, onSave, onFileTabContextMenu, onExtensionClic
                 >
                   <Editor
                     {...{
+                      readOnly,
                       key: filePath,
                       code: files[filePath].code,
                       filePath: filePath,

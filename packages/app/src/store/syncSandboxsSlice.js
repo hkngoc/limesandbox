@@ -27,7 +27,10 @@ export const createSandboxAsync = sandbox => async (dispatch, getState, { getFir
   }, {
     ...(pick(template, ["name", "template", "category"])),
     owner: uid,
-    privacy: "private",
+    privacy: {
+      type: "private",
+      to: []
+    },
     createdAt: firestore.FieldValue.serverTimestamp()
   });
 

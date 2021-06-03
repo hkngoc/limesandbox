@@ -7,14 +7,19 @@ import {
 
 import { useForm } from 'react-hook-form';
 
-const SandboxName = ({ name, privacy, folder, onSubmit}) => {
+const SandboxName = ({
+  name,
+  privacy,
+  folder,
+  onSubmit,
+  readOnly,
+}) => {
   const formRef = React.useRef();
-
   const { register, setValue, handleSubmit } = useForm();
 
   React.useEffect(() => {
     setValue("name", name);
-    setValue("privacy", privacy);
+    setValue("privacy", privacy ? privacy.type : undefined);
   }, [name, privacy, setValue]);
 
   const requestSubmit = () => {
@@ -38,14 +43,15 @@ const SandboxName = ({ name, privacy, folder, onSubmit}) => {
     >
       <InputGroup className="flex-nowrap">
         {
-          typeof privacy == "string" ? (
+          (!readOnly) ? (
             <InputGroup.Prepend>
               <Form.Control
                 as="select"
                 title="Privacy"
                 custom={true}
-                // {...register("privacy")}
+                {...register("privacy")}
                 onChange={onPrivacyChange}
+                disabled={readOnly}
               >
                 <option value={"private"}>👻</option>
                 <option value={"public"}>🌍</option>
@@ -80,6 +86,7 @@ const SandboxName = ({ name, privacy, folder, onSubmit}) => {
           onBlur={requestSubmit}
           autoComplete="off"
           spellCheck={false}
+          disabled={readOnly}
         />
       </InputGroup>
     </Form>

@@ -32,6 +32,7 @@ const SandpackLayoutWrapper = ({
   sensitiveSources = {},
   template,
   sensitiveEnable = false,
+  readOnly,
   onCodeSave,
   onContextMenu,
   onMenuSubmit,
@@ -125,8 +126,10 @@ const SandpackLayoutWrapper = ({
                     onContextMenu={onContextMenu}
                     onEscape={onEscape}
                     sensitiveEnable={sensitiveEnable}
+                    readOnly={readOnly}
                   />
                   <CodeEditor
+                    readOnly={readOnly}
                     onSave={onCodeSave}
                     onExtensionClick={onExtensionClick}
                   />

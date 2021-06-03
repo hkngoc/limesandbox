@@ -11,7 +11,16 @@ import Actions from './Actions';
 
 import './styles.css';
 
-const HeaderWrapper = ({ name, privacy, admin, folder, onActionClick, onMenuClick, onSubmit }) => {
+const HeaderWrapper = ({
+  name,
+  privacy,
+  admin,
+  readOnly,
+  folder,
+  onActionClick,
+  onMenuClick,
+  onSubmit
+}) => {
   return (
     <Navbar
       className="header sp-header sp-sandbox-header flex-nowrap"
@@ -29,10 +38,13 @@ const HeaderWrapper = ({ name, privacy, admin, folder, onActionClick, onMenuClic
       </Nav>
       <Nav className="flex-grow-1 align-items-center justify-content-center">
         <SandboxName
-          name={name}
-          privacy={privacy}
-          folder={folder}
-          onSubmit={onSubmit}
+          {...{
+            name,
+            privacy,
+            folder,
+            onSubmit,
+            readOnly,
+          }}
         />
       </Nav>
       <Nav className="pl-3 h-100">

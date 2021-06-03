@@ -19,7 +19,7 @@ import {
 
 import { SandpackLayoutWrapper, PreviewWrapper } from 'components';
 
-const Editor = () => {
+const Editor = ({ readOnly = true }) => {
   const {
     id,
     template,
@@ -83,6 +83,7 @@ const Editor = () => {
         sensitiveSources,
         template,
         sensitiveEnable: true,
+        readOnly,
         onCodeSave,
         onContextMenu,
         onMenuSubmit,

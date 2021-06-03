@@ -13,7 +13,12 @@ import ModuleList from './ModuleList';
 import { useSandpackLayout, } from 'contexts/sandpackLayoutContext';
 import { useMonacoServices, } from 'contexts/monacoServiceContext';
 
-const FileExplorer = ({ customStyle, onContextMenu, sensitiveEnable = false }) => {
+const FileExplorer = ({
+  customStyle,
+  onContextMenu,
+  sensitiveEnable = false,
+  readOnly,
+}) => {
   const { sandpack } = useSandpack();
   const { sandpackLayout } = useSandpackLayout();
   const { services: { contextMenuService } } = useMonacoServices();
@@ -46,21 +51,21 @@ const FileExplorer = ({ customStyle, onContextMenu, sensitiveEnable = false }) =
       const actions = [];
   
       // Action(id, label, cssClass, enabled, actionCallback)
-      actions.push(new Action("1", "New File...", "", true, handleContextMenuCallback.bind(this, 1, path, prefixedPath, directory)));
-      actions.push(new Action("2", "New Folder...", "", true, handleContextMenuCallback.bind(this, 2, path, prefixedPath, directory)));
+      actions.push(new Action("1", "New File...", "", !readOnly && true, handleContextMenuCallback.bind(this, 1, path, prefixedPath, directory)));
+      actions.push(new Action("2", "New Folder...", "", !readOnly &&true, handleContextMenuCallback.bind(this, 2, path, prefixedPath, directory)));
       actions.push(new Separator());
-      actions.push(new Action("3", "Rename", "", !locked.includes(path), handleContextMenuCallback.bind(this, 3, path, prefixedPath, directory)));
-      actions.push(new Action("4", "Delete", "", !locked.includes(path), handleContextMenuCallback.bind(this, 4, path, prefixedPath, directory)));
+      actions.push(new Action("3", "Rename", "", !readOnly && !locked.includes(path), handleContextMenuCallback.bind(this, 3, path, prefixedPath, directory)));
+      actions.push(new Action("4", "Delete", "", !readOnly && !locked.includes(path), handleContextMenuCallback.bind(this, 4, path, prefixedPath, directory)));
       actions.push(new Separator());
       if (!directory) {
         const { files: { [path]: { sensitive = false } } } = sandpack;
 
-        actions.push(new Action("5", "Mark Sensitive", "", sensitiveEnable && !locked.includes(path) && !sensitive, handleContextMenuCallback.bind(this, 5, path, prefixedPath, directory)));
-        actions.push(new Action("6", "UnMark Sensitive", "", sensitiveEnable && !locked.includes(path) && sensitive, handleContextMenuCallback.bind(this, 6, path, prefixedPath, directory)));
+        actions.push(new Action("5", "Mark Sensitive", "", !readOnly && sensitiveEnable && !locked.includes(path) && !sensitive, handleContextMenuCallback.bind(this, 5, path, prefixedPath, directory)));
+        actions.push(new Action("6", "UnMark Sensitive", "", !readOnly && sensitiveEnable && !locked.includes(path) && sensitive, handleContextMenuCallback.bind(this, 6, path, prefixedPath, directory)));
         actions.push(new Separator());
       }
-      actions.push(new Action("7", "Upload Files", "", false, handleContextMenuCallback.bind(this, 7, path, prefixedPath, directory)));
-      actions.push(new Action("8", "Download", "", false, handleContextMenuCallback.bind(this, 8, path, prefixedPath, directory)));
+      actions.push(new Action("7", "Upload Files", "", !readOnly && false, handleContextMenuCallback.bind(this, 7, path, prefixedPath, directory)));
+      actions.push(new Action("8", "Download", "", !readOnly && false, handleContextMenuCallback.bind(this, 8, path, prefixedPath, directory)));
 
       contextMenuService.showContextMenu({
         getAnchor: () => anchor,

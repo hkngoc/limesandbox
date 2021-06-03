@@ -7,7 +7,10 @@ export const updateSandbox = (id, values) => async (dispatch, getState, { getFir
     collection: "sandboxs",
     doc: id
   }, {
-    ...pick(values, ["path", "name"])
+    ...pick(values, ["path", "name"]),
+    privacy: {
+      type: get(values, "privacy", "private"),
+    }
   }, {
     merge: true
   });

@@ -1,9 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import {
-  selectProfile,
-  selectSandboxLite,
   createTemplateFromSandbox,
   updateSandbox,
   exportSandbox,
@@ -13,17 +11,16 @@ import {
 import { HeaderWrapper } from 'components';
 import { ZipSources as zipSources } from 'utils';
 
-const Header = () => {
+const Header = (props) => {
+  const {
+    id,
+    name,
+  } = props;
+
   const history = useHistory();
 
   const dispatch = useDispatch();
 
-  const {
-    id,
-    name = "",
-    // privacy,
-  } = useSelector(selectSandboxLite);
-  const { admin } = useSelector(selectProfile);
 
   const forkToTemplate = () => {
     dispatch(createTemplateFromSandbox(id));
@@ -80,9 +77,7 @@ const Header = () => {
   return (
     <HeaderWrapper
       {...{
-        name,
-        // privacy,
-        admin,
+        ...props,
         folder: true,
         onActionClick,
         onMenuClick,
