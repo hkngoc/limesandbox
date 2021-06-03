@@ -95,7 +95,7 @@ const Local = ({ history }) => {
   };
 
   return (
-    <div className="container-fluid px-3 overflow-auto">
+    <div className="container-fluid px-3">
       <Helmet>
         <title>Local - LimeSandbox</title>
       </Helmet>

@@ -75,7 +75,7 @@ const Home = ({ history }) => {
   };
 
   return (
-    <div className="container-fluid px-3 overflow-auto">
+    <div className="container-fluid px-3">
       <Helmet>
         <title>Home - LimeSandbox</title>
       </Helmet>
