@@ -63,6 +63,7 @@ body[path="sandbox"] nav.header.navbar {
 
 .sp-stack {
   overflow: auto;
+  height: 100%;
 }
 
 .dragging .sp-tab-button {
