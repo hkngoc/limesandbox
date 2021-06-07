@@ -20,7 +20,7 @@ const Icon = (props) => (
 const NewSandbox = ({ onClick }) => {
   return (
     <Button
-      className="w-100 h-100 btn-sandbox bg-transparent border-sandbox"
+      className="w-100 h-100 btn-sandbox bg-transparent border-0 shadow-none"
       onClick={onClick}
     >
       <div className="d-flex flex-column align-items-center justify-content-center">
