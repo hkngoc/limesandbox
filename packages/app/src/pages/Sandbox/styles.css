@@ -94,7 +94,7 @@ body[path="sandbox"] nav.header.navbar {
 .gutter.gutter-vertical {
   cursor: row-resize;
   padding: 5px 0px 5px 0px;
-  margin: -5px 0px -5px 0px ;
+  margin: -10px 0px 0px 0px ;
 }
 
 .sp-pane.sp-pane-vertical {
@@ -102,6 +102,7 @@ body[path="sandbox"] nav.header.navbar {
 }
 .sp-pane.sp-pane-vertical > .sp-stack:not(:first-child) {
   margin-top: unset !important;
+  border-top: unset !important;
 }
 .sp-pane:not(:first-child) > .sp-stack, .sp-pane:first-child > .sp-stack:not(:first-child) {
   border-left: 1px solid var(--sp-colors-fg-inactive);
@@ -259,6 +260,7 @@ body[path="sandbox"] nav.header.navbar {
   display: flex;
   flex-grow: 1;
   overflow: hidden;
+  border-top: 1px solid var(--sp-colors-fg-inactive);
 }
 .sp-file-menu .input-group {
   flex-wrap: nowrap;
