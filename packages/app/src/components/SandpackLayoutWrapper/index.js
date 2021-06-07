@@ -101,7 +101,7 @@ const SandpackLayoutWrapper = ({
           <SplitPane
             className="sp-pane sp-pane-vertical"
             gutterAlign="center"
-            gutterSize={0}
+            gutterSize={10}
             snapOffset={30}
             dragInterval={1}
             direction="vertical"
