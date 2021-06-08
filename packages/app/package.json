@@ -1,6 +1,6 @@
 {
   "name": "@limesandbox/app",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": true,
   "dependencies": {
     "@codesandbox/sandpack-react": "^0.0.6",
