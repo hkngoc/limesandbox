@@ -68,7 +68,13 @@ const Editor = ({ readOnly = true }) => {
         dispatch(newSandboxFolder(id, `${prefixedPath}${value}/`))
         break;
       case 3:
-        dispatch(renameSandboxFile(id, path, `${prefixedPath}${value}`));
+        dispatch(renameSandboxFile({
+          id,
+          oldPath: path,
+          newPath: directory ? `${value}` : `${prefixedPath}${value}`,
+          prefixedPath,
+          directory,
+        }));
         break;
       default:
         break;

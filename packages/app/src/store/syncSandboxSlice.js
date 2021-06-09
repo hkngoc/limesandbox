@@ -31,7 +31,13 @@ export const saveSandboxCodeAsync = (id, path, code, sensitive = false) => async
   });
 };
 
-export const renameSandboxFile = (id, oldPath, newPath) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+export const renameSandboxFile = ({
+  id,
+  oldPath,
+  newPath,
+  prefixedPath,
+  directory,
+}) => async (dispatch, getState, { getFirebase, getFirestore }) => {
   const firestore = getFirestore();
 
   const sourceRef = await firestore.get({
@@ -39,13 +45,43 @@ export const renameSandboxFile = (id, oldPath, newPath) => async (dispatch, getS
     doc: id
   });
 
+  const prefix = prefixedPath
+    .split("/")
+    .filter(Boolean)
+    .slice(0, -1)
+    .join("/");
+
+  const files = sourceRef.get("files");
+
+  const candidates = directory ? (
+    Object.keys(files)
+      .filter(file => file.startsWith(oldPath))
+      .reduce((obj, item) => {
+
+        console.log(item);
+
+        const re = new RegExp(`^${oldPath}`, "g");
+        const updated = item.replace(re, prefix ? `/${prefix}/${newPath}/` : `/${newPath}/`);
+
+        return {
+          ...obj,
+          [item]: firestore.FieldValue.delete(),
+          [updated]: files[oldPath]
+        }
+      },
+      {}
+    )
+  ) : {
+    [oldPath]: firestore.FieldValue.delete(),
+    [newPath]: files[oldPath]
+  };
+
   await firestore.set({
     collection: "sandbox_sources",
     doc: id
   }, {
     files: {
-      [oldPath]: firestore.FieldValue.delete(),
-      [newPath]: sourceRef.get("files")[oldPath]
+      ...candidates
     }
   }, {
     merge: true

@@ -71,22 +71,29 @@ export const localSandboxSourcesSlice = createSlice({
       const {
         oldPath,
         newPath,
+        prefixedPath,
         directory,
       } = action.payload;
 
+      const prefix = prefixedPath
+        .split("/")
+        .filter(Boolean)
+        .slice(0, -1)
+        .join("/");
+      
       const sourceRef = get(state, "files", {});
-
+      
       const candidates = directory ? (
         Object.keys(sourceRef)
         .filter(file => file.startsWith(oldPath))
         .reduce((obj, item) => {
 
           const re = new RegExp(`^${oldPath}`, "g");
-          const updated = item.replace(re, newPath);
+          const updated = item.replace(re, prefix ? `/${prefix}/${newPath}/` : `/${newPath}/`);
 
           return {
             ...obj,
-            [item]: updated
+            [item]: `${updated}`
           }
         }, {})
       ) : {

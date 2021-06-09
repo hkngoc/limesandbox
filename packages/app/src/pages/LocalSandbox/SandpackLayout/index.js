@@ -58,7 +58,7 @@ const Editor = (props) => {
         dispatch(newSandboxFolder({ path: `${prefixedPath}${value}/` }))
         break;
       case 3:
-        dispatch(renameSandboxFile({ oldPath: path, newPath: directory ? `/${value}/` : `${prefixedPath}${value}`, directory }));
+        dispatch(renameSandboxFile({ oldPath: path, newPath: directory ? `${value}` : `${prefixedPath}${value}`, prefixedPath, directory }));
         break;
       default:
         break;
