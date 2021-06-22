@@ -294,7 +294,10 @@ export const forkSandbox = (sid) => async (dispatch, getState, { getFirebase, ge
     name: `(Forked) ${name}`,
     template: template,
     owner: uid,
-    privacy: "private",
+    privacy: {
+      type: "private",
+      to: []
+    },
     createdAt: firestore.FieldValue.serverTimestamp()
   });
 
