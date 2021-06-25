@@ -41,19 +41,19 @@ index 105702c..3356d3d 100644
                  key: "mod-Backspace",
                  run: deleteGroupBackward,
 diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/components/Navigator/index.js b/node_modules/@codesandbox/sandpack-react/dist/esm/components/Navigator/index.js
-index 3cc242d..586b206 100644
+index 9d167b3..60abaf4 100644
 --- a/node_modules/@codesandbox/sandpack-react/dist/esm/components/Navigator/index.js
 +++ b/node_modules/@codesandbox/sandpack-react/dist/esm/components/Navigator/index.js
 @@ -3,7 +3,7 @@ import * as React from "react";
  import { useSandpack } from "../../hooks/useSandpack";
  import { BackwardIcon, ForwardIcon, RefreshIcon } from "../../icons";
  import { splitUrl } from "./utils";
--export const Navigator = () => {
-+export const Navigator = ({ appendMenu: AppendMenu }) => {
+-export const Navigator = ({ clientId, onURLChange, }) => {
++export const Navigator = ({ clientId, onURLChange, appendMenu: AppendMenu }) => {
      var _a;
      const [baseUrl, setBaseUrl] = React.useState("");
      const { sandpack, dispatch, listen } = useSandpack();
-@@ -54,13 +54,17 @@ export const Navigator = () => {
+@@ -49,13 +49,18 @@ export const Navigator = ({ clientId, onURLChange, }) => {
      const handleForward = () => {
          dispatch({ type: "urlforward" });
      };
@@ -65,6 +65,7 @@ index 3cc242d..586b206 100644
 -        React.createElement("button", { "aria-label": "Refresh page", className: c("button", "icon"), onClick: handleRefresh, type: "button" },
 -            React.createElement(RefreshIcon, null)),
 -        React.createElement("input", { "aria-label": "Current Sandpack URL", className: c("input"), name: "Current Sandpack URL", onChange: handleInputChange, onKeyDown: handleKeyDown, type: "text", value: relativeUrl })));
++
 +    return (
 +        React.createElement("div", { className: c("navigator") },
 +            React.createElement("button", { "aria-label": "Go back one page", className: c("button", "icon"), disabled: !backEnabled, onClick: handleBack, type: "button" },
@@ -81,10 +82,10 @@ index 3cc242d..586b206 100644
  //# sourceMappingURL=index.js.map
 \ No newline at end of file
 diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/components/Preview/index.js b/node_modules/@codesandbox/sandpack-react/dist/esm/components/Preview/index.js
-index f42533c..8f98fbc 100644
+index 9b58485..c2a3979 100644
 --- a/node_modules/@codesandbox/sandpack-react/dist/esm/components/Preview/index.js
 +++ b/node_modules/@codesandbox/sandpack-react/dist/esm/components/Preview/index.js
-@@ -8,7 +8,7 @@ import { useSandpack } from "../../hooks/useSandpack";
+@@ -9,7 +9,7 @@ import { generateRandomId } from "../../utils/stringUtils";
  import { Navigator } from "../Navigator";
  import { RefreshButton } from "./RefreshButton";
  export { RefreshButton };
@@ -92,44 +93,69 @@ index f42533c..8f98fbc 100644
 +export const SandpackPreview = ({ customStyle, navigatorComponent: NavigatorComponent, showNavigator = false, showRefreshButton = true, showOpenInCodeSandbox = true, showSandpackErrorOverlay = true, viewportSize = "auto", viewportOrientation = "portrait", }) => {
      const { sandpack, listen } = useSandpack();
      const [iframeComputedHeight, setComputedAutoHeight] = React.useState(null);
-     const { status, iframeRef, errorScreenRegisteredRef, openInCSBRegisteredRef, loadingScreenRegisteredRef, } = sandpack;
-@@ -31,7 +31,7 @@ export const SandpackPreview = ({ customStyle, showNavigator = false, showRefres
+     const { status, registerBundler, unregisterBundler, errorScreenRegisteredRef, openInCSBRegisteredRef, loadingScreenRegisteredRef, } = sandpack;
+@@ -45,7 +45,7 @@ export const SandpackPreview = ({ customStyle, showNavigator = false, showRefres
              ...viewportStyle,
              display: status !== "idle" ? "flex" : "none",
          } },
--        showNavigator ? React.createElement(Navigator, null) : null,
-+        showNavigator ? React.createElement(NavigatorComponent || Navigator, null) : null,
+-        showNavigator ? (React.createElement(Navigator, { clientId: clientId.current, onURLChange: handleNewURL })) : null,
++        showNavigator ? (React.createElement(NavigatorComponent || Navigator, { clientId: clientId.current, onURLChange: handleNewURL })) : null,
          React.createElement("div", { className: c("preview-container") },
              React.createElement("iframe", { ref: iframeRef, className: c("preview-iframe"), style: {
                      // set height based on the content only in auto mode
 diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
-index 8775594..2ebe4bc 100644
+index 57e572e..d01cac6 100644
 --- a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
 +++ b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
-@@ -41,7 +41,10 @@ class SandpackProvider extends React.PureComponent {
-             const { recompileMode, recompileDelay } = this.props;
-             const newFiles = {
-                 ...files,
--                [path]: { code: newCode },
-+                [path]: {
-++                   ...files[path],
-++                   code: newCode,
-++               },
-             };
-             this.setState({ files: newFiles });
-             if (sandpackStatus !== "running") {
-@@ -118,6 +121,9 @@ class SandpackProvider extends React.PureComponent {
+@@ -140,6 +140,9 @@ class SandpackProvider extends React.PureComponent {
                  };
              });
          };
 +        this.updateOpenPaths = (paths) => {
-++            this.setState({ openPaths: paths });
-++        };
-         this.dispatchMessage = (message) => {
-             if (this.client === null) {
++            this.setState({ openPaths: paths });
++        };
+         this.dispatchMessage = (message, clientId) => {
+             if (this.state.sandpackStatus !== "running") {
                  console.warn("dispatch cannot be called while in idle mode");
-@@ -149,8 +155,9 @@ class SandpackProvider extends React.PureComponent {
-             return this.client.listen(listener);
+@@ -165,20 +168,30 @@ class SandpackProvider extends React.PureComponent {
+                     // Their unsubscribe functions are stored in unsubscribeQueuedListeners for future cleanup
+                     const listenerId = generateRandomId();
+                     this.queuedListeners[clientId] = this.queuedListeners[clientId] || {};
+-                    this.unsubscribeQueuedListeners[clientId] =
+-                        this.unsubscribeQueuedListeners[clientId] || {};
++                    this.unsubscribeQueuedListeners[clientId] = this.unsubscribeQueuedListeners[clientId] || {};
+                     this.queuedListeners[clientId][listenerId] = listener;
++
+                     return () => {
+-                        if (this.queuedListeners[clientId][listenerId]) {
++                        if (this.queuedListeners[clientId] && this.queuedListeners[clientId][listenerId]) {
+                             // unsubscribe was called before the client was instantiated
+                             // common example - a component with autorun=false that unmounted
+-                            delete this.queuedListeners[clientId][listenerId];
++                            // delete this.queuedListeners[clientId][listenerId];
++                            const { [listenerId]: removed, ...rest } = this.queuedListeners[clientId];
++                            this.queuedListeners = {
++                                ...this.qqueuedListeners,
++                                [clientId]: rest
++                            }
+                         }
+-                        else if (this.unsubscribeQueuedListeners[clientId][listenerId]) {
++                        else if (this.unsubscribeQueuedListeners[clientId] && this.unsubscribeQueuedListeners[clientId][listenerId]) {
+                             // unsubscribe was called for a listener that got added before the client was instantiated
+                             // call the unsubscribe function and remove it from memory
+                             this.unsubscribeQueuedListeners[clientId][listenerId]();
+-                            delete this.unsubscribeQueuedListeners[clientId][listenerId];
++                            // delete this.unsubscribeQueuedListeners[clientId][listenerId];
++                            const { [listenerId]: removed, ...rest } = this.unsubscribeQueuedListeners[clientId];
++                            this.unsubscribeQueuedListeners = {
++                                ...this.unsubscribeQueuedListeners,
++                                [clientId]: rest
++                            }
+                         }
+                     };
+                 }
+@@ -189,8 +202,9 @@ class SandpackProvider extends React.PureComponent {
+             }
          };
          this._getSandpackState = () => {
 -            const { files, activePath, openPaths, startRoute, bundlerState, editorState, error, sandpackStatus, environment, } = this.state;
@@ -139,7 +165,7 @@ index 8775594..2ebe4bc 100644
                  files,
                  environment,
                  openPaths,
-@@ -162,6 +169,7 @@ class SandpackProvider extends React.PureComponent {
+@@ -202,6 +216,7 @@ class SandpackProvider extends React.PureComponent {
                  editorState,
                  setActiveFile: this.setActiveFile,
                  openFile: this.openFile,
@@ -147,7 +173,7 @@ index 8775594..2ebe4bc 100644
                  updateCurrentFile: this.updateCurrentFile,
                  updateFile: this.updateFile,
                  runSandpack: this.runSandpack,
-@@ -176,6 +184,7 @@ class SandpackProvider extends React.PureComponent {
+@@ -217,6 +232,7 @@ class SandpackProvider extends React.PureComponent {
          };
          const { activePath, openPaths, files, environment, } = getSandpackStateFromProps(props);
          this.state = {
@@ -155,12 +181,12 @@ index 8775594..2ebe4bc 100644
              files,
              environment,
              openPaths,
-@@ -232,7 +241,7 @@ class SandpackProvider extends React.PureComponent {
+@@ -273,7 +289,7 @@ class SandpackProvider extends React.PureComponent {
                  JSON.stringify(this.props.customSetup)) {
              const { activePath, openPaths, files, environment, } = getSandpackStateFromProps(this.props);
              /* eslint-disable react/no-did-update-set-state */
 -            this.setState({ activePath, openPaths, files, environment });
 +            this.setState({ activePath, openPaths, files, environment, origin: files });
-             if (this.state.sandpackStatus !== "running" || !this.client) {
+             if (this.state.sandpackStatus !== "running") {
                  return;
              }
