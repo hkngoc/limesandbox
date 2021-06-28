@@ -104,7 +104,7 @@ index 9b58485..c2a3979 100644
              React.createElement("iframe", { ref: iframeRef, className: c("preview-iframe"), style: {
                      // set height based on the content only in auto mode
 diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
-index 57e572e..d01cac6 100644
+index 57e572e..fdeb56f 100644
 --- a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
 +++ b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
 @@ -140,6 +140,9 @@ class SandpackProvider extends React.PureComponent {
@@ -181,12 +181,25 @@ index 57e572e..d01cac6 100644
              files,
              environment,
              openPaths,
-@@ -273,7 +289,7 @@ class SandpackProvider extends React.PureComponent {
+@@ -273,7 +289,20 @@ class SandpackProvider extends React.PureComponent {
                  JSON.stringify(this.props.customSetup)) {
              const { activePath, openPaths, files, environment, } = getSandpackStateFromProps(this.props);
              /* eslint-disable react/no-did-update-set-state */
 -            this.setState({ activePath, openPaths, files, environment });
-+            this.setState({ activePath, openPaths, files, environment, origin: files });
++            this.setState({
++                activePath,
++                openPaths,
++                environment,
++                origin: files,
++                files: {
++                    ...files,
++                    ...Object.fromEntries(
++                        Object.entries(this.state.files).filter(([key, value]) => {
++                            return files.hasOwnProperty(key);
++                        })
++                    ),
++                },
++            });
              if (this.state.sandpackStatus !== "running") {
                  return;
              }
