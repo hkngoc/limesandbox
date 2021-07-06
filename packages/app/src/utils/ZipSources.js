@@ -2,12 +2,16 @@ import JSZip from 'jszip';
 import FileSaver from 'file-saver';
 
 const ZipSources = async (files, name) => {
+  const withoutLeadingSlash = (file) => {
+    return file.replace(/^\//, '')
+  };
+
   const zip = new JSZip();
 
   for (const file in files) {
     const d = files[file];
     if (typeof(d) === "string") {
-      zip.file(file, d);
+      zip.file(withoutLeadingSlash(file), d);
     }
   }
 

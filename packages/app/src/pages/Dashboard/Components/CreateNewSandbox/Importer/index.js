@@ -14,7 +14,12 @@ import JSZip from 'jszip';
 import './styles.css';
 
 const unpack = async (file) => {
+  const withoutLeadingSlash = (file) => {
+    return file.replace(/^\//, '')
+  };
+
   const { files = {} } = await JSZip.loadAsync(file, { createFolders: true });
+  const result = {};
 
   for await (const f of Object.keys(files)) {
     const o = files[f];
@@ -28,11 +33,11 @@ const unpack = async (file) => {
       }
     } else {
       const text = await o.async("string");
-      files[f] = text;
+      result[`/${withoutLeadingSlash(f)}`] = text;
     }
   }
 
-  return files;
+  return result;
 };
 
 const Dropzone = ({ onDrop }) => {

@@ -68,7 +68,10 @@ export const importSandboxAsync = ({ name, files }) => async (dispatch, getState
     name,
     template: "",
     owner: uid,
-    privacy: "public",
+    privacy: {
+      type: "private",
+      to: []
+    },
     createdAt: firestore.FieldValue.serverTimestamp()
   });
 
