@@ -1,6 +1,6 @@
 {
   "name": "limesandbox",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "manifest_version": 2,
   "description": "Codesandbox on chrome extension",
   "browser_action": {
