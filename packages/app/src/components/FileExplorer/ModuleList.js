@@ -12,13 +12,17 @@ class ModuleList extends React.PureComponent {
       .filter((file) => file !== prefixedPath)
       .map((file) => file.substring(prefixedPath.length));
 
-    const directoriesToShow = new Set(fileListWithoutPrefix
-      .filter((file) => file.includes("/"))
-      .map((file) => `${prefixedPath}${file.split("/")[0]}/`));
+    const directoriesToShow = new Set(
+      fileListWithoutPrefix
+        .filter((file) => file.includes("/"))
+        .map((file) => `${prefixedPath}${file.split("/")[0]}/`)
+        .sort()
+    );
 
     const filesToShow = fileListWithoutPrefix
       .filter((file) => !file.includes("/"))
-      .map((file) => ({ path: `${prefixedPath}${file}` }));
+      .map((file) => ({ path: `${prefixedPath}${file}` }))
+      .sort((a, b) => a.path.localeCompare(b.path))
 
     return (
       <React.Fragment>
