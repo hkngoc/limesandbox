@@ -1,11 +1,12 @@
 import React from 'react';
+import { pickBy } from 'lodash';
 
 const SandpackLayout = React.createContext(null);
 
 const getSandpackLayoutStateFromProps = (props) => {
   const {
     files = [],
-    customSetup
+    customSetup,
   } = props;
 
   return {
@@ -38,12 +39,26 @@ class SandpackLayoutProvider extends React.PureComponent {
     this.setActiveMenu = (menu) => {
       this.setState({ activeMenu: menu });
     };
+    this.togleFolder = (path) => {
+      const { activeFolder } = this.state;
+      const {
+        [path]: open = false
+      } = activeFolder;
+
+      this.setState({
+        activeFolder: {
+          ...activeFolder,
+          [path]: !open,
+        }
+      })
+    };
     this._getSandpackLayoutState = () => {
       const {
         activePath,
         openPaths,
         customSetup,
         activeMenu,
+        activeFolder,
       } = this.state;
 
       return {
@@ -51,10 +66,12 @@ class SandpackLayoutProvider extends React.PureComponent {
         openPaths,
         customSetup,
         activeMenu,
+        activeFolder,
         setActiveFile: this.setActiveFile,
         openFile: this.openFile,
         updateOpenPaths: this.updateOpenPaths,
         setActiveMenu: this.setActiveMenu,
+        togleFolder: this.togleFolder,
       };
     };
 
@@ -64,6 +81,7 @@ class SandpackLayoutProvider extends React.PureComponent {
       activePath: null,
       openPaths: [],
       activeMenu: {},
+      activeFolder: {},
       ...nextState
     };
   }
@@ -75,12 +93,17 @@ class SandpackLayoutProvider extends React.PureComponent {
     ) {
       const nextState = getSandpackLayoutStateFromProps(this.props);
 
-      const { openPaths: currentOpenPaths, activePath: currentActivePath } = this.state;
+      const { openPaths: currentOpenPaths, activePath: currentActivePath, activeFolder: currentActiveFolder } = this.state;
 
       const openPaths = currentOpenPaths.filter(path => nextState.files.includes(path));
       const activePath = openPaths.includes(currentActivePath) ? currentActivePath : (openPaths.length > 0 ? openPaths[0] : null);
 
-      this.setState({ ...nextState, openPaths, activePath });
+      const { files } = this.props;
+      const activeFolder = pickBy(currentActiveFolder, (v, k) => {
+        return files.find(file => file.startsWith(k));
+      });
+
+      this.setState({ ...nextState, openPaths, activePath, activeFolder });
     }
   }
 

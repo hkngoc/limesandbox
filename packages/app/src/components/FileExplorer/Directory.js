@@ -1,13 +1,21 @@
 import React from 'react';
 
+import { useSandpackLayout } from 'contexts/sandpackLayoutContext';
+
 import ModuleList from './ModuleList';
 import File from './Files';
 
 const Directory = ({ prefixedPath, files, selectFile, onContextMenu, activePath, depth }) => {
-  const [open, setOpen] = React.useState(true);
+  const { sandpackLayout } = useSandpackLayout();
+  const {
+    activeFolder: {
+      [prefixedPath]: open,
+    },
+    togleFolder,
+  } = sandpackLayout;
 
   const toggleOpen = () => {
-    setOpen(!open);
+    togleFolder(prefixedPath);
   };
 
   return (
