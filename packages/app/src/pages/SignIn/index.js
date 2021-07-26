@@ -18,6 +18,11 @@ const SignIn = (props) => {
       customParameters: {
         prompt: "select_account"
       }
+    }, {
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      customParameters: {
+        prompt: "select_account"
+      }
     }],
     // signInSuccessUrl: helper.getRedirectQueryParam(props) || "/",
     callbacks: {
