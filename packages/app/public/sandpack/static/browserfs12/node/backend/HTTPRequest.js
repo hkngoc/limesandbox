@@ -404,4 +404,3 @@ var HTTPRequest = /** @class */ (function (_super) {
     return HTTPRequest;
 }(file_system_1.BaseFileSystem));
 exports.default = HTTPRequest;
-//# sourceMappingURL=HTTPRequest.js.map

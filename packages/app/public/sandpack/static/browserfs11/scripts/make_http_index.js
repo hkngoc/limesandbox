@@ -63,4 +63,3 @@ if (process.argv.length === 3) {
 else {
     console.log(fsListing);
 }
-//# sourceMappingURL=make_http_index.js.map

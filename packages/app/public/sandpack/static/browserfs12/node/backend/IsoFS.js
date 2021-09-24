@@ -1326,4 +1326,3 @@ var IsoFS = /** @class */ (function (_super) {
     return IsoFS;
 }(file_system_1.SynchronousFileSystem));
 exports.default = IsoFS;
-//# sourceMappingURL=IsoFS.js.map

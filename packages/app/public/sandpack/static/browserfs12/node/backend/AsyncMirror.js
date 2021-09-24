@@ -323,4 +323,3 @@ var AsyncMirror = /** @class */ (function (_super) {
     return AsyncMirror;
 }(file_system_1.SynchronousFileSystem));
 exports.default = AsyncMirror;
-//# sourceMappingURL=AsyncMirror.js.map

@@ -83,4 +83,3 @@ else {
     }
 }
 exports.default = bfsSetImmediate;
-//# sourceMappingURL=setImmediate.js.map

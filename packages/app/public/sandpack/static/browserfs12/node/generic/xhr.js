@@ -194,4 +194,3 @@ function getFileSizeAsync(p, cb) {
     getFileSize(true, p, cb);
 }
 exports.getFileSizeAsync = getFileSizeAsync;
-//# sourceMappingURL=xhr.js.map

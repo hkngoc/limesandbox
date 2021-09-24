@@ -397,4 +397,3 @@ var EmscriptenFileSystem = /** @class */ (function (_super) {
     return EmscriptenFileSystem;
 }(file_system_1.SynchronousFileSystem));
 exports.default = EmscriptenFileSystem;
-//# sourceMappingURL=Emscripten.js.map

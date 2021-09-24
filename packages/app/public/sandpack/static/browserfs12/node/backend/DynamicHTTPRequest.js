@@ -267,4 +267,3 @@ var DynamicHTTPRequest = /** @class */ (function (_super) {
     return DynamicHTTPRequest;
 }(file_system_1.BaseFileSystem));
 exports.default = DynamicHTTPRequest;
-//# sourceMappingURL=DynamicHTTPRequest.js.map

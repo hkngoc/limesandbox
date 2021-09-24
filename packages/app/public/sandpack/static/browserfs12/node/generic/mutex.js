@@ -47,4 +47,3 @@ var Mutex = /** @class */ (function () {
     return Mutex;
 }());
 exports.default = Mutex;
-//# sourceMappingURL=mutex.js.map

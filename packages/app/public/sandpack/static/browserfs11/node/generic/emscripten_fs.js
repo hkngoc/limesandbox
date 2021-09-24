@@ -361,4 +361,3 @@ var BFSEmscriptenFS = /** @class */ (function () {
     return BFSEmscriptenFS;
 }());
 exports.default = BFSEmscriptenFS;
-//# sourceMappingURL=emscripten_fs.js.map

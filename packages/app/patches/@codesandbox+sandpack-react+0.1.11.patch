@@ -1,47 +1,34 @@
 diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/components/CodeEditor/CodeMirror.js b/node_modules/@codesandbox/sandpack-react/dist/esm/components/CodeEditor/CodeMirror.js
-index 105702c..3356d3d 100644
+index 7789588..74e7011 100644
 --- a/node_modules/@codesandbox/sandpack-react/dist/esm/components/CodeEditor/CodeMirror.js
 +++ b/node_modules/@codesandbox/sandpack-react/dist/esm/components/CodeEditor/CodeMirror.js
-@@ -11,7 +11,7 @@ import * as React from "react";
- import { useSandpackTheme } from "../../hooks/useSandpackTheme";
- import { getFileName } from "../../utils/stringUtils";
- import { getCodeMirrorLanguage, getEditorTheme, getSyntaxHighlight, } from "./utils";
--export const CodeMirror = ({ code, filePath, fileType, onCodeUpdate, showLineNumbers = false, wrapContent = false, editorState = "pristine", }) => {
-+export const CodeMirror = ({ code, filePath, fileType, onCodeUpdate, onCodeSave, showLineNumbers = false, wrapContent = false, editorState = "pristine", }) => {
+@@ -14,7 +14,7 @@ import { getFileName } from "../../utils/stringUtils";
+ import { highlightDecorators } from "./highlightDecorators";
+ import { highlightInlineError } from "./highlightInlineError";
+ import { getCodeMirrorLanguage, getEditorTheme, getSyntaxHighlight, useCombinedRefs, } from "./utils";
+-export const CodeMirror = React.forwardRef(({ code, filePath, fileType, onCodeUpdate, showLineNumbers = false, showInlineErrors = false, wrapContent = false, editorState = "pristine", readOnly = false, decorators, }, ref) => {
++export const CodeMirror = React.forwardRef(({ code, filePath, fileType, onCodeUpdate, onCodeSave, showLineNumbers = false, showInlineErrors = false, wrapContent = false, editorState = "pristine", readOnly = false, decorators, }, ref) => {
      const wrapper = React.useRef(null);
      const cmView = React.useRef();
      const { theme, themeId } = useSandpackTheme();
-@@ -34,14 +34,22 @@ export const CodeMirror = ({ code, filePath, fileType, onCodeUpdate, showLineNum
+@@ -37,6 +37,15 @@ export const CodeMirror = React.forwardRef(({ code, filePath, fileType, onCodeUp
+                 key: "Shift-Tab",
                  run: indentLess,
              },
-             {
--                key: "Escape",
--                run: () => {
--                    if (wrapper.current) {
--                        wrapper.current.focus();
++            {
 +                key: "Ctrl-S",
 +                run: (instance) => {
 +                    if (instance && onCodeSave) {
 +                        onCodeSave(instance.state.doc.sliceString(0, instance.state.doc.length));
-                     }
--                    return true;
--                },
-+                }
-             },
-+            // {
-+            //     key: "Escape",
-+            //     run: () => {
-+            //         if (wrapper.current) {
-+            //             wrapper.current.focus();
-+            //         }
-+            //         return true;
-+            //     },
-+            // },
++                    }
++                    return true;
++                },
++            },
              {
-                 key: "mod-Backspace",
-                 run: deleteGroupBackward,
+                 key: "Escape",
+                 run: () => {
 diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/components/Navigator/index.js b/node_modules/@codesandbox/sandpack-react/dist/esm/components/Navigator/index.js
-index 9d167b3..60abaf4 100644
+index 9d167b3..3baed7b 100644
 --- a/node_modules/@codesandbox/sandpack-react/dist/esm/components/Navigator/index.js
 +++ b/node_modules/@codesandbox/sandpack-react/dist/esm/components/Navigator/index.js
 @@ -3,7 +3,7 @@ import * as React from "react";
@@ -49,11 +36,11 @@ index 9d167b3..60abaf4 100644
  import { BackwardIcon, ForwardIcon, RefreshIcon } from "../../icons";
  import { splitUrl } from "./utils";
 -export const Navigator = ({ clientId, onURLChange, }) => {
-+export const Navigator = ({ clientId, onURLChange, appendMenu: AppendMenu }) => {
++export const Navigator = ({ clientId, onURLChange, appendMenu: AppendMenu, }) => {
      var _a;
      const [baseUrl, setBaseUrl] = React.useState("");
      const { sandpack, dispatch, listen } = useSandpack();
-@@ -49,13 +49,18 @@ export const Navigator = ({ clientId, onURLChange, }) => {
+@@ -49,13 +49,17 @@ export const Navigator = ({ clientId, onURLChange, }) => {
      const handleForward = () => {
          dispatch({ type: "urlforward" });
      };
@@ -65,7 +52,6 @@ index 9d167b3..60abaf4 100644
 -        React.createElement("button", { "aria-label": "Refresh page", className: c("button", "icon"), onClick: handleRefresh, type: "button" },
 -            React.createElement(RefreshIcon, null)),
 -        React.createElement("input", { "aria-label": "Current Sandpack URL", className: c("input"), name: "Current Sandpack URL", onChange: handleInputChange, onKeyDown: handleKeyDown, type: "text", value: relativeUrl })));
-+
 +    return (
 +        React.createElement("div", { className: c("navigator") },
 +            React.createElement("button", { "aria-label": "Go back one page", className: c("button", "icon"), disabled: !backEnabled, onClick: handleBack, type: "button" },
@@ -104,12 +90,12 @@ index 9b58485..c2a3979 100644
              React.createElement("iframe", { ref: iframeRef, className: c("preview-iframe"), style: {
                      // set height based on the content only in auto mode
 diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
-index 57e572e..fdeb56f 100644
+index 7d3a0d1..498df9d 100644
 --- a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
 +++ b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
-@@ -140,6 +140,9 @@ class SandpackProvider extends React.PureComponent {
-                 };
+@@ -193,6 +193,9 @@ class SandpackProvider extends React.PureComponent {
              });
+             this.updateClients();
          };
 +        this.updateOpenPaths = (paths) => {
 +            this.setState({ openPaths: paths });
@@ -117,16 +103,10 @@ index 57e572e..fdeb56f 100644
          this.dispatchMessage = (message, clientId) => {
              if (this.state.sandpackStatus !== "running") {
                  console.warn("dispatch cannot be called while in idle mode");
-@@ -165,20 +168,30 @@ class SandpackProvider extends React.PureComponent {
-                     // Their unsubscribe functions are stored in unsubscribeQueuedListeners for future cleanup
-                     const listenerId = generateRandomId();
-                     this.queuedListeners[clientId] = this.queuedListeners[clientId] || {};
--                    this.unsubscribeQueuedListeners[clientId] =
--                        this.unsubscribeQueuedListeners[clientId] || {};
-+                    this.unsubscribeQueuedListeners[clientId] = this.unsubscribeQueuedListeners[clientId] || {};
+@@ -223,16 +226,26 @@ class SandpackProvider extends React.PureComponent {
+                         this.unsubscribeQueuedListeners[clientId] || {};
                      this.queuedListeners[clientId][listenerId] = listener;
-+
-                     return () => {
+                     const unsubscribeListener = () => {
 -                        if (this.queuedListeners[clientId][listenerId]) {
 +                        if (this.queuedListeners[clientId] && this.queuedListeners[clientId][listenerId]) {
                              // unsubscribe was called before the client was instantiated
@@ -153,9 +133,9 @@ index 57e572e..fdeb56f 100644
 +                            }
                          }
                      };
-                 }
-@@ -189,8 +202,9 @@ class SandpackProvider extends React.PureComponent {
-             }
+                     return unsubscribeListener;
+@@ -269,8 +282,9 @@ class SandpackProvider extends React.PureComponent {
+             this.setState({ files }, this.updateClients);
          };
          this._getSandpackState = () => {
 -            const { files, activePath, openPaths, startRoute, bundlerState, editorState, error, sandpackStatus, environment, } = this.state;
@@ -165,15 +145,12 @@ index 57e572e..fdeb56f 100644
                  files,
                  environment,
                  openPaths,
-@@ -202,6 +216,7 @@ class SandpackProvider extends React.PureComponent {
-                 editorState,
-                 setActiveFile: this.setActiveFile,
-                 openFile: this.openFile,
-+                updateOpenPaths: this.updateOpenPaths,
+@@ -297,10 +311,12 @@ class SandpackProvider extends React.PureComponent {
+                 unregisterBundler: this.unregisterBundler,
                  updateCurrentFile: this.updateCurrentFile,
                  updateFile: this.updateFile,
-                 runSandpack: this.runSandpack,
-@@ -217,6 +232,7 @@ class SandpackProvider extends React.PureComponent {
++                updateOpenPaths: this.updateOpenPaths,
+             };
          };
          const { activePath, openPaths, files, environment, } = getSandpackStateFromProps(props);
          this.state = {
@@ -181,11 +158,12 @@ index 57e572e..fdeb56f 100644
              files,
              environment,
              openPaths,
-@@ -273,7 +289,20 @@ class SandpackProvider extends React.PureComponent {
+@@ -368,7 +384,21 @@ class SandpackProvider extends React.PureComponent {
                  JSON.stringify(this.props.customSetup)) {
              const { activePath, openPaths, files, environment, } = getSandpackStateFromProps(this.props);
              /* eslint-disable react/no-did-update-set-state */
 -            this.setState({ activePath, openPaths, files, environment });
++            // this.setState({ activePath, openPaths, files, environment });
 +            this.setState({
 +                activePath,
 +                openPaths,
@@ -194,8 +172,8 @@ index 57e572e..fdeb56f 100644
 +                files: {
 +                    ...files,
 +                    ...Object.fromEntries(
-+                        Object.entries(this.state.files).filter(([key, value]) => {
-+                            return files.hasOwnProperty(key);
++                        Object.entries(this.state.files).filter(([key, _value]) => {
++                            return files.hasOwnProperty(key) && this.state.openPaths.includes(key);
 +                        })
 +                    ),
 +                },

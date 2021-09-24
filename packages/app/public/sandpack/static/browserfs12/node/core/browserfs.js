@@ -144,4 +144,3 @@ function getFileSystem(config, cb) {
     }
 }
 exports.getFileSystem = getFileSystem;
-//# sourceMappingURL=browserfs.js.map

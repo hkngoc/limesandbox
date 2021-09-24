@@ -59,4 +59,3 @@ var ExtendedASCII = /** @class */ (function () {
     return ExtendedASCII;
 }());
 exports.default = ExtendedASCII;
-//# sourceMappingURL=extended_ascii.js.map

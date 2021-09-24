@@ -115,4 +115,3 @@ var LocalStorageFileSystem = /** @class */ (function (_super) {
     return LocalStorageFileSystem;
 }(key_value_filesystem_1.SyncKeyValueFileSystem));
 exports.default = LocalStorageFileSystem;
-//# sourceMappingURL=LocalStorage.js.map

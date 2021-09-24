@@ -48,4 +48,3 @@ if (typeof (ArrayBuffer) !== 'undefined' && typeof (Uint8Array) !== 'undefined')
     }
 }
 __export(require("./core/browserfs"));
-//# sourceMappingURL=index.js.map

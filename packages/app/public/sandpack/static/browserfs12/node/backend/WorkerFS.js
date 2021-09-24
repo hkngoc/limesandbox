@@ -764,4 +764,3 @@ var WorkerFS = /** @class */ (function (_super) {
     return WorkerFS;
 }(file_system_1.BaseFileSystem));
 exports.default = WorkerFS;
-//# sourceMappingURL=WorkerFS.js.map

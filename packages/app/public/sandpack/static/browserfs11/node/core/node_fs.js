@@ -40,4 +40,3 @@ _fsMock['R_OK'] = 4;
 _fsMock['W_OK'] = 2;
 _fsMock['X_OK'] = 1;
 exports.default = _fsMock;
-//# sourceMappingURL=node_fs.js.map

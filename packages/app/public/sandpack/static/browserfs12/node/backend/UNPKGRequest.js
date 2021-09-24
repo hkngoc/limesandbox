@@ -391,4 +391,3 @@ var UNPKGRequest = /** @class */ (function (_super) {
     return UNPKGRequest;
 }(file_system_1.BaseFileSystem));
 exports.default = UNPKGRequest;
-//# sourceMappingURL=UNPKGRequest.js.map

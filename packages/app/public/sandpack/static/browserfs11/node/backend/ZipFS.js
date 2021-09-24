@@ -828,4 +828,3 @@ ZipFS.RegisterDecompressionMethod(CompressionMethod.DEFLATE, function (data, com
 ZipFS.RegisterDecompressionMethod(CompressionMethod.STORED, function (data, compressedSize, uncompressedSize) {
     return util_1.copyingSlice(data, 0, uncompressedSize);
 });
-//# sourceMappingURL=ZipFS.js.map
