@@ -90,7 +90,7 @@ index 9b58485..c2a3979 100644
              React.createElement("iframe", { ref: iframeRef, className: c("preview-iframe"), style: {
                      // set height based on the content only in auto mode
 diff --git a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
-index 7d3a0d1..498df9d 100644
+index 7d3a0d1..5a88e07 100644
 --- a/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
 +++ b/node_modules/@codesandbox/sandpack-react/dist/esm/contexts/sandpackContext.js
 @@ -193,6 +193,9 @@ class SandpackProvider extends React.PureComponent {
@@ -173,7 +173,7 @@ index 7d3a0d1..498df9d 100644
 +                    ...files,
 +                    ...Object.fromEntries(
 +                        Object.entries(this.state.files).filter(([key, _value]) => {
-+                            return files.hasOwnProperty(key) && this.state.openPaths.includes(key);
++                            return files.hasOwnProperty(key) && this.state.files[key].code !== this.state.origin[key].code;
 +                        })
 +                    ),
 +                },
