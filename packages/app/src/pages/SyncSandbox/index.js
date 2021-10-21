@@ -13,19 +13,18 @@ import {
 import Header from './Header';
 import SandpackLayout from './SandpackLayout';
 
-const Sandbox = ({ preview }) => {
+const Sandbox = ({ preview, id, cid }) => {
   const {
-    id,
     name = "",
     privacy,
     owner,
-  } = useSelector(selectSandboxLite);
+  } = useSelector(selectSandboxLite(id));
   const { admin } = useSelector(selectProfile);
   const { uid } = useSelector(selectAuth);
 
   if (preview) {
     return (
-      <SandpackLayout preview={preview}/>
+      <SandpackLayout preview={preview} {...{id}} />
     );
   }
 
@@ -46,6 +45,8 @@ const Sandbox = ({ preview }) => {
             {...{
               readOnly: owner !== uid,
               admin,
+              id,
+              cid,
             }}
           />
         </main>

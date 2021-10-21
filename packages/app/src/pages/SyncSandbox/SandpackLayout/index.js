@@ -19,9 +19,8 @@ import {
 
 import { SandpackLayoutWrapper, PreviewWrapper } from 'components';
 
-const Editor = ({ readOnly = true }) => {
+const Editor = ({ id, cid, readOnly = true }) => {
   const {
-    id,
     template,
     customSetup: {
       files,
@@ -30,7 +29,7 @@ const Editor = ({ readOnly = true }) => {
     sensitive: {
       files: sensitiveSources
     }
-  } = useSelector(selectSandboxFull);
+  } = useSelector(selectSandboxFull(id));
 
   const dispatch = useDispatch();
 
@@ -98,7 +97,7 @@ const Editor = ({ readOnly = true }) => {
   );
 };
 
-const Preview = () => {
+const Preview = ({ id }) => {
   const {
     template,
     customSetup: {
@@ -107,7 +106,7 @@ const Preview = () => {
     sensitive: {
       files: sensitiveSources
     }
-  } = useSelector(selectSandboxFull);
+  } = useSelector(selectSandboxFull(id));
 
   return (
     <PreviewWrapper
@@ -121,8 +120,10 @@ const Preview = () => {
   );
 };
 
-const Wrapper = ({ preview = false, ...props }) => {
-  const { id, name, customSetup: { files } } = useSelector(selectSandboxFull);
+const Wrapper = (props) => {
+  const { id, preview = false } = props;
+
+  const { name, customSetup: { files } } = useSelector(selectSandboxFull(id));
 
   if (!id || !files) {
     return null;

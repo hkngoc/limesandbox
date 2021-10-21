@@ -328,16 +328,12 @@ export const forkSandbox = (sid) => async (dispatch, getState, { getFirebase, ge
   return id;
 };
 
-export const selectSandboxFull = ({
-  firestoreSandbox: {
-    ordered
-  },
-}) => {
-  const { id, ...customSetup } = get(ordered, "sandbox_sources[0]", { });
-  const { files } = get(ordered, "sandbox_sensitive[0]", { files: {} });
+export const selectSandboxFull = (id) => ({ firestoreSandbox: { data } }) => {
+  const { ...customSetup } = get(data, `sandbox_sources.${id}`, { });
+  const { files } = get(data, `sandbox_sensitive.${id}`, { files: {} });
 
   return {
-    ...get(ordered, "sandbox[0]", {}),
+    ...get(data, `sandboxs.${id}`, {}),
     customSetup,
     sensitive: {
       files: mapValues(files, code => ({ code, sensitive: true }))
@@ -345,9 +341,9 @@ export const selectSandboxFull = ({
   }
 };
 
-export const selectSandboxLite = ({ firestoreSandbox: { ordered } }) => {
+export const selectSandboxLite = (id) => ({ firestoreSandbox: { data } }) => {
   return {
-    ...get(ordered, "sandbox[0]", {}),
+    ...get(data, `sandboxs.${id}`, {}),
   };
 };
 

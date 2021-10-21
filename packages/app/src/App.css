@@ -73,3 +73,11 @@ nav.header.navbar {
 .dropdown-item.active, .dropdown-item:active {
   background-color: unset;
 }
+
+.firebaseui-container {
+  background-color: rgb(21, 21, 21) !important;
+}
+
+.mdl-shadow--2dp {
+  box-shadow: unset !important;
+}

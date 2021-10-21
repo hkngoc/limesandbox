@@ -10,16 +10,20 @@ const SyncSandbox = React.lazy(() => import(/* webpackChunkName: "SyncSandbox" *
 
 const Composed = compose(
   firebaseConnect(),
-  connect(({ firebase: { auth } }) => {
+  connect(({ firebase: { auth } }, { match: { params: { id } }, location: { search } }) => {
+    const params = new URLSearchParams(search);
+    const cid = params.get('compare');
+
     return {
-      auth
+      auth,
+      id,
+      cid,
     }
   }),
-  firestoreConnect(({ match: { params: { id } }, auth: { uid } }) => {
-    return [{
+  firestoreConnect(({ id, cid, auth: { uid } }) => {
+    const queriesConfig = [{
       collection: "sandboxs",
-      doc: id,
-      storeAs: "sandbox"
+      doc: id
     }, {
       collection: "sandbox_sources",
       doc: id
@@ -31,6 +35,21 @@ const Composed = compose(
       doc: uid,
       storeAs: "profile"
     }];
+
+    if (cid) {
+      queriesConfig.push(...[{
+        collection: "sandboxs",
+        doc: cid,
+      }, {
+        collection: "sandbox_sources",
+        doc: cid,
+      }, {
+        collection: "sandbox_sensitive",
+        doc: cid,
+      }])
+    }
+
+    return queriesConfig;
   }),
 )(SyncSandbox);
 
