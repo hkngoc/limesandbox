@@ -35,7 +35,10 @@ const MonacoWrapper = ({ children }) => {
         const { code, folder = false } = files[path];
 
         if (!folder) {
-          getOrCreateModel(monaco, code, null, path);
+          const model =  getOrCreateModel(monaco, code, null, path);
+          if (model.getValue() !== code) {
+            model.setValue(code);
+          }
         }
       }
 
