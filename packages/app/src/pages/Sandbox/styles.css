@@ -168,7 +168,6 @@ body[path="sandbox"] nav.header.navbar {
 
 .sp-code-editor {
   display: flex;
-  overflow: hidden;
 }
 .sp-code-editor > .ace_editor {
   width: 100% !important;
@@ -177,6 +176,9 @@ body[path="sandbox"] nav.header.navbar {
 .sp-code-editor .sp-code-editor-content {
   flex-grow: 1;
   width: 100%;
+}
+.sp-code-editor.tab-content {
+  overflow: hidden;
 }
 
 .dropdown-tabs .dropdown-toggle {
