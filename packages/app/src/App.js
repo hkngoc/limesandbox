@@ -14,7 +14,7 @@ import Loading from 'pages/Loading';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
-const Routing = React.lazy(() => import(/* webpackChunkName: "SignIn" */'pages/Routing'));
+const Routing = React.lazy(() => import(/* webpackChunkName: "Routing" */'pages/Routing'));
 
 const App = () => {
   return (

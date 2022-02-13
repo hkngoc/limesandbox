@@ -168,6 +168,7 @@ body[path="sandbox"] nav.header.navbar {
 
 .sp-code-editor {
   display: flex;
+  overflow: hidden;
 }
 .sp-code-editor > .ace_editor {
   width: 100% !important;

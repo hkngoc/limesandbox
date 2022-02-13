@@ -13,5 +13,6 @@
     "scripts": ["background.js"]
   },
   "permissions": [ "storage", "http://*/*", "https://*/*" ],
+  "optional_permissions": [ "identity", "cookies" ],
   "content_security_policy": "script-src 'self' 'unsafe-eval' 'sha256-ju0AYilx7SYhKdgDGf8FZNUrIQU+1W7GWgfeTVnZ4KE=' 'sha256-ju0AYilx7SYhKdgDGf8FZNUrIQU+1W7GWgfeTVnZ4KE=' https://cdn.jsdelivr.net https://apis.google.com https://www.youtube.com; object-src 'self';"
 }
