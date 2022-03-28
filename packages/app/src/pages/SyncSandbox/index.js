@@ -34,6 +34,7 @@ const Sandbox = ({ preview }) => {
       <Header
         {...{
           readOnly: owner !== uid,
+          owner: owner === uid,
           admin,
           id,
           name,
@@ -45,6 +46,7 @@ const Sandbox = ({ preview }) => {
           <SandpackLayout
             {...{
               readOnly: owner !== uid,
+              owner: owner !== uid,
               admin,
             }}
           />

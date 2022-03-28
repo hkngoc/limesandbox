@@ -15,14 +15,14 @@ const Sidebar = () => {
         </div>
         <hr />
         <div className="nav-link" role="button">
-          <Link to="/dashboard/local">
-            <div>Local</div>
+          <Link to="/search">
+            <div>Search</div>
           </Link>
         </div>
         <hr />
         <div className="nav-link" role="button">
-          <Link to="/search">
-            <div>Search</div>
+          <Link to="/share">
+            <div>Share with me</div>
           </Link>
         </div>
         <hr />

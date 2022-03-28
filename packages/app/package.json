@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@codesandbox/sandpack-react": "0.1.11",
+    "@hkngoc/rtk-query": "^1.6.1",
     "@monaco-editor/react": "^4.3.1",
     "@piotr-cz/redux-persist-idb-storage": "^1.1.2",
     "@reduxjs/toolkit": "^1.5.1",

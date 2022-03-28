@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
+import { DynamicModuleLoader } from 'redux-dynamic-modules';
 
 import algoliasearch  from 'algoliasearch/lite';
 
@@ -16,8 +16,8 @@ import {
 } from 'react-bootstrap';
 
 import {
-  selectAlgolia
-} from 'store/algoliaSlice';
+  useGetSecuredApiKeyQuery,
+} from 'apis/algolia';
 
 import Results from './Results';
 import Filters from './Filters';
@@ -25,19 +25,28 @@ import Filters from './Filters';
 import 'instantsearch.css/themes/reset.css';
 import './styles.css';
 
-import {
-  ALGOLIA_APPLICATION_ID,
-  ALGOLIA_DEFAULT_INDEX,
-} from './algolia.json';
+import searchModule from './module';
 
-const Search = () => {
-  const { key } = useSelector(selectAlgolia);
+const Search = ({
+  functionParams = {},
+  title = "Search - LimeSandbox",
+  path = "search",
+}) => {
+  const { data = {} } = useGetSecuredApiKeyQuery({
+    ...functionParams,
+  });
+
+  const {
+    appId,
+    index,
+    key,
+  } = data;
 
   return (
     <div className="body flex-row">
       <Helmet>
-        <title>Search - LimeSandbox</title>
-        <body path="search" />
+        <title>{title}</title>
+        <body path={path} />
       </Helmet>
       <main className="content">
         <div className="container-xl p-3">
@@ -45,8 +54,8 @@ const Search = () => {
             {
               key ? (
                 <InstantSearch
-                  searchClient={algoliasearch(ALGOLIA_APPLICATION_ID, key)}
-                  indexName={ALGOLIA_DEFAULT_INDEX}
+                  searchClient={algoliasearch(appId, key)}
+                  indexName={index}
                 >
                   <Configure hitsPerPage={12} />
                   <div>
@@ -73,4 +82,11 @@ const Search = () => {
   );
 };
 
-export default Search;
+const DynamicModule = (props) => (
+  <DynamicModuleLoader modules={[searchModule]}>
+    <Search {...props} />
+  </DynamicModuleLoader>
+);
+
+export default DynamicModule;
+

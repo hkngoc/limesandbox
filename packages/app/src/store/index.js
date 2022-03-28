@@ -6,6 +6,8 @@ import { persistStore } from 'redux-persist';
 import { getFirebase } from 'react-redux-firebase';
 import { reduxFirestore, createFirestoreInstance, getFirestore } from 'redux-firestore';
 
+import { algoliaApi } from 'apis/algolia';
+
 import firebase from 'firebase/app';
 
 import 'firebase/auth';
@@ -35,6 +37,7 @@ const rrfConfig = {
 const store = createStore({
   enhancers: [compose(
     applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
+    applyMiddleware(algoliaApi.middleware),
     reduxFirestore(firebase, rrfConfig)
   )],
 });
@@ -49,6 +52,7 @@ const rrfProps = {
 };
 
 export default store;
+
 export {
   rrfConfig,
   firebase,

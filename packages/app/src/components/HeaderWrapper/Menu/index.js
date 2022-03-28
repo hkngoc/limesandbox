@@ -24,7 +24,7 @@ const MenuSVG = (props) => {
   );
 };
 
-const Menu = ({ admin, onMenuClick }) => {
+const Menu = ({ owner, admin, onMenuClick }) => {
   const { services: { contextMenuService, services } } = useMonacoServices();
   const logoRef = React.useRef();
 

@@ -10,6 +10,7 @@ const Home = React.lazy(() => import(/* webpackChunkName: "DashboardHome" */'./r
 const Local = React.lazy(() => import(/* webpackChunkName: "DashboardHome" */'./routes/Local'));
 // const Draft = React.lazy(() => import( webpackChunkName: "DashboardDraft" './routes/Draft'));
 // const All = React.lazy(() => import(/* webpackChunkName: "DashboardAll" */'./routes/All'));
+
 // import Home from './routes/Home';
 // import Local from './routes/Local';
 // import Draft from './routes/Draft';
@@ -20,6 +21,7 @@ const Content = () => {
     <Switch>
       <Route path="/dashboard/home" name="Home" component={Home} />
       <Route path="/dashboard/local" name="Local" component={Local} />
+
       {/* <Route path="/dashboard/draft" name="Draft" component={Draft} /> */}
       {/* <Route path="/dashboard/all" name="All" component={All} /> */}
 

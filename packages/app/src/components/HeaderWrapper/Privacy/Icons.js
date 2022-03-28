@@ -35,6 +35,7 @@ const Private = (props) => {
   </svg>
   );
 }
+
 export {
   Public,
   Private

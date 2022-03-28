@@ -1,12 +1,4 @@
-import algoliaReducer from 'store/algoliaSlice';
-
-const algoliaModule = [
-  {
-    id: "algolia",
-    reducerMap: {
-      algolia: algoliaReducer
-    }
-  }
+const homeModule = [
 ];
 
-export default algoliaModule;
+export default homeModule;

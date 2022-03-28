@@ -26,9 +26,10 @@ const SignIn = (props) => {
     }],
     // signInSuccessUrl: helper.getRedirectQueryParam(props) || "/",
     callbacks: {
-      signInSuccessWithAuthResult: async () => {
+      signInSuccessWithAuthResult: async (authResult, redirectUrl) => {
         await timeout(1000);
 
+        await firebase.handleRedirectResult(authResult);
         history.replace(helper.getRedirectQueryParam(props) || "/");
 
         return false;

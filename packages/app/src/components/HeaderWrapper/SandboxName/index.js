@@ -55,6 +55,7 @@ const SandboxName = ({
               >
                 <option value={"private"}>👻</option>
                 <option value={"public"}>🌍</option>
+                <option value={"custom"}>🐧</option>
               </Form.Control>
             </InputGroup.Prepend>
           ) : null

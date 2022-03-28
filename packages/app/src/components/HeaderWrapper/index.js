@@ -14,6 +14,7 @@ import './styles.css';
 const HeaderWrapper = ({
   name,
   privacy,
+  owner,
   admin,
   readOnly,
   folder,
@@ -29,6 +30,7 @@ const HeaderWrapper = ({
       sticky="top"
     >
       <Menu
+        owner={owner}
         admin={admin}
         onMenuClick={onMenuClick}
       />
