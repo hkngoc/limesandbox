@@ -16,12 +16,20 @@ export const permissionRemove = async (params) => {
   });
 };
 
-export const getFn = (url) => {
-  switch(url) {
+export const getCookies = async (params) => {
+  return new Promise(resolve => {
+    window.chrome.cookies.get(params, resolve);
+  });
+};
+
+export const getFn = (path) => {
+  switch(path) {
     case 'contains':
       return permissionContains;
     case 'request':
       return permissionRequest;
+    case 'getCookies':
+      return getCookies;
     default:
       break;
   }

@@ -11,11 +11,11 @@ const baseQuery = async (arg, {
   transformResponse = (r) => r,
 }) => {
   const {
-    url,
+    path,
     ...params
   } = arg;
 
-  const fn = getFn(url);
+  const fn = getFn(path);
 
   try {
     const result = await fn.call(null, params)
@@ -49,6 +49,7 @@ export const permissionApi = createApi({
 export const {
   useContainsQuery,
   useRequestQuery,
+  useGetCookiesQuery,
   useLazyContainsQuery,
   useLazyRequesQuery
 } = permissionApi;

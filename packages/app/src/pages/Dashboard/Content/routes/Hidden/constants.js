@@ -13,8 +13,8 @@ const msalConfig = {
     authority: "https://login.microsoftonline.com/common", // "https://login.microsoftonline.com/{your tenant id}"
     // redirectUri: `${window.location.origin}.chromiumapp.org/`,
     // postLogoutRedirectUri: `${window.location.origin}.chromiumapp.org/`,
-    redirectUri: window.parent.chrome.identity ? window.parent.chrome.identity.getRedirectURL() : `${window.location.origin}.chromiumapp.org/`,
-    redipostLogoutRedirectUrirectUri: window.parent.chrome.identity ? window.parent.chrome.identity.getRedirectURL() : `${window.location.origin}.chromiumapp.org/`,
+    redirectUri: window.chrome.identity ? window.chrome.identity.getRedirectURL() : `${window.location.origin}.chromiumapp.org/`,
+    redipostLogoutRedirectUrirectUri: window.parent.identity ? window.chrome.identity.getRedirectURL() : `${window.location.origin}.chromiumapp.org/`,
     navigateToLoginRequestUrl: false, // If "true", will navigate back to the original request location before processing the auth code response.
   },
   cache: {

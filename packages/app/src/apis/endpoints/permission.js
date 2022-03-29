@@ -2,11 +2,15 @@ import { buildEndPoint } from '@hkngoc/rtk-query';
 
 export const permission = buildEndPoint({
   contains: (params) => ({
-    url: 'contains',
+    path: 'contains',
     ...params,
   }),
   request: (params) => ({
-    url: 'request',
+    path: 'request',
+    ...params,
+  }),
+  getCookies: (params) => ({
+    path: 'getCookies',
     ...params,
   }),
 });

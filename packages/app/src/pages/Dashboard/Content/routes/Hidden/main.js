@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   useHistory,
@@ -12,12 +12,15 @@ import {
   Button
 } from 'react-bootstrap';
 
+import { get } from 'lodash';
+
 import {
   permissionRemove,
 } from 'apis/slices/permission/fn';
 
 import {
   useLazyContainsQuery,
+  useGetCookiesQuery,
 } from 'apis/slices/permission';
 
 import {
@@ -42,6 +45,33 @@ const Main = () => {
   const location = useLocation();
   const helper = locationHelper();
   const [ fn ] = useLazyContainsQuery(params);
+
+  const {
+    data,
+  } = useGetCookiesQuery({
+    url: `https://lime-sandbox.web.app/`,
+    name: "XSRF-TOKEN"
+  });
+  const XSRF_TOKEN = get(data, 'value', '');
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const r = await fetch('https://lime-sandbox.web.app/', {
+          headers: {
+            "x-xsrf-token": XSRF_TOKEN,
+          },
+        });
+  
+        const j = await r.json();
+        console.log(j);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    getUser();
+  }, [XSRF_TOKEN]);
 
   const onRequest = async () => {
     try {
