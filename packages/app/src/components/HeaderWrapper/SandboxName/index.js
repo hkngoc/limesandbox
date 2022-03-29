@@ -12,6 +12,7 @@ const SandboxName = ({
   privacy,
   folder,
   onSubmit,
+  owner,
   readOnly,
 }) => {
   const formRef = React.useRef();
@@ -39,11 +40,11 @@ const SandboxName = ({
     <Form
       onSubmit={handleSubmit(onSubmit)}
       ref={formRef}
-      className="d-flex flex-grow-1 px-2"
+      className="d-flex flex-grow-1"
     >
       <InputGroup className="flex-nowrap">
         {
-          (privacy && !readOnly) ? (
+          (privacy && owner) ? (
             <InputGroup.Prepend>
               <Form.Control
                 as="select"
@@ -51,7 +52,7 @@ const SandboxName = ({
                 custom={true}
                 {...register("privacy")}
                 onChange={onPrivacyChange}
-                disabled={readOnly}
+                disabled={!owner}
               >
                 <option value={"private"}>👻</option>
                 <option value={"public"}>🌍</option>

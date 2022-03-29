@@ -10,6 +10,8 @@ import {
   selectAuth,
 } from 'store/firebaseSlice';
 
+import { get } from 'lodash';
+
 import Header from './Header';
 import SandpackLayout from './SandpackLayout';
 
@@ -22,6 +24,9 @@ const Sandbox = ({ preview }) => {
   } = useSelector(selectSandboxLite);
   const { admin } = useSelector(selectProfile);
   const { uid } = useSelector(selectAuth);
+
+  const type = get(privacy, `type`, '');
+  const permission = get(privacy, `share.${uid}`, '');
 
   if (preview) {
     return (
@@ -38,14 +43,14 @@ const Sandbox = ({ preview }) => {
           admin,
           id,
           name,
-          privacy
+          privacy,
         }}
       />
       <div className="body flex-row">
         <main className="editor-content">
           <SandpackLayout
             {...{
-              readOnly: owner !== uid,
+              readOnly: owner !== uid && (type !== "custom" || permission !== "editor"),
               owner: owner !== uid,
               admin,
             }}

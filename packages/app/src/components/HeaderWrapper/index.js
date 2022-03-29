@@ -1,11 +1,19 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   Navbar,
   Nav
 } from 'react-bootstrap';
 
+import {
+  selectAuth,
+} from 'store/firebaseSlice';
+
+import { get } from 'lodash';
+
 import Menu from './Menu';
+import Permission from './Permission';
 import SandboxName from './SandboxName';
 import Actions from './Actions';
 
@@ -22,6 +30,10 @@ const HeaderWrapper = ({
   onMenuClick,
   onSubmit
 }) => {
+  const { uid } = useSelector(selectAuth);
+  const type = get(privacy, `type`, '');
+  const permission = get(privacy, `share.${uid}`, '');
+
   return (
     <Navbar
       className="header sp-header sp-sandbox-header flex-nowrap"
@@ -34,8 +46,13 @@ const HeaderWrapper = ({
         admin={admin}
         onMenuClick={onMenuClick}
       />
-      <Nav>
-      </Nav>
+      {
+        !owner && type === "custom" && (
+          <Nav>
+            <Permission permission={permission} />
+          </Nav>
+        )
+      }
       <Nav className="flex-grow-1 align-items-center justify-content-center">
         <SandboxName
           {...{
@@ -44,15 +61,20 @@ const HeaderWrapper = ({
             folder,
             onSubmit,
             readOnly,
+            owner,
           }}
         />
       </Nav>
-      <Nav className="pl-3 h-100">
-        <Actions
-          admin={admin}
-          onActionClick={onActionClick}
-        />
-      </Nav>
+      {
+        admin && (
+          <Nav className="pl-3 h-100">
+            <Actions
+              admin={admin}
+              onActionClick={onActionClick}
+            />
+          </Nav>
+        )
+      }
     </Navbar>
   );
 };
