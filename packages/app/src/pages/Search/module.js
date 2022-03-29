@@ -1,6 +1,6 @@
 import {
   algoliaApi
-} from 'apis/algolia';
+} from 'apis/slices/algolia';
 
 const searchModule = [{
   id: "search",

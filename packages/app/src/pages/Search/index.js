@@ -17,7 +17,7 @@ import {
 
 import {
   useGetSecuredApiKeyQuery,
-} from 'apis/algolia';
+} from 'apis/slices/algolia';
 
 import Results from './Results';
 import Filters from './Filters';
