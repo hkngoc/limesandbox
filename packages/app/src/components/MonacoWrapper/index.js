@@ -4,7 +4,7 @@ import {
   useMonaco,
 } from '@monaco-editor/react';
 
-import { getOrCreateModel } from '@monaco-editor/react/lib/es/utils';
+// import { getOrCreateModel } from '@monaco-editor/react/lib/es/utils';
 
 import {
   useSandpack,
@@ -31,22 +31,32 @@ const MonacoWrapper = ({ children }) => {
 
   React.useEffect(() => {
     if (monaco) {
-      for (const path in files) {
-        const { code, folder = false } = files[path];
+      // for (const path in files) {
+      //   const { code, folder = false } = files[path];
 
-        if (!folder) {
-          const model =  getOrCreateModel(monaco, code, null, path);
-          if (model.getValue() !== code) {
-            model.setValue(code);
-          }
-        }
-      }
+      //   if (!folder) {
+      //     const model =  getOrCreateModel(monaco, code, null, path);
+      //     if (model.getValue() !== code) {
+      //       model.setValue(code);
+      //     }
+      //   }
+      // }
 
       const models = monaco.editor.getModels();
+
       for (const model of models) {
         const path = model.uri.path;
+
         if (!(path in files)) {
           model.dispose();
+        } else {
+          const { code, folder = false } = files[path];
+
+          if (!folder) {
+            if (model.getValue() !== code) {
+              model.setValue(code);
+            }
+          }
         }
       }
     }
