@@ -22220,3 +22220,4 @@ module.exports = g;
 
 /******/ });
 });
+//# sourceMappingURL=browserfs.js.map

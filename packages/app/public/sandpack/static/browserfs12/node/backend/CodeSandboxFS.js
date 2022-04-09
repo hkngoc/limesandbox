@@ -214,3 +214,4 @@ var CodeSandboxFS = /** @class */ (function (_super) {
     return CodeSandboxFS;
 }(file_system_1.SynchronousFileSystem));
 exports.default = CodeSandboxFS;
+//# sourceMappingURL=CodeSandboxFS.js.map

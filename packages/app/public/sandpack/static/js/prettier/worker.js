@@ -11,12 +11,12 @@ const loadParser = parser => {
       loadParser("postcss");
     }
 
-    importScripts("/sandpack/static/js/prettier/1.13.0/parser-" + parser + ".js");
+    importScripts("/sandpack/staic/js/prettier/1.13.0/parser-" + parser + ".js");
     parsersLoaded[parser] = true;
   }
 };
 
-importScripts("/sandpack/static/js/prettier/1.13.0/standalone.js");
+importScripts("/sandpack/staic/js/prettier/1.13.0/standalone.js");
 if (typeof prettier === "undefined") {
   prettier = module.exports; // eslint-disable-line
 }

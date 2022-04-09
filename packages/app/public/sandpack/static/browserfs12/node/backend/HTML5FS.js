@@ -507,3 +507,4 @@ var HTML5FS = /** @class */ (function (_super) {
     return HTML5FS;
 }(file_system_1.BaseFileSystem));
 exports.default = HTML5FS;
+//# sourceMappingURL=HTML5FS.js.map

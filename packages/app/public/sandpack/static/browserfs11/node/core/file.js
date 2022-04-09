@@ -40,3 +40,4 @@ var BaseFile = /** @class */ (function () {
     return BaseFile;
 }());
 exports.BaseFile = BaseFile;
+//# sourceMappingURL=file.js.map

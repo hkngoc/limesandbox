@@ -101,3 +101,4 @@ var Inode = /** @class */ (function () {
     return Inode;
 }());
 exports.default = Inode;
+//# sourceMappingURL=inode.js.map

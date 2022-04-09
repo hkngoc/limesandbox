@@ -578,3 +578,4 @@ var SynchronousFileSystem = /** @class */ (function (_super) {
     return SynchronousFileSystem;
 }(BaseFileSystem));
 exports.SynchronousFileSystem = SynchronousFileSystem;
+//# sourceMappingURL=file_system.js.map

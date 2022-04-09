@@ -55,3 +55,4 @@ function fetchFileSizeAsync(p, cb) {
         .catch(function (err) { return cb(new api_error_1.ApiError(api_error_1.ErrorCode.EIO, err.message)); });
 }
 exports.fetchFileSizeAsync = fetchFileSizeAsync;
+//# sourceMappingURL=fetch.js.map

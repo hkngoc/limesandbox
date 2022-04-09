@@ -252,3 +252,4 @@ function checkOptions(fsType, opts, cb) {
     }
 }
 exports.checkOptions = checkOptions;
+//# sourceMappingURL=util.js.map
