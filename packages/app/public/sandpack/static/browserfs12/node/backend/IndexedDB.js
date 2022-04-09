@@ -256,3 +256,4 @@ var IndexedDBFileSystem = /** @class */ (function (_super) {
     return IndexedDBFileSystem;
 }(key_value_filesystem_1.AsyncKeyValueFileSystem));
 exports.default = IndexedDBFileSystem;
+//# sourceMappingURL=IndexedDB.js.map

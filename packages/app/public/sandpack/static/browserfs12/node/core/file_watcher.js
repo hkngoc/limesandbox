@@ -85,3 +85,4 @@ var FileWatcher = /** @class */ (function () {
     return FileWatcher;
 }());
 exports.FileWatcher = FileWatcher;
+//# sourceMappingURL=file_watcher.js.map

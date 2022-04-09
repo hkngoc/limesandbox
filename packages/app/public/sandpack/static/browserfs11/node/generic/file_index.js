@@ -359,3 +359,4 @@ function isDirInode(inode) {
     return !!inode && inode.isDir();
 }
 exports.isDirInode = isDirInode;
+//# sourceMappingURL=file_index.js.map

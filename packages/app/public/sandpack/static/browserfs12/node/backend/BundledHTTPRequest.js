@@ -477,3 +477,4 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
     return BundledHTTPRequest;
 }(file_system_1.BaseFileSystem));
 exports.default = BundledHTTPRequest;
+//# sourceMappingURL=BundledHTTPRequest.js.map

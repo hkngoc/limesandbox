@@ -61,3 +61,4 @@ var InMemoryFileSystem = /** @class */ (function (_super) {
     return InMemoryFileSystem;
 }(key_value_filesystem_1.SyncKeyValueFileSystem));
 exports.default = InMemoryFileSystem;
+//# sourceMappingURL=InMemory.js.map

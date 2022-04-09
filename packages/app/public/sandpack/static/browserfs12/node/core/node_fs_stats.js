@@ -187,3 +187,4 @@ var Stats = /** @class */ (function () {
     return Stats;
 }());
 exports.default = Stats;
+//# sourceMappingURL=node_fs_stats.js.map

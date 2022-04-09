@@ -117,3 +117,4 @@ exports.default = WebsocketFS;
 /*
 this.statSync(p, isLstat || true)
 */ 
+//# sourceMappingURL=WebsocketFS.js.map

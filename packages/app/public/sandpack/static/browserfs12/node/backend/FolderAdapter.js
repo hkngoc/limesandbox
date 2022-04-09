@@ -176,3 +176,4 @@ function wrapFunction(name, wrapFirst, wrapSecond) {
 ['rename', 'renameSync', 'link', 'linkSync', 'symlink', 'symlinkSync'].forEach(function (name) {
     FolderAdapter.prototype[name] = wrapFunction(name, true, true);
 });
+//# sourceMappingURL=FolderAdapter.js.map

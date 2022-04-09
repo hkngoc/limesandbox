@@ -448,3 +448,4 @@ for (var i = 0; i < fsCmdMap.length; i++) {
         MountableFileSystem.prototype[fnName + 'Sync'] = defineFcn(fnName + 'Sync', true, i + 1);
     }
 }
+//# sourceMappingURL=MountableFileSystem.js.map

@@ -391,3 +391,4 @@ var JSDelivrRequest = /** @class */ (function (_super) {
     return JSDelivrRequest;
 }(file_system_1.BaseFileSystem));
 exports.default = JSDelivrRequest;
+//# sourceMappingURL=JSDelivrRequest.js.map
