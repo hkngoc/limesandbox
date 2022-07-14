@@ -82,6 +82,7 @@ const Header = (props) => {
         onActionClick,
         onMenuClick,
         onSubmit,
+        id,
       }}
     />
   );

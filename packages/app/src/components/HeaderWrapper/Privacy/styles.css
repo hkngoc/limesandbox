@@ -1,0 +1,11 @@
+.sandbox-privacy-modal .modal-dialog {
+  min-height: calc(100% - 3.5rem);
+}
+
+.aa-Panel {
+  z-index: 2000;
+}
+
+div.share-table > div.input-group {
+  margin-top: 1rem;
+}

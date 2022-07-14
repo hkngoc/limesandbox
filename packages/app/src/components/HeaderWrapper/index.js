@@ -20,6 +20,7 @@ import Actions from './Actions';
 import './styles.css';
 
 const HeaderWrapper = ({
+  id,
   name,
   privacy,
   owner,
@@ -62,6 +63,7 @@ const HeaderWrapper = ({
             onSubmit,
             readOnly,
             owner,
+            id,
           }}
         />
       </Nav>

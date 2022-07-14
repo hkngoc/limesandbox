@@ -1,5 +1,8 @@
 import { firestoreReducer } from 'redux-firestore';
 import sandboxReducer from 'store/sandboxSlice';
+import {
+  algoliaApi
+} from 'apis/slices/algolia';
 
 const syncSandboxModule = [
   {
@@ -13,7 +16,13 @@ const syncSandboxModule = [
     reducerMap: {
       sandbox: sandboxReducer
     }
-  }
+  },
+  {
+    id: "search",
+    reducerMap: {
+      [algoliaApi.reducerPath]: algoliaApi.reducer,
+    }
+  },
 ];
 
 export default syncSandboxModule;

@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
   Form,
@@ -7,7 +8,18 @@ import {
 
 import { useForm } from 'react-hook-form';
 
+import {
+  Share
+} from 'components/HeaderWrapper/Privacy/Icons';
+
+import {
+  openPrivacyModal,
+} from 'store/sandboxSlice';
+
+const PrivacySetting = React.lazy(() => import(/* webpackChunkName: "CreateNewSandbox" */'components/HeaderWrapper/Privacy/Setting'));
+
 const SandboxName = ({
+  id,
   name,
   privacy,
   folder,
@@ -17,6 +29,7 @@ const SandboxName = ({
 }) => {
   const formRef = React.useRef();
   const { register, setValue, handleSubmit } = useForm();
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     setValue("name", name);
@@ -29,69 +42,72 @@ const SandboxName = ({
     }
   };
 
-  const onPrivacyChange = (e) => {
-    setValue("privacy", e.target.value);
-    if (formRef.current) {
-      formRef.current.requestSubmit();
-    }
+  const onPrivacySetting = () => {
+    console.log("click here");
+    dispatch(openPrivacyModal());
   };
 
   return (
-    <Form
-      onSubmit={handleSubmit(onSubmit)}
-      ref={formRef}
-      className="d-flex flex-grow-1"
-    >
-      <InputGroup className="flex-nowrap">
-        {
-          (privacy && owner) ? (
-            <InputGroup.Prepend>
-              <Form.Control
-                as="select"
-                title="Privacy"
-                custom={true}
-                {...register("privacy")}
-                onChange={onPrivacyChange}
-                disabled={!owner}
-              >
-                <option value={"private"}>👻</option>
-                <option value={"public"}>🌍</option>
-                <option value={"custom"}>🐧</option>
-              </Form.Control>
-            </InputGroup.Prepend>
-          ) : null
-        }
-        {
-          folder ? (
-            <Fragment>
+    <Fragment>
+      <Form
+        onSubmit={handleSubmit(onSubmit)}
+        ref={formRef}
+        className="d-flex flex-grow-1"
+      >
+        <InputGroup className="flex-nowrap">
+          {
+            (privacy && owner) ? (
               <InputGroup.Prepend>
                 <div
-                  className="sp-button"
+                  className="sp-button p-2"
                   {...{
                     type: "button",
-                    title: "Path (WIP)"
+                    title: "privacy",
                   }}
+                  onClick={onPrivacySetting}
                 >
-                  {"Draft"}
+                  <Share />
                 </div>
               </InputGroup.Prepend>
-              <InputGroup.Prepend>
-                <InputGroup.Text>/</InputGroup.Text>
-              </InputGroup.Prepend>
-            </Fragment>
-          ) : null
-        }
-        <Form.Control
-          type="text"
-          className="sp-input"
-          {...register("name")}
-          onBlur={requestSubmit}
-          autoComplete="off"
-          spellCheck={false}
-          disabled={readOnly}
-        />
-      </InputGroup>
-    </Form>
+            ) : null
+          }
+          {
+            folder ? (
+              <Fragment>
+                <InputGroup.Prepend>
+                  <div
+                    className="sp-button"
+                    {...{
+                      type: "button",
+                      title: "Path (WIP)"
+                    }}
+                  >
+                    {"Draft"}
+                  </div>
+                </InputGroup.Prepend>
+                <InputGroup.Prepend>
+                  <InputGroup.Text>/</InputGroup.Text>
+                </InputGroup.Prepend>
+              </Fragment>
+            ) : null
+          }
+          <Form.Control
+            type="text"
+            className="sp-input"
+            {...register("name")}
+            onBlur={requestSubmit}
+            autoComplete="off"
+            spellCheck={false}
+            disabled={readOnly}
+          />
+        </InputGroup>
+      </Form>
+      <PrivacySetting
+        id={id}
+        privacy={privacy}
+        owner={owner}
+      />
+    </Fragment>
   );
 };
 

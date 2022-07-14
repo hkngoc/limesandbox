@@ -16,6 +16,25 @@ export const updateSandbox = (id, values) => async (dispatch, getState, { getFir
   });
 };
 
+export const updateSandboxPrivacy = (id, values) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+  const firestore = getFirestore();
+
+  const { uid, permission } = values;
+
+  await firestore.set({
+    collection: "sandboxs",
+    doc: id
+  }, {
+    privacy: {
+      share: {
+        [uid]: permission,
+      }
+    }
+  }, {
+    merge: true
+  });
+};
+
 export const saveSandboxCodeAsync = (id, path, code, sensitive = false) => async (dispatch, getState, { getFirebase, getFirestore }) => {
   const firestore = getFirestore();
 

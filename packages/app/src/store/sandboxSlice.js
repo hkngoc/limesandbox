@@ -8,7 +8,8 @@ export const sandboxSlice = createSlice({
       showPreview: true,
       editorVsPreviewSizes: [60, 40],
       editorVsFileMenuSizes: [100, 0],
-      editorSizes: [30, 70]
+      editorSizes: [30, 70],
+      showPrivacyModal: false,
     }
   },
   reducers: {
@@ -53,10 +54,23 @@ export const sandboxSlice = createSlice({
         }
       }
     },
+    openPrivacyModal: (state) => {
+      state.showPrivacyModal = true;
+    },
+    closePrivacyModal: (state) => {
+      state.showPrivacyModal = false
+    },
   }
 });
 
 export const selectSandbox = state => state.sandbox;
-export const { showFileMenuPane, hideFileMenuPane, resizePane, togglePreview } = sandboxSlice.actions;
+export const {
+  showFileMenuPane,
+  hideFileMenuPane,
+  resizePane,
+  togglePreview,
+  openPrivacyModal,
+  closePrivacyModal,
+} = sandboxSlice.actions;
 
 export default sandboxSlice.reducer;
