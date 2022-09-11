@@ -13,17 +13,26 @@ const SignIn = (props) => {
 
   const CONFIG = {
     signInFlow: "popup",
-    signInOptions: [{
-      provider: firebase.auth.GithubAuthProvider.PROVIDER_ID,
-      customParameters: {
-        prompt: "select_account"
-      }
-    }, {
-      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      customParameters: {
-        prompt: "select_account"
-      }
-    }],
+    signInOptions: [
+      {
+        provider: firebase.auth.GithubAuthProvider.PROVIDER_ID,
+        customParameters: {
+          prompt: "select_account"
+        }
+      },
+      {
+        provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        customParameters: {
+          prompt: "select_account"
+        },
+      },
+      {
+        provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        customParameters: {
+          prompt: "select_account"
+        },
+      },
+    ],
     // signInSuccessUrl: helper.getRedirectQueryParam(props) || "/",
     callbacks: {
       signInSuccessWithAuthResult: async (authResult, redirectUrl) => {
