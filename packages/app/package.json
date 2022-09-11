@@ -1,6 +1,6 @@
 {
   "name": "@limesandbox/app",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "dependencies": {
     "@algolia/autocomplete-js": "^1.7.1",
