@@ -43,7 +43,7 @@ const SandboxName = ({
   };
 
   const onPrivacySetting = () => {
-    console.log("click here");
+    // console.log("click here");
     dispatch(openPrivacyModal());
   };
 

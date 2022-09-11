@@ -40,7 +40,7 @@ const Setting = ({ id, privacy, owner, }) => {
   const dispatch = useDispatch();
 
   const share = useMemo(() => {
-    const shareMap = get(privacy, "share");
+    const shareMap = get(privacy, "share", {});
 
     return sortBy(reduce(shareMap, (result, v, k) => {
       if (v === "viewer" || v === "editor") {
@@ -83,7 +83,7 @@ const Setting = ({ id, privacy, owner, }) => {
 
   const onSelect = useCallback(({ item }) => {
     const { objectID } = item;
-    const shareMap = get(privacy, "share");
+    const shareMap = get(privacy, "share", {});
 
     if (objectID !== uid && (!(objectID in shareMap) || (shareMap[objectID] !== "viewer" && shareMap[objectID] !== "editor"))) {
       // add uid = objectID to share as viewer by default
